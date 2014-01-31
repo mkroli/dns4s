@@ -15,6 +15,8 @@
  */
 package com.github.mkroli.dns4s.section
 
+import java.nio.BufferUnderflowException
+
 import org.scalatest.FunSpec
 
 import com.github.mkroli.dns4s.MessageBuffer
@@ -61,6 +63,11 @@ class QuestionSpec extends FunSpec {
       it("should prevent infinite loop with compression") {
         val b = MessageBuffer().put(bytes("C000 0000 0000").toArray).flipped
         intercept[AssertionError](QuestionSection(b))
+      }
+
+      it("should prevent buffer underflows using compression") {
+        val b = MessageBuffer().put(bytes("C002").toArray).flipped
+        intercept[BufferUnderflowException](QuestionSection(b))
       }
 
       it("should encode/decode a specific byte array") {
