@@ -15,11 +15,15 @@
  */
 package com.github.mkroli.dns4s.examples.simple
 
+import scala.concurrent.duration.DurationInt
+
+import com.github.mkroli.dns4s.akka.Dns
+import com.github.mkroli.dns4s.dsl._
+
 import akka.actor._
 import akka.io.IO
-import com.github.mkroli.dns4s.dsl._
-import com.github.mkroli.dns4s.akka._
-import scala.concurrent.duration._
+import akka.pattern.ask
+import akka.util.Timeout
 
 class DnsHandlerActor extends Actor {
   override def receive = {
@@ -30,5 +34,6 @@ class DnsHandlerActor extends Actor {
 
 object DnsServer extends App {
   implicit val system = ActorSystem("DnsServer")
-  IO(Dns) ! Dns.Bind(system.actorOf(Props[DnsHandlerActor]), 5354)
+  implicit val timeout = Timeout(5 seconds)
+  IO(Dns) ? Dns.Bind(system.actorOf(Props[DnsHandlerActor]), 5354)
 }
