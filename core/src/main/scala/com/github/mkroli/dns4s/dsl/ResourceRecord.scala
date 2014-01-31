@@ -69,7 +69,7 @@ object RRTtl extends ResourceRecordField(_.`ttl`) {
 }
 
 private[dsl] abstract class ResourceRecordExtractor[T: Manifest] {
-  def unapply(rr: ResourceRecord): Option[T] = rr match {
+  def unapply(rr: ResourceRecord): Option[T] = rr.rdata match {
     case rr: T => Some(rr)
     case _ => None
   }
