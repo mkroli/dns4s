@@ -21,4 +21,4 @@ resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.2.3",
-  "com.github.mkroli" %% "dns4s-akka" % "0.2-SNAPSHOT")
+  "com.github.mkroli" %% "dns4s-akka" % "0.2")
