@@ -24,18 +24,18 @@ object Build extends sbt.Build {
   def projectSettings(n: String) = Seq(
     name := n,
     organization := "com.github.mkroli",
-    scalaVersion := "2.10.3",
+    scalaVersion := "2.10.4",
     scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation"))
 
-  lazy val dns4sProjectDependencies = Seq(
+  lazy val dns4sProjectSettings = Seq(
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "2.+" % "test"))
 
-  lazy val dns4sAkkaProjectDependencies = Seq(
+  lazy val dns4sAkkaProjectSettings = Seq(
     libraryDependencies ++= Seq(
       "com.google.guava" % "guava" % "15.+",
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
-      "com.typesafe.akka" %% "akka-actor" % "2.2.+"))
+      "com.typesafe.akka" %% "akka-actor" % "2.3.+"))
 
   lazy val projectReleaseSettings = Seq(
     releaseProcess := Seq[ReleaseStep](
@@ -67,13 +67,13 @@ object Build extends sbt.Build {
     base = file("core"),
     settings = Defaults.defaultSettings ++
       projectSettings("dns4s-core") ++
-      dns4sProjectDependencies)
+      dns4sProjectSettings)
 
   lazy val dns4sAkka = Project(
     id = "dns4s-akka",
     base = file("akka"),
     settings = Defaults.defaultSettings ++
       projectSettings("dns4s-akka") ++
-      dns4sAkkaProjectDependencies)
+      dns4sAkkaProjectSettings)
     .dependsOn(dns4sCore)
 }
