@@ -19,6 +19,7 @@ import sbtrelease._
 import sbtrelease.ReleasePlugin._
 import sbtrelease.ReleasePlugin.ReleaseKeys._
 import sbtrelease.ReleaseStateTransformations._
+import com.typesafe.sbt.osgi.SbtOsgi._
 
 object Build extends sbt.Build {
   def projectSettings(n: String) = Seq(
@@ -26,6 +27,11 @@ object Build extends sbt.Build {
     organization := "com.github.mkroli",
     scalaVersion := "2.10.4",
     scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation"))
+
+  def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) = osgiSettings ++ Seq(
+    OsgiKeys.exportPackage := packages.map(pkg => packagesPrefix :: (if (pkg.isEmpty) Nil else pkg :: "*" :: Nil) mkString "."),
+    OsgiKeys.privatePackage := Nil,
+    OsgiKeys.additionalHeaders += "Bundle-Name" -> bundleName)
 
   lazy val dns4sProjectSettings = Seq(
     libraryDependencies ++= Seq(
@@ -49,8 +55,7 @@ object Build extends sbt.Build {
       commitNextVersion))
 
   lazy val parentSettings = Seq(
-    publishArtifact := false
-  )
+    publishArtifact := false)
 
   lazy val dns4sRoot = Project(
     id = "dns4s",
@@ -66,6 +71,7 @@ object Build extends sbt.Build {
     id = "dns4s-core",
     base = file("core"),
     settings = Defaults.defaultSettings ++
+      projectOsgiSettings("dns4s-core", "com.github.mkroli.dns4s", "", "dsl", "section") ++
       projectSettings("dns4s-core") ++
       dns4sProjectSettings)
 
@@ -73,6 +79,7 @@ object Build extends sbt.Build {
     id = "dns4s-akka",
     base = file("akka"),
     settings = Defaults.defaultSettings ++
+      projectOsgiSettings("dns4s-akka", "com.github.mkroli.dns4s", "akka") ++
       projectSettings("dns4s-akka") ++
       dns4sAkkaProjectSettings)
     .dependsOn(dns4sCore)
