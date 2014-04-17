@@ -18,6 +18,7 @@ package com.github.mkroli.dns4s.examples.simple.client
 import java.net.InetSocketAddress
 
 import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
 
 import com.github.mkroli.dns4s.akka.Dns
 import com.github.mkroli.dns4s.dsl._
