@@ -43,6 +43,10 @@ object Build extends sbt.Build {
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
       "com.typesafe.akka" %% "akka-actor" % "2.3.+"))
 
+  lazy val dns4sNettyProjectSettings = Seq(
+    libraryDependencies ++= Seq(
+      "io.netty" % "netty-handler" % "4.0.+"))
+
   lazy val projectReleaseSettings = Seq(
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -65,7 +69,7 @@ object Build extends sbt.Build {
       projectSettings("dns4s") ++
       projectReleaseSettings ++
       parentSettings)
-    .aggregate(dns4sCore, dns4sAkka)
+    .aggregate(dns4sCore, dns4sAkka, dns4sNetty)
 
   lazy val dns4sCore = Project(
     id = "dns4s-core",
@@ -82,5 +86,14 @@ object Build extends sbt.Build {
       projectOsgiSettings("dns4s-akka", "com.github.mkroli.dns4s", "akka") ++
       projectSettings("dns4s-akka") ++
       dns4sAkkaProjectSettings)
+    .dependsOn(dns4sCore)
+
+  lazy val dns4sNetty = Project(
+    id = "dns4s-netty",
+    base = file("netty"),
+    settings = Defaults.defaultSettings ++
+      projectOsgiSettings("dns4s-netty", "com.github.mkroli.dns4s", "netty") ++
+      projectSettings("dns4s-netty") ++
+      dns4sNettyProjectSettings)
     .dependsOn(dns4sCore)
 }
