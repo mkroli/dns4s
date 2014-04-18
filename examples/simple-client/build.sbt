@@ -20,5 +20,5 @@ scalaVersion := "2.10.4"
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % "2.3.2",
+  "com.typesafe.akka" %% "akka-actor" % "2.2.3",
   "com.github.mkroli" %% "dns4s-akka" % "0.2")
