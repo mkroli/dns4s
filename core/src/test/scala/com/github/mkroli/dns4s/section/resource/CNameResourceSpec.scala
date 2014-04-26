@@ -30,6 +30,7 @@ class CNameResourceSpec extends FunSpec {
         }
         testEncodeDecode(CNameResource(""))
         testEncodeDecode(CNameResource("test.test.test"))
+        testEncodeDecode(CNameResource("☺"))
       }
 
       it("should be decoded wrapped in ResourceRecord") {

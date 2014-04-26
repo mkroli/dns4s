@@ -117,7 +117,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
           buf.position(pos)
           dn
         case s if s == 0 => Nil
-        case s => ((0 until s).map(_ => buf.get().toChar).mkString) :: getDomainNamePart(positions)
+        case s => new String((0 until s).map(_ => buf.get()).toArray) :: getDomainNamePart(positions)
       }
     }
     getDomainNamePart(Set()).mkString(".")
@@ -134,7 +134,8 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
             case (dc, d) =>
               val dr = if (d.isEmpty) d else d.substring(1)
               val pos = buf.position
-              val mb = put(dc.size.toByte +: dc.getBytes).putDomainName(dr)
+              val bytes = dc.getBytes
+              val mb = put(bytes.length.toByte +: bytes).putDomainName(dr)
               new MessageBuffer(
                 mb.buf,
                 mb.domains + (dn -> pos))
