@@ -36,9 +36,9 @@ private[dsl] abstract class DnsType(t: Int) extends QuestionSectionModifier with
 
   override def apply(rr: ResourceRecord) = rr.copy(`type` = t)
 
-  def unapply(qs: QuestionSection): Option[Unit] = qs.qtype == t
+  def unapply(qs: QuestionSection) = qs.qtype == t
 
-  def unapply(rr: ResourceRecord): Option[Unit] = rr.`type` == t
+  def unapply(rr: ResourceRecord) = rr.`type` == t
 }
 
 object TypeA extends DnsType(1)
@@ -68,9 +68,9 @@ private[dsl] abstract class DnsClass(c: Int) extends QuestionSectionModifier wit
 
   override def apply(rr: ResourceRecord) = rr.copy(`class` = c)
 
-  def unapply(qs: QuestionSection): Option[Unit] = qs.qclass == c
+  def unapply(qs: QuestionSection) = qs.qclass == c
 
-  def unapply(rr: ResourceRecord): Option[Unit] = rr.`class` == c
+  def unapply(rr: ResourceRecord) = rr.`class` == c
 }
 
 object ClassIN extends DnsClass(1)

@@ -27,8 +27,6 @@ import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.UnknownResource
 
 package object dsl {
-  implicit def boolean2UnitOption(b: Boolean): Option[Unit] = if (b) Some(Unit) else None
-
   private[dsl] class PlainMessage(qr: Boolean) extends Message(header = new HeaderSection(
     id = 0,
     qr = qr,

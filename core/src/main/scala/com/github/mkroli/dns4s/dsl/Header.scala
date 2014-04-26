@@ -36,7 +36,7 @@ object Response extends PlainMessage(true) with DnsQr
 private[dsl] abstract class DnsFlag(set: HeaderSection => HeaderSection, get: (HeaderSection) => Boolean) extends MessageModifier {
   override def apply(msg: Message) = msg.copy(header = set(msg.header))
 
-  def unapply(msg: Message): Option[Unit] = get(msg.header)
+  def unapply(msg: Message) = get(msg.header)
 }
 private[dsl] abstract class DnsOpcode(opcode: Int) extends DnsFlag(_.copy(opcode = opcode), _.opcode == opcode)
 private[dsl] abstract class DnsRcode(rcode: Int) extends DnsFlag(_.copy(rcode = rcode), _.rcode == rcode)
