@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Krolikowski
+ * Copyright 2013, 2014 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,6 +142,17 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
           }
       }
     }
+  }
+
+  def getCharacterString(): String = {
+    val length = getUnsignedInt(1)
+    new String((0 until length).map(_ => buf.get).toArray)
+  }
+
+  def putCharacterString(cs: String): MessageBuffer = {
+    val bytes = cs.getBytes
+    require(bytes.length < 256)
+    putUnsignedInt(1, bytes.length).put(bytes)
   }
 
   private def foreachBuf(f: (ByteBuffer) => Unit) = {

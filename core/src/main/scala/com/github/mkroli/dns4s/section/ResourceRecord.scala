@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Krolikowski
+ * Copyright 2013, 2014 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,12 @@ import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.MessageBufferEncoder
 import com.github.mkroli.dns4s.section.resource.AResource
 import com.github.mkroli.dns4s.section.resource.CNameResource
+import com.github.mkroli.dns4s.section.resource.HInfoResource
 import com.github.mkroli.dns4s.section.resource.MXResource
 import com.github.mkroli.dns4s.section.resource.NSResource
 import com.github.mkroli.dns4s.section.resource.PTRResource
 import com.github.mkroli.dns4s.section.resource.SOAResource
+import com.github.mkroli.dns4s.section.resource.TXTResource
 import com.github.mkroli.dns4s.section.resource.UnknownResource
 
 case class ResourceRecord(
@@ -81,12 +83,14 @@ object ResourceRecord {
     val ttl = buf.getUnsignedLong(4)
     val rdlength = buf.getUnsignedInt(2)
     val rdata = `type` match {
-      case 1 => AResource(buf)
-      case 2 => NSResource(buf)
-      case 5 => CNameResource(buf)
-      case 6 => SOAResource(buf)
-      case 12 => PTRResource(buf)
-      case 15 => MXResource(buf)
+      case `typeA` => AResource(buf)
+      case `typeNS` => NSResource(buf)
+      case `typeCNAME` => CNameResource(buf)
+      case `typeSOA` => SOAResource(buf)
+      case `typePTR` => PTRResource(buf)
+      case `typeHINFO` => HInfoResource(buf)
+      case `typeMX` => MXResource(buf)
+      case `typeTXT` => TXTResource(buf, rdlength)
       case _ => UnknownResource(buf, rdlength, `type`)
     }
     new ResourceRecord(name, `type`, `class`, ttl, rdata)

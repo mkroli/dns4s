@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Krolikowski
+ * Copyright 2013, 2014 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,12 @@ import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.AResource
 import com.github.mkroli.dns4s.section.resource.CNameResource
+import com.github.mkroli.dns4s.section.resource.HInfoResource
 import com.github.mkroli.dns4s.section.resource.MXResource
 import com.github.mkroli.dns4s.section.resource.NSResource
 import com.github.mkroli.dns4s.section.resource.PTRResource
 import com.github.mkroli.dns4s.section.resource.SOAResource
+import com.github.mkroli.dns4s.section.resource.TXTResource
 
 trait ResourceRecordModifier { self =>
   def ~(rrm: ResourceRecordModifier) = new ResourceRecordModifier {
@@ -108,6 +110,16 @@ object NSRecord extends ResourceRecordExtractor[NSResource] {
 object PTRRecord extends ResourceRecordExtractor[PTRResource] {
   def apply(ptrdname: String) =
     resourceRecordModifier(ResourceRecord.typePTR, PTRResource(ptrdname))
+}
+
+object HInfoRecord extends ResourceRecordExtractor[HInfoResource] {
+  def apply(cpu: String, os: String) =
+    resourceRecordModifier(ResourceRecord.typeHINFO, HInfoResource(cpu, os))
+}
+
+object TXTRecord extends ResourceRecordExtractor[TXTResource] {
+  def apply(txt: String*) =
+    resourceRecordModifier(ResourceRecord.typeTXT, TXTResource(txt))
 }
 
 object SOARecord extends ResourceRecordExtractor[SOAResource] {
