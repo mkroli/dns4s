@@ -22,8 +22,8 @@ If you're using [sbt] just add the following to your build definition:
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % "2.2.3",
-  "com.github.mkroli" %% "dns4s-akka" % "0.2")
+  "com.typesafe.akka" %% "akka-actor" % "2.3.2",
+  "com.github.mkroli" %% "dns4s-akka" % "0.3")
 ```
 
 ### Imports
@@ -41,7 +41,7 @@ The following is an excerpt from [examples/simple/../DnsServer.scala](https://gi
 ```scala
 class DnsHandlerActor extends Actor {
   override def receive = {
-    case Query() ~ Questions(QName(host) ~ TypeA() :: Nil) =>
+    case Query(_) ~ Questions(QName(host) ~ TypeA() :: Nil) =>
       sender ! Response ~ Questions(host) ~ Answers(ARecord("1.2.3.4"))
   }
 }

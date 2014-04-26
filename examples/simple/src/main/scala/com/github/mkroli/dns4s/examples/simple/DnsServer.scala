@@ -28,7 +28,7 @@ import akka.util.Timeout
 
 class DnsHandlerActor extends Actor {
   override def receive = {
-    case Query() ~ Questions(QName(host) ~ TypeA() :: Nil) =>
+    case Query(_) ~ Questions(QName(host) ~ TypeA() :: Nil) =>
       sender ! Response ~ Questions(host) ~ Answers(ARecord("1.2.3.4"))
   }
 }
