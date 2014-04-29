@@ -39,14 +39,14 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
 
   def getBytes(bytes: Int) = {
     require(bytes >= 0)
-    (0 until bytes).map(_ => buf.get())
+    (0 until bytes).map(_ => get())
   }
 
-  def putBytes(bytes: Int, a: Array[Byte]) = new MessageBuffer({
+  def putBytes(bytes: Int, a: Array[Byte]) = {
     require(a.length <= bytes)
     (0 until (bytes - a.length)).foreach(_ => buf.put(0: Byte))
-    buf.put(a)
-  }, domains)
+    put(a)
+  }
 
   def getSignedBigInt(bytes: Int) =
     BigInt(getBytes(bytes) toArray)

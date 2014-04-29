@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Krolikowski
+ * Copyright 2013, 2014 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,8 +62,7 @@ class DnsExtensionActor extends Actor with Stash {
   import context.system
   import context.dispatcher
 
-  val idLock = new AnyRef
-  @volatile var nextFreeId = 0
+  var nextFreeId = 0
 
   private object MessageInByteString {
     def unapply(bs: ByteString): Option[Message] = try {
@@ -103,13 +102,10 @@ class DnsExtensionActor extends Actor with Stash {
 
   def ready(socket: ActorRef, handler: ActorRef, requests: collection.mutable.Map[Integer, ActorRef])(implicit timeout: Timeout): Receive = {
     case Dns.DnsPacket(Query(message), destination) =>
-      val id = idLock.synchronized {
-        nextFreeId = (nextFreeId + 1) % 0x10000
-        nextFreeId
-      }
-      requests.put(id, sender)
+      nextFreeId = (nextFreeId + 1) % 0x10000
+      requests.put(nextFreeId, sender)
       socket ! Udp.Send(
-        ByteString(message.copy(header = message.header.copy(id = id))().flipped.buf),
+        ByteString(message.copy(header = message.header.copy(id = nextFreeId))().flipped.buf),
         destination)
     case Udp.Received(MessageInByteString(Query(message)), remote) =>
       handler ? message onSuccess {
