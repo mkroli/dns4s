@@ -18,6 +18,7 @@ package com.github.mkroli.dns4s.section
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.MessageBufferEncoder
 import com.github.mkroli.dns4s.section.resource.AResource
+import com.github.mkroli.dns4s.section.resource.AAAAResource
 import com.github.mkroli.dns4s.section.resource.CNameResource
 import com.github.mkroli.dns4s.section.resource.HInfoResource
 import com.github.mkroli.dns4s.section.resource.MXResource
@@ -84,6 +85,7 @@ object ResourceRecord {
     val rdlength = buf.getUnsignedInt(2)
     val rdata = `type` match {
       case `typeA` => AResource(buf)
+      case `typeAAAA` => AAAAResource(buf)
       case `typeNS` => NSResource(buf)
       case `typeCNAME` => CNameResource(buf)
       case `typeSOA` => SOAResource(buf)
