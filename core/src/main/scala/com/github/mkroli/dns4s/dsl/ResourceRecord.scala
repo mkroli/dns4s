@@ -15,12 +15,13 @@
  */
 package com.github.mkroli.dns4s.dsl
 
-import java.net.Inet4Address
+import java.net.{ Inet4Address, Inet6Address }
 import java.net.InetAddress
 
 import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.AResource
+import com.github.mkroli.dns4s.section.resource.AAAAResource
 import com.github.mkroli.dns4s.section.resource.CNameResource
 import com.github.mkroli.dns4s.section.resource.HInfoResource
 import com.github.mkroli.dns4s.section.resource.MXResource
@@ -90,6 +91,18 @@ object ARecord extends ResourceRecordExtractor[AResource] {
 
   def apply(addr: String): ResourceRecordModifier =
     ARecord(addr.split("""\.""").map(_.toByte))
+}
+
+object AAAARecord extends ResourceRecordExtractor[AAAAResource] {
+  def apply(addr: Inet6Address): ResourceRecordModifier =
+    resourceRecordModifier(ResourceRecord.typeAAAA, AAAAResource(addr))
+
+  def apply(addr: Array[Byte]): ResourceRecordModifier = {
+    AAAARecord(InetAddress.getByAddress(addr) match {
+      case addr: Inet6Address => addr
+      case _ => throw new RuntimeException
+    })
+  }
 }
 
 object CNameRecord extends ResourceRecordExtractor[CNameResource] {
