@@ -36,11 +36,13 @@ object Build extends sbt.Build {
 
   lazy val dns4sProjectSettings = Seq(
     libraryDependencies ++= Seq(
+      "com.google.guava" % "guava" % "[15.+,17.+]",
+      "com.google.code.findbugs" % "jsr305" % "+" % "provided",
       "org.scalatest" %% "scalatest" % "2.+" % "test"))
 
   lazy val dns4sAkkaProjectSettings = Seq(
     libraryDependencies ++= Seq(
-      "com.google.guava" % "guava" % "15.+",
+      "com.google.guava" % "guava" % "[15.+,17.+]",
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
       "com.typesafe.akka" %% "akka-actor" % "2.3.+"))
 

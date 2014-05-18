@@ -15,13 +15,14 @@
  */
 package com.github.mkroli.dns4s.dsl
 
-import java.net.{ Inet4Address, Inet6Address }
+import java.net.Inet4Address
+import java.net.Inet6Address
 import java.net.InetAddress
 
 import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.AResource
 import com.github.mkroli.dns4s.section.resource.AAAAResource
+import com.github.mkroli.dns4s.section.resource.AResource
 import com.github.mkroli.dns4s.section.resource.CNameResource
 import com.github.mkroli.dns4s.section.resource.HInfoResource
 import com.github.mkroli.dns4s.section.resource.MXResource
@@ -29,6 +30,7 @@ import com.github.mkroli.dns4s.section.resource.NSResource
 import com.github.mkroli.dns4s.section.resource.PTRResource
 import com.github.mkroli.dns4s.section.resource.SOAResource
 import com.github.mkroli.dns4s.section.resource.TXTResource
+import com.google.common.net.InetAddresses
 
 trait ResourceRecordModifier { self =>
   def ~(rrm: ResourceRecordModifier) = new ResourceRecordModifier {
@@ -89,8 +91,12 @@ object ARecord extends ResourceRecordExtractor[AResource] {
     })
   }
 
-  def apply(addr: String): ResourceRecordModifier =
-    ARecord(addr.split("""\.""").map(_.toByte))
+  def apply(addr: String): ResourceRecordModifier = {
+    InetAddresses.forString(addr) match {
+      case addr: Inet4Address => ARecord(addr)
+      case _ => throw new RuntimeException
+    }
+  }
 }
 
 object AAAARecord extends ResourceRecordExtractor[AAAAResource] {
@@ -102,6 +108,13 @@ object AAAARecord extends ResourceRecordExtractor[AAAAResource] {
       case addr: Inet6Address => addr
       case _ => throw new RuntimeException
     })
+  }
+
+  def apply(addr: String): ResourceRecordModifier = {
+    InetAddresses.forString(addr) match {
+      case addr: Inet6Address => AAAARecord(addr)
+      case _ => throw new RuntimeException
+    }
   }
 }
 
