@@ -26,6 +26,7 @@ import com.github.mkroli.dns4s.section.resource.AResource
 import com.github.mkroli.dns4s.section.resource.CNameResource
 import com.github.mkroli.dns4s.section.resource.HInfoResource
 import com.github.mkroli.dns4s.section.resource.MXResource
+import com.github.mkroli.dns4s.section.resource.NAPTRResource
 import com.github.mkroli.dns4s.section.resource.NSResource
 import com.github.mkroli.dns4s.section.resource.PTRResource
 import com.github.mkroli.dns4s.section.resource.SOAResource
@@ -126,6 +127,11 @@ object CNameRecord extends ResourceRecordExtractor[CNameResource] {
 object MXRecord extends ResourceRecordExtractor[MXResource] {
   def apply(preference: Int, exchange: String) =
     resourceRecordModifier(ResourceRecord.typeMX, MXResource(preference, exchange))
+}
+
+object NAPTRRecord extends ResourceRecordExtractor[NAPTRResource] {
+  def apply(order: Int, preference: Int, flags: String, services: String, regexp: String, replacement: String) =
+    resourceRecordModifier(ResourceRecord.typeNAPTR, NAPTRResource(order, preference, flags, services, regexp, replacement))
 }
 
 object NSRecord extends ResourceRecordExtractor[NSResource] {

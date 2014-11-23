@@ -17,11 +17,12 @@ package com.github.mkroli.dns4s.section
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.MessageBufferEncoder
-import com.github.mkroli.dns4s.section.resource.AResource
 import com.github.mkroli.dns4s.section.resource.AAAAResource
+import com.github.mkroli.dns4s.section.resource.AResource
 import com.github.mkroli.dns4s.section.resource.CNameResource
 import com.github.mkroli.dns4s.section.resource.HInfoResource
 import com.github.mkroli.dns4s.section.resource.MXResource
+import com.github.mkroli.dns4s.section.resource.NAPTRResource
 import com.github.mkroli.dns4s.section.resource.NSResource
 import com.github.mkroli.dns4s.section.resource.PTRResource
 import com.github.mkroli.dns4s.section.resource.SOAResource
@@ -66,6 +67,7 @@ object ResourceRecord {
   val typeMX = 15
   val typeTXT = 16
   val typeAAAA = 28
+  val typeNAPTR = 35
   val qtypeAXFR = 252
   val qtypeMAILB = 253
   val qtypeMAILA = 254
@@ -87,6 +89,7 @@ object ResourceRecord {
       `type` match {
         case `typeA` => AResource(buf)
         case `typeAAAA` => AAAAResource(buf)
+        case `typeNAPTR` => NAPTRResource(buf)
         case `typeNS` => NSResource(buf)
         case `typeCNAME` => CNameResource(buf)
         case `typeSOA` => SOAResource(buf)
