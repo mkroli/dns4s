@@ -15,12 +15,16 @@
  */
 package com.github.mkroli.dns4s.section
 
+import java.net.Inet4Address
+import java.net.InetAddress
+
 import org.scalatest.FunSpec
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.bytes
 import com.github.mkroli.dns4s.maxInt
 import com.github.mkroli.dns4s.maxLong
+import com.github.mkroli.dns4s.section.resource.AResource
 import com.github.mkroli.dns4s.section.resource.UnknownResource
 
 class ResourceRecordSpec extends FunSpec {
@@ -74,7 +78,19 @@ class ResourceRecordSpec extends FunSpec {
 
       it("should prevent infinite loop with compression") {
         val b = MessageBuffer().put(bytes("C000 0000 0000 00000000 0000").toArray).flipped
-        intercept[AssertionError](ResourceRecord(b))
+        intercept[IllegalArgumentException](ResourceRecord(b))
+      }
+
+      it("should skip bytes if the actual resource records size is smaller than rdlength") {
+        val b = MessageBuffer().put(bytes("04 74 65 73 74 00  0001  0001  00000001  0008 0102030400000000").toArray).flipped
+        val rr = ResourceRecord(b)
+        assert(ResourceRecord("test", 1, 1, 1, AResource(InetAddress.getByAddress(Array[Byte](1, 2, 3, 4)).asInstanceOf[Inet4Address])) === rr)
+        assert(0 === b.remaining)
+      }
+
+      it("should fail if the actual resource records size is greater than rdlength") {
+        val b = MessageBuffer().put(bytes("04 74 65 73 74 00  0001  0001  00000001  0002 01020304").toArray).flipped
+        intercept[IllegalArgumentException](ResourceRecord(b))
       }
 
       it("should encode/decode a specific byte array") {

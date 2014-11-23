@@ -83,17 +83,19 @@ object ResourceRecord {
     val `class` = buf.getUnsignedInt(2)
     val ttl = buf.getUnsignedLong(4)
     val rdlength = buf.getUnsignedInt(2)
-    val rdata = `type` match {
-      case `typeA` => AResource(buf)
-      case `typeAAAA` => AAAAResource(buf)
-      case `typeNS` => NSResource(buf)
-      case `typeCNAME` => CNameResource(buf)
-      case `typeSOA` => SOAResource(buf)
-      case `typePTR` => PTRResource(buf)
-      case `typeHINFO` => HInfoResource(buf)
-      case `typeMX` => MXResource(buf)
-      case `typeTXT` => TXTResource(buf, rdlength)
-      case _ => UnknownResource(buf, rdlength, `type`)
+    val rdata = buf.processBytes(rdlength) {
+      `type` match {
+        case `typeA` => AResource(buf)
+        case `typeAAAA` => AAAAResource(buf)
+        case `typeNS` => NSResource(buf)
+        case `typeCNAME` => CNameResource(buf)
+        case `typeSOA` => SOAResource(buf)
+        case `typePTR` => PTRResource(buf)
+        case `typeHINFO` => HInfoResource(buf)
+        case `typeMX` => MXResource(buf)
+        case `typeTXT` => TXTResource(buf, rdlength)
+        case _ => UnknownResource(buf, rdlength, `type`)
+      }
     }
     new ResourceRecord(name, `type`, `class`, ttl, rdata)
   }

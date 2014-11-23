@@ -111,7 +111,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
           buf.position(buf.position() - 1)
           val ptr = getUnsignedInt(2) - 0xC000
           val pos = buf.position()
-          assert(!(positions contains pos))
+          require(!(positions contains pos))
           buf.position(ptr)
           val dn = getDomainNamePart(positions + pos)
           buf.position(pos)
@@ -158,6 +158,14 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
   private def foreachBuf(f: (ByteBuffer) => Unit) = {
     f(buf)
     this
+  }
+
+  def processBytes[T](bytes: Int)(f: => T): T = {
+    val oldPosition = buf.position()
+    val r = f
+    require(oldPosition + bytes >= buf.position())
+    foreachBuf(_.position(oldPosition + bytes))
+    r
   }
 
   def putLengthOf(bytes: Int, f: (MessageBuffer) => MessageBuffer): MessageBuffer = {

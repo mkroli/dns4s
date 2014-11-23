@@ -62,7 +62,7 @@ class QuestionSpec extends FunSpec {
 
       it("should prevent infinite loop with compression") {
         val b = MessageBuffer().put(bytes("C000 0000 0000").toArray).flipped
-        intercept[AssertionError](QuestionSection(b))
+        intercept[IllegalArgumentException](QuestionSection(b))
       }
 
       it("should prevent buffer underflows using compression") {
