@@ -26,7 +26,7 @@ object Build extends sbt.Build {
     name := n,
     organization := "com.github.mkroli",
     scalaVersion := "2.11.1",
-    crossScalaVersions := Seq("2.10.4", "2.11.1"),
+    crossScalaVersions := Seq("2.10.4", "2.11.4"),
     scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation"))
 
   def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) = osgiSettings ++ Seq(
@@ -36,13 +36,13 @@ object Build extends sbt.Build {
 
   lazy val dns4sProjectSettings = Seq(
     libraryDependencies ++= Seq(
-      "com.google.guava" % "guava" % "[15.+,17.+]",
+      "com.google.guava" % "guava" % "[15.+,18.+]",
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
       "org.scalatest" %% "scalatest" % "2.+" % "test"))
 
   lazy val dns4sAkkaProjectSettings = Seq(
     libraryDependencies ++= Seq(
-      "com.google.guava" % "guava" % "[15.+,17.+]",
+      "com.google.guava" % "guava" % "[15.+,18.+]",
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
       "com.typesafe.akka" %% "akka-actor" % "2.3.+"))
 
