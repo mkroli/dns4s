@@ -15,9 +15,9 @@
  */
 name := "dns4s-example-simple-netty"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.4"
 
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
-  "com.github.mkroli" %% "dns4s-netty" % "0.4")
+  "com.github.mkroli" %% "dns4s-netty" % "0.5")
