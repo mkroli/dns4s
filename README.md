@@ -1,6 +1,8 @@
 dns4s
 =====
 
+[![Build Status](https://travis-ci.org/mkroli/dns4s.svg?branch=master)](https://travis-ci.org/mkroli/dns4s)
+
 dns4s is an implementation of the [DNS] protocol in [Scala].
 It consists of the following parts:
 * Core
