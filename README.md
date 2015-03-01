@@ -7,18 +7,18 @@ dns4s is an implementation of the [DNS] protocol in [Scala].
 It consists of the following parts:
 * Core
 * Akka IO Extension
+* Netty Codec
 
 Core
 ----
-The core part contains the classes and objects used for en-/decoding of DNS
+The core part contains the functionality used for en-/decoding of DNS
 messages as well as an inner-[DSL] to con-/destruct DNS messages.
 
 Akka IO Extension
 -----------------
 The akka part contains an akka-io extension.
 
-Usage
------
+### Usage
 If you're using [sbt] just add the following to your build definition:
 ```scala
 resolvers += "bintray" at "http://jcenter.bintray.com"
@@ -28,7 +28,7 @@ libraryDependencies ++= Seq(
   "com.github.mkroli" %% "dns4s-akka" % "0.5")
 ```
 
-### Imports
+#### Imports
 Use the following imports to get started:
 ```scala
 import akka.actor._
@@ -38,7 +38,7 @@ import com.github.mkroli.dns4s.akka._
 import scala.concurrent.duration._
 ```
 
-### Server
+#### Server
 The following is an excerpt from [examples/simple/../DnsServer.scala](https://github.com/mkroli/dns4s/blob/master/examples/simple/src/main/scala/com/github/mkroli/dns4s/examples/simple/DnsServer.scala):
 ```scala
 class DnsHandlerActor extends Actor {
@@ -55,7 +55,7 @@ object DnsServer extends App {
 }
 ```
 
-### Client
+#### Client
 The following is an excerpt from [examples/simple-client/../DnsClient.scala](https://github.com/mkroli/dns4s/blob/master/examples/simple-client/src/main/scala/com/github/mkroli/dns4s/examples/simple/client/DnsClient.scala):
 ```scala
 implicit val system = ActorSystem("DnsServer")
@@ -69,6 +69,16 @@ IO(Dns) ? Dns.DnsPacket(Query ~ Questions("google.de"), new InetSocketAddress("8
     }
 }
 ```
+
+Netty Codec
+-----------
+The netty part contains the
+[MessageToMessageCodec](http://netty.io/4.0/api/io/netty/handler/codec/MessageToMessageCodec.html)
+[DnsCodec](https://github.com/mkroli/dns4s/blob/master/netty/src/main/scala/com/github/mkroli/dns4s/netty/DnsCodec.scala).
+See the examples
+[simple-netty](https://github.com/mkroli/dns4s/tree/master/examples/simple-netty) and
+[simple-netty-client](https://github.com/mkroli/dns4s/tree/master/examples/simple-netty-client)
+for more information.
 
 
 [Scala]:http://www.scala-lang.org
