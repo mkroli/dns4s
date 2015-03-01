@@ -25,8 +25,8 @@ object Build extends sbt.Build {
   def projectSettings(n: String) = Seq(
     name := n,
     organization := "com.github.mkroli",
-    scalaVersion := "2.11.1",
-    crossScalaVersions := Seq("2.10.4", "2.11.4"),
+    scalaVersion := "2.11.5",
+    crossScalaVersions := Seq("2.10.4", "2.11.5"),
     scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation"))
 
   def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) = osgiSettings ++ Seq(
