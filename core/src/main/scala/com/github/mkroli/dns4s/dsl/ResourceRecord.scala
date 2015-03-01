@@ -42,9 +42,9 @@ trait ResourceRecordModifier { self =>
 }
 
 private[dsl] abstract class ResourceRecordSection(set: (Message, Seq[ResourceRecord]) => Message, get: Message => Seq[ResourceRecord]) {
-  def apply(rr: ResourceRecord*) = new MessageModifier {
+  def apply[T](rr: T*)(implicit toResourceRecord: (T) => ResourceRecord): MessageModifier = new MessageModifier {
     override def apply(msg: Message) = {
-      val msgcp = set(msg, get(msg) ++ rr)
+      val msgcp = set(msg, get(msg) ++ rr.map(toResourceRecord))
       msgcp.copy(header = msgcp.header.copy(
         ancount = msgcp.answer.size,
         nscount = msgcp.authority.size,
