@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Michael Krolikowski
+ * Copyright 2014-2015 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ object Build extends sbt.Build {
   def projectSettings(n: String) = Seq(
     name := n,
     organization := "com.github.mkroli",
-    scalaVersion := "2.11.5",
-    crossScalaVersions := Seq("2.10.4", "2.11.5"),
+    scalaVersion := "2.11.6",
+    crossScalaVersions := Seq("2.10.5", "2.11.6"),
     scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation"))
 
   def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) = osgiSettings ++ Seq(
