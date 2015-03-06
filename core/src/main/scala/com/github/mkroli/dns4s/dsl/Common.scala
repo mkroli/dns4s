@@ -64,6 +64,37 @@ object TypeMAILB extends DnsType(ResourceRecord.qtypeMAILB)
 object TypeMAILA extends DnsType(ResourceRecord.qtypeMAILA)
 object TypeAsterisk extends DnsType(ResourceRecord.qtypeAsterisk)
 
+object DnsTypeName {
+  private val dnsTypeToString: PartialFunction[Int, String] = {
+    case 1 => "A"
+    case 2 => "NS"
+    case 3 => "MD"
+    case 4 => "MF"
+    case 5 => "CNAME"
+    case 6 => "SOA"
+    case 7 => "MB"
+    case 8 => "MG"
+    case 9 => "MR"
+    case 10 => "NULL"
+    case 11 => "WKS"
+    case 12 => "PTR"
+    case 13 => "HINFO"
+    case 14 => "MINFO"
+    case 15 => "MX"
+    case 16 => "TXT"
+    case 28 => "AAAA"
+    case 35 => "NAPTR"
+    case 252 => "AXFR"
+    case 253 => "MAILB"
+    case 254 => "MAILA"
+    case 255 => "Asterisk"
+  }
+
+  def unapply(qs: QuestionSection): Option[String] = dnsTypeToString.lift(qs.qtype)
+
+  def unapply(rr: ResourceRecord): Option[String] = dnsTypeToString.lift(rr.`type`)
+}
+
 private[dsl] abstract class DnsClass(c: Int) extends QuestionSectionModifier with ResourceRecordModifier {
   override def apply(qs: QuestionSection) = qs.copy(qclass = c)
 
@@ -79,3 +110,17 @@ object ClassCS extends DnsClass(2)
 object ClassCH extends DnsClass(3)
 object ClassHS extends DnsClass(4)
 object ClassAsterisk extends DnsClass(255)
+
+object DnsClassName {
+  private val dnsClassToString: PartialFunction[Int, String] = {
+    case 1 => "IN"
+    case 2 => "CS"
+    case 3 => "CH"
+    case 4 => "HS"
+    case 255 => "Asterisk"
+  }
+
+  def unapply(qs: QuestionSection) = dnsClassToString.lift(qs.qclass)
+
+  def unapply(rr: ResourceRecord) = dnsClassToString.lift(rr.`class`)
+}
