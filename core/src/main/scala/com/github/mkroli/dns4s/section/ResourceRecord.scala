@@ -17,17 +17,7 @@ package com.github.mkroli.dns4s.section
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.MessageBufferEncoder
-import com.github.mkroli.dns4s.section.resource.AAAAResource
-import com.github.mkroli.dns4s.section.resource.AResource
-import com.github.mkroli.dns4s.section.resource.CNameResource
-import com.github.mkroli.dns4s.section.resource.HInfoResource
-import com.github.mkroli.dns4s.section.resource.MXResource
-import com.github.mkroli.dns4s.section.resource.NAPTRResource
-import com.github.mkroli.dns4s.section.resource.NSResource
-import com.github.mkroli.dns4s.section.resource.PTRResource
-import com.github.mkroli.dns4s.section.resource.SOAResource
-import com.github.mkroli.dns4s.section.resource.TXTResource
-import com.github.mkroli.dns4s.section.resource.UnknownResource
+import com.github.mkroli.dns4s.section.resource._
 
 case class ResourceRecord(
   name: String,
@@ -67,6 +57,7 @@ object ResourceRecord {
   val typeMX = 15
   val typeTXT = 16
   val typeAAAA = 28
+  val typeSRV = 33
   val typeNAPTR = 35
   val qtypeAXFR = 252
   val qtypeMAILB = 253
@@ -89,6 +80,7 @@ object ResourceRecord {
       `type` match {
         case `typeA` => AResource(buf)
         case `typeAAAA` => AAAAResource(buf)
+        case `typeSRV` => SRVResource(buf)
         case `typeNAPTR` => NAPTRResource(buf)
         case `typeNS` => NSResource(buf)
         case `typeCNAME` => CNameResource(buf)
