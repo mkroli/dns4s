@@ -15,7 +15,7 @@
  */
 package com.github.mkroli.dns4s.section.resource
 
-import com.github.mkroli.dns4s.{MessageBuffer, bytes, maxInt}
+import com.github.mkroli.dns4s.{ MessageBuffer, bytes, maxInt }
 import com.github.mkroli.dns4s.section.ResourceRecord
 import org.scalatest.FunSpec
 
@@ -49,11 +49,11 @@ class SRVResourceSpec extends FunSpec {
       }
 
       it("should be decoded wrapped in ResourceRecord") {
-//        val rr = ResourceRecord("test", ResourceRecord.typeSRV, 0, 0, SRVResource(123, 234, 345, "test.test"))
-//        val a = rr(MessageBuffer()).flipped
-//        val b = bytes("65 22 16 17 21 17 96 3 48 0 0 0 19 1 35 2 33 -119 65 22 16 17 21 17 102 64")
-//        assert(b === a.getBytes(a.remaining))
-//        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
+        val rr = ResourceRecord("test", ResourceRecord.typeSRV, 0, 0, SRVResource(123, 234, 345, "test.test"))
+        val a = rr(MessageBuffer()).flipped
+        val b = bytes("04 74 65 73 74 00  0021 0000 00000000 000D 007B 00EA 0159 04 74 65 73 74 C000")
+        assert(b === a.getBytes(a.remaining))
+        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
       }
     }
   }
