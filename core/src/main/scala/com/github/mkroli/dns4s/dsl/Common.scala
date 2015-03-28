@@ -58,6 +58,7 @@ object TypeMINFO extends DnsType(ResourceRecord.typeMINFO)
 object TypeMX extends DnsType(ResourceRecord.typeMX)
 object TypeTXT extends DnsType(ResourceRecord.typeTXT)
 object TypeAAAA extends DnsType(ResourceRecord.typeAAAA)
+object TypeSRV extends DnsType(ResourceRecord.typeSRV)
 object TypeNAPTR extends DnsType(ResourceRecord.typeNAPTR)
 object TypeAXFR extends DnsType(ResourceRecord.qtypeAXFR)
 object TypeMAILB extends DnsType(ResourceRecord.qtypeMAILB)
@@ -83,6 +84,7 @@ object DnsTypeName {
     case 15 => "MX"
     case 16 => "TXT"
     case 28 => "AAAA"
+    case 33 => "SRV"
     case 35 => "NAPTR"
     case 252 => "AXFR"
     case 253 => "MAILB"
