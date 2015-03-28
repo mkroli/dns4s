@@ -20,4 +20,4 @@ scalaVersion := "2.11.6"
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
-  "com.github.mkroli" %% "dns4s-netty" % "0.6")
+  "com.github.mkroli" %% "dns4s-netty" % "0.7")
