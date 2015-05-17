@@ -17,6 +17,8 @@ package com.github.mkroli
 
 import scala.language.postfixOps
 
+import org.scalacheck.Gen
+
 package object dns4s {
   def maxLong(bits: Int) = BigInt(2).pow(bits) - 1 toLong
 
@@ -25,4 +27,9 @@ package object dns4s {
   private val hexChars = ('0' to '9') ++ ('A' to 'Z') ++ ('a' to 'z') toSet
 
   def bytes(s: String) = s.filter(hexChars).sliding(2, 2).map(BigInt(_, 16).toByte).toList
+
+  def bytesGenerator(min: Int = 0, max: Int = 4096) = Gen.choose(min, max).flatMap { size =>
+    val byteGenerator = Gen.choose(Byte.MinValue, Byte.MaxValue)
+    Gen.listOfN(size, byteGenerator)
+  }.map(_.toArray)
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 Michael Krolikowski
+ * Copyright 2013-2015 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import com.github.mkroli.dns4s.section.resource.HInfoResource
 import com.github.mkroli.dns4s.section.resource.MXResource
 import com.github.mkroli.dns4s.section.resource.NAPTRResource
 import com.github.mkroli.dns4s.section.resource.NSResource
+import com.github.mkroli.dns4s.section.resource.OPTResource
 import com.github.mkroli.dns4s.section.resource.PTRResource
 import com.github.mkroli.dns4s.section.resource.SOAResource
 import com.github.mkroli.dns4s.section.resource.TXTResource
@@ -78,6 +79,18 @@ private[dsl] abstract class ResourceRecordExtractor[T: Manifest] {
   def unapply(rr: ResourceRecord): Option[T] = rr.rdata match {
     case rr: T => Some(rr)
     case _ => None
+  }
+}
+
+object EDNS {
+  def apply(payloadSize: Int = 4096): MessageModifier = new MessageModifier {
+    override def apply(msg: Message) = {
+      Additional(ResourceRecord("", ResourceRecord.typeOPT, payloadSize, 0, OPTResource())).apply(msg)
+    }
+  }
+
+  def unapply(msg: Message): Option[Int] = msg.additional.collectFirst {
+    case ResourceRecord(_, ResourceRecord.typeOPT, payloadSize, _, _) => payloadSize
   }
 }
 
@@ -132,6 +145,11 @@ object MXRecord extends ResourceRecordExtractor[MXResource] {
 object NAPTRRecord extends ResourceRecordExtractor[NAPTRResource] {
   def apply(order: Int, preference: Int, flags: String, services: String, regexp: String, replacement: String) =
     resourceRecordModifier(ResourceRecord.typeNAPTR, NAPTRResource(order, preference, flags, services, regexp, replacement))
+}
+
+object OPTRecord extends ResourceRecordExtractor[OPTResource] {
+  def apply() =
+    resourceRecordModifier(ResourceRecord.typeOPT, OPTResource())
 }
 
 object NSRecord extends ResourceRecordExtractor[NSResource] {

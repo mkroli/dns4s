@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 Michael Krolikowski
+ * Copyright 2013-2015 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
       getUnsignedInt(1) match {
         case s if (s & 0xC0) != 0 =>
           buf.position(buf.position() - 1)
-          val ptr = getUnsignedInt(2) - 0xC000
+          val ptr = getUnsignedInt(2) & ~0xC000
           val pos = buf.position()
           require(!(positions contains pos))
           buf.position(ptr)

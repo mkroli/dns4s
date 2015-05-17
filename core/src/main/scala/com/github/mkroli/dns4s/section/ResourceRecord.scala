@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 Michael Krolikowski
+ * Copyright 2013-2015 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@ object ResourceRecord {
   val typeAAAA = 28
   val typeSRV = 33
   val typeNAPTR = 35
+  val typeOPT = 41
   val qtypeAXFR = 252
   val qtypeMAILB = 253
   val qtypeMAILA = 254
@@ -82,6 +83,7 @@ object ResourceRecord {
         case `typeAAAA` => AAAAResource(buf)
         case `typeSRV` => SRVResource(buf)
         case `typeNAPTR` => NAPTRResource(buf)
+        case `typeOPT` => OPTResource(buf, rdlength)
         case `typeNS` => NSResource(buf)
         case `typeCNAME` => CNameResource(buf)
         case `typeSOA` => SOAResource(buf)

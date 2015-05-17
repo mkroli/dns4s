@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 Michael Krolikowski
+ * Copyright 2015 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.mkroli.dns4s.section
+package com.github.mkroli.dns4s.section.resource
 
 import com.github.mkroli.dns4s.MessageBuffer
+import com.github.mkroli.dns4s.section.Resource
 
-trait Resource {
-  def apply(buf: MessageBuffer): MessageBuffer
+case class OPTResource() extends Resource {
+  def apply(buf: MessageBuffer) = buf
+}
+
+object OPTResource {
+  def apply(buf: MessageBuffer, length: Int) = {
+    buf.getBytes(length)
+    new OPTResource()
+  }
 }
