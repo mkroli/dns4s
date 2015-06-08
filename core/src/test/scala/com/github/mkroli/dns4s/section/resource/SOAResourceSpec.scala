@@ -16,13 +16,16 @@
 package com.github.mkroli.dns4s.section.resource
 
 import org.scalatest.FunSpec
+import org.scalatest.prop.PropertyChecks
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.bytes
+import com.github.mkroli.dns4s.dnGen
 import com.github.mkroli.dns4s.maxLong
 import com.github.mkroli.dns4s.section.ResourceRecord
+import com.github.mkroli.dns4s.ulongGen
 
-class SOAResourceSpec extends FunSpec {
+class SOAResourceSpec extends FunSpec with PropertyChecks {
   lazy val defaultResource = SOAResource("", "", 0, 0, 0, 0, 0)
 
   describe("SOAResource") {
@@ -90,11 +93,13 @@ class SOAResourceSpec extends FunSpec {
 
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
-        def testEncodeDecode(sr: SOAResource) {
-          assert(sr === SOAResource(sr(MessageBuffer()).flipped))
+        forAll(dnGen, dnGen) { (mname, rname) =>
+          forAll(ulongGen(32), ulongGen(32), ulongGen(32), ulongGen(32), ulongGen(32)) {
+            (serial, refresh, retry, expire, minimum) =>
+              val sr = SOAResource(mname, rname, serial, refresh, retry, expire, minimum)
+              assert(sr === SOAResource(sr(MessageBuffer()).flipped))
+          }
         }
-        testEncodeDecode(SOAResource("", "", 0, 0, 0, 0, 0))
-        testEncodeDecode(SOAResource("test.test.test", "test.test.test", maxLong(32), maxLong(32), maxLong(32), maxLong(32), maxLong(32)))
       }
 
       it("should be decoded wrapped in ResourceRecord") {

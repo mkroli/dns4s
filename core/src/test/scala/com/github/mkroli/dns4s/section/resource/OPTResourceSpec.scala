@@ -27,7 +27,7 @@ class OPTResourceSpec extends FunSpec with PropertyChecks {
   describe("OPTResource") {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
-        forAll(bytesGenerator()) { bytes: Array[Byte] =>
+        forAll(bytesGenerator()) { bytes =>
           val r = OPTResource()
           val encoded = r(MessageBuffer()).put(bytes).flipped()
           assert(r === OPTResource(encoded, bytes.length))

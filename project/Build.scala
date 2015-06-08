@@ -38,8 +38,8 @@ object Build extends sbt.Build {
     libraryDependencies ++= Seq(
       "com.google.guava" % "guava" % "[15.+,18.+]",
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
-      "org.scalatest" %% "scalatest" % "2.+" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.12.+" % "test"))
+      "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"))
 
   lazy val dns4sAkkaProjectSettings = Seq(
     libraryDependencies ++= Seq(

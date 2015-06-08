@@ -15,8 +15,10 @@
  */
 package com.github.mkroli
 
+import scala.annotation.tailrec
 import scala.language.postfixOps
 
+import org.scalacheck.Arbitrary
 import org.scalacheck.Gen
 
 package object dns4s {
@@ -32,4 +34,56 @@ package object dns4s {
     val byteGenerator = Gen.choose(Byte.MinValue, Byte.MaxValue)
     Gen.listOfN(size, byteGenerator)
   }.map(_.toArray)
+
+  @tailrec
+  private def takeChars(i: Int, taken: List[Char] = Nil)(s: List[Char]): (String, String) = s match {
+    case Nil =>
+      (taken.mkString, "")
+    case head :: tail =>
+      val headSize = head.toString.getBytes.length
+      if (headSize < i)
+        takeChars(i - headSize, head :: taken)(tail)
+      else
+        (taken.mkString, s.mkString)
+  }
+
+  private def grouped(size: Int)(s: String): List[String] = s match {
+    case "" => Nil
+    case s =>
+      val (left, right) = takeChars(size)(s.toList)
+      left :: grouped(size)(right)
+  }
+
+  lazy val characterStringGenerator = {
+    Arbitrary.arbitrary[String]
+      .map(_.toList)
+      .map(takeChars(255))
+      .map(_._1)
+  }
+  lazy val csGen = characterStringGenerator
+
+  lazy val characterStringsGenerator = {
+    Arbitrary.arbitrary[String]
+      .map(_.filterNot(Set('.')))
+      .map(grouped(255))
+  }
+  lazy val cssGen = characterStringsGenerator
+
+  lazy val domainNameGenerator = {
+    Arbitrary.arbitrary[String]
+      .map(_.filterNot(Set('.')))
+      .map(grouped(63))
+      .map(_.mkString("."))
+  }
+  lazy val dnGen = domainNameGenerator
+
+  def unsignedLongGenerator(bits: Int) = {
+    Gen.choose(0L, (BigInt(2).pow(bits) - 1).toLong)
+  }
+  def ulongGen = unsignedLongGenerator _
+
+  def unsignedIntGenerator(bits: Int) = {
+    unsignedLongGenerator(bits).map(_.toInt)
+  }
+  def uintGen = unsignedIntGenerator _
 }

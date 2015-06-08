@@ -19,23 +19,25 @@ import java.net.Inet4Address
 import java.net.InetAddress
 
 import org.scalatest.FunSpec
+import org.scalatest.prop.PropertyChecks
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.bytes
 import com.github.mkroli.dns4s.section.ResourceRecord
 
-class AResourceSpec extends FunSpec {
+class AResourceSpec extends FunSpec with PropertyChecks {
   describe("AResource") {
     describe("encoding/decoding") {
       def inet4Address(b: String) =
         InetAddress.getByAddress(bytes(b).toArray).asInstanceOf[Inet4Address]
 
       it("decode(encode(resource)) should be the same as resource") {
-        def testEncodeDecode(ar: AResource) {
+        forAll { (a: Byte, b: Byte, c: Byte, d: Byte) =>
+          val ar = AResource(InetAddress.getByAddress(Array(a, b, c, d)).asInstanceOf[Inet4Address])
           assert(ar === AResource(ar(MessageBuffer()).flipped))
+          val encoded = ar(MessageBuffer()).flipped
+          assert(Array(a, b, c, d) === encoded.getBytes(encoded.remaining()))
         }
-        testEncodeDecode(AResource(inet4Address("00 00 00 00")))
-        testEncodeDecode(AResource(inet4Address("FF FF FF FF")))
       }
 
       it("should be decoded wrapped in ResourceRecord") {
@@ -44,16 +46,6 @@ class AResourceSpec extends FunSpec {
         val b = bytes("04 74 65 73 74 00  0001 0000 00000000 0004 FF 0F F0 FF")
         assert(b === a.getBytes(a.remaining))
         assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
-      }
-
-      it("should encode/decode a byte array filled with 0s") {
-        val ar = AResource(inet4Address("00 00 00 00"))(MessageBuffer()).flipped
-        assert(bytes("00 00 00 00") === ar.getBytes(ar.remaining))
-      }
-
-      it("should encode/decode a byte array filled with mostly 1s") {
-        val ar = AResource(inet4Address("FF FF FF FF"))(MessageBuffer()).flipped
-        assert(bytes("FF FF FF FF") === ar.getBytes(ar.remaining))
       }
     }
   }

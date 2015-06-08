@@ -16,20 +16,21 @@
 package com.github.mkroli.dns4s.section.resource
 
 import org.scalatest.FunSpec
+import org.scalatest.prop.PropertyChecks
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.bytes
+import com.github.mkroli.dns4s.dnGen
 import com.github.mkroli.dns4s.section.ResourceRecord
 
-class NSResourceSpec extends FunSpec {
+class NSResourceSpec extends FunSpec with PropertyChecks {
   describe("NSResource") {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
-        def testEncodeDecode(nr: NSResource) {
+        forAll(dnGen) { nsdname =>
+          val nr = NSResource(nsdname)
           assert(nr === NSResource(nr(MessageBuffer()).flipped))
         }
-        testEncodeDecode(NSResource(""))
-        testEncodeDecode(NSResource("test.test.test"))
       }
 
       it("should be decoded wrapped in ResourceRecord") {

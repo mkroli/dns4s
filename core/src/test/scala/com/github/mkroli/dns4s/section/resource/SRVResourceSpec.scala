@@ -15,11 +15,17 @@
  */
 package com.github.mkroli.dns4s.section.resource
 
-import com.github.mkroli.dns4s.{ MessageBuffer, bytes, maxInt }
-import com.github.mkroli.dns4s.section.ResourceRecord
 import org.scalatest.FunSpec
+import org.scalatest.prop.PropertyChecks
 
-class SRVResourceSpec extends FunSpec {
+import com.github.mkroli.dns4s.MessageBuffer
+import com.github.mkroli.dns4s.bytes
+import com.github.mkroli.dns4s.dnGen
+import com.github.mkroli.dns4s.maxInt
+import com.github.mkroli.dns4s.section.ResourceRecord
+import com.github.mkroli.dns4s.uintGen
+
+class SRVResourceSpec extends FunSpec with PropertyChecks {
   describe("SRVResource") {
     describe("validation") {
       describe("preference") {
@@ -41,11 +47,10 @@ class SRVResourceSpec extends FunSpec {
 
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
-        def testEncodeDecode(mr: SRVResource) {
+        forAll(uintGen(16), uintGen(16), uintGen(16), dnGen) { (priority, weight, port, target) =>
+          val mr = SRVResource(priority, weight, port, target)
           assert(mr === SRVResource(mr(MessageBuffer()).flipped))
         }
-        testEncodeDecode(SRVResource(0, 0, 0, ""))
-        testEncodeDecode(SRVResource(maxInt(16), maxInt(16), maxInt(16), "test.test.test"))
       }
 
       it("should be decoded wrapped in ResourceRecord") {

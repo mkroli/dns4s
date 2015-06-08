@@ -16,13 +16,16 @@
 package com.github.mkroli.dns4s.section.resource
 
 import org.scalatest.FunSpec
+import org.scalatest.prop.PropertyChecks
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.bytes
+import com.github.mkroli.dns4s.dnGen
 import com.github.mkroli.dns4s.maxInt
 import com.github.mkroli.dns4s.section.ResourceRecord
+import com.github.mkroli.dns4s.uintGen
 
-class MXResourceSpec extends FunSpec {
+class MXResourceSpec extends FunSpec with PropertyChecks {
   describe("MXResource") {
     describe("validation") {
       describe("preference") {
@@ -40,11 +43,10 @@ class MXResourceSpec extends FunSpec {
 
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
-        def testEncodeDecode(mr: MXResource) {
+        forAll(uintGen(16), dnGen) { (preference, exchange) =>
+          val mr = MXResource(preference, exchange)
           assert(mr === MXResource(mr(MessageBuffer()).flipped))
         }
-        testEncodeDecode(MXResource(0, ""))
-        testEncodeDecode(MXResource(maxInt(16), "test.test.test"))
       }
 
       it("should be decoded wrapped in ResourceRecord") {

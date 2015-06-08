@@ -16,13 +16,17 @@
 package com.github.mkroli.dns4s.section.resource
 
 import org.scalatest.FunSpec
+import org.scalatest.prop.PropertyChecks
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.bytes
+import com.github.mkroli.dns4s.csGen
+import com.github.mkroli.dns4s.dnGen
 import com.github.mkroli.dns4s.maxInt
 import com.github.mkroli.dns4s.section.ResourceRecord
+import com.github.mkroli.dns4s.uintGen
 
-class NAPTRResourceSpec extends FunSpec {
+class NAPTRResourceSpec extends FunSpec with PropertyChecks {
   describe("NAPTRResource") {
     describe("validation") {
       describe("order") {
@@ -52,11 +56,10 @@ class NAPTRResourceSpec extends FunSpec {
 
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
-        def testEncodeDecode(mr: NAPTRResource) {
+        forAll(uintGen(16), uintGen(16), csGen, csGen, csGen, dnGen) { (order, preference, flags, services, regexp, replacement) =>
+          val mr = NAPTRResource(order, preference, flags, services, regexp, replacement)
           assert(mr === NAPTRResource(mr(MessageBuffer()).flipped))
         }
-        testEncodeDecode(NAPTRResource(0, 0, "", "", "", ""))
-        testEncodeDecode(NAPTRResource(maxInt(16), maxInt(16), "ABC", "DEF", "GHI", "abc.def.ghi"))
       }
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeNAPTR, 0, 0, NAPTRResource(123, 456, "ABC", "DEF", "GHI", "abc.def.ghi"))

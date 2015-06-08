@@ -19,23 +19,24 @@ import java.net.Inet6Address
 import java.net.InetAddress
 
 import org.scalatest.FunSpec
+import org.scalatest.prop.PropertyChecks
 
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.bytes
+import com.github.mkroli.dns4s.bytesGenerator
 import com.github.mkroli.dns4s.section.ResourceRecord
 
-class AAAAResourceSpec extends FunSpec {
+class AAAAResourceSpec extends FunSpec with PropertyChecks {
   describe("AAAAResource") {
     describe("encoding/decoding") {
       def inet6Address(b: String) =
         InetAddress.getByAddress(bytes(b).toArray).asInstanceOf[Inet6Address]
 
       it("decode(encode(resource)) should be the same as resource") {
-        def testEncodeDecode(ar: AAAAResource) {
+        forAll(bytesGenerator(16, 16)) { addr =>
+          val ar = AAAAResource(InetAddress.getByAddress(addr).asInstanceOf[Inet6Address])
           assert(ar === AAAAResource(ar(MessageBuffer()).flipped))
         }
-        testEncodeDecode(AAAAResource(inet6Address("ffff ffff ffff ffff ffff ffff ffff ffff")))
-        testEncodeDecode(AAAAResource(inet6Address("0000 0000 0000 0000 0000 0000 0000 0000")))
       }
 
       it("should be decoded wrapped in ResourceRecord") {
@@ -44,10 +45,8 @@ class AAAAResourceSpec extends FunSpec {
           `type` = ResourceRecord.typeAAAA,
           `class` = 0,
           ttl = 0,
-          rdata = AAAAResource(inet6Address("0fff fff1 fff2 fff3 fff4 fff5 fff6 fff7"))
-        )
+          rdata = AAAAResource(inet6Address("0fff fff1 fff2 fff3 fff4 fff5 fff6 fff7")))
         val a = rr(MessageBuffer()).flipped
-        // 4, 116, 101, 115, 116, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0, 16
         val b = bytes("0474 6573 7400 001C 0000 0000 0000 0010 0fff fff1 fff2 fff3 fff4 fff5 fff6 fff7")
         assert(b === a.getBytes(a.remaining))
         assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))

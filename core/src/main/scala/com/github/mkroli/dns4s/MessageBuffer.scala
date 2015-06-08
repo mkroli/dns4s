@@ -135,7 +135,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
               val dr = if (d.isEmpty) d else d.substring(1)
               val pos = buf.position
               val bytes = dc.getBytes
-              val mb = put(bytes.length.toByte +: bytes).putDomainName(dr)
+              val mb = putUnsignedInt(1, bytes.length).put(bytes).putDomainName(dr)
               new MessageBuffer(
                 mb.buf,
                 mb.domains + (dn -> pos))
