@@ -19,12 +19,14 @@ import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.MessageBufferEncoder
 import com.github.mkroli.dns4s.section.resource._
 
+trait Resource extends MessageBufferEncoder
+
 case class ResourceRecord(
-  name: String,
-  `type`: Int,
-  `class`: Int,
-  ttl: Long,
-  rdata: Resource) extends MessageBufferEncoder {
+    name: String,
+    `type`: Int,
+    `class`: Int,
+    ttl: Long,
+    rdata: Resource) extends MessageBufferEncoder {
   require(`type` >= 0 && `type` < (1 << 16))
   require(`class` >= 0 && `class` < (1 << 16))
   require(ttl >= 0 && ttl < (1L << 32))
