@@ -53,8 +53,6 @@ private[dsl] abstract class ResourceRecordSection(set: (Message, Seq[ResourceRec
     }
   }
 
-  def apply(msg: Message): MessageModifier = apply(get(msg): _*)
-
   def unapply(msg: Message): Option[Seq[ResourceRecord]] = Some(get(msg).toList)
 }
 
@@ -66,9 +64,24 @@ private[dsl] abstract class ResourceRecordField[T](e: ResourceRecord => T) {
   def unapply(rr: ResourceRecord): Option[T] = Some(e(rr))
 }
 
-object RRName extends ResourceRecordField(_.name)
-object RRType extends ResourceRecordField(_.`type`)
-object RRClass extends ResourceRecordField(_.`class`)
+object RRName extends ResourceRecordField(_.name) {
+  def apply(name: String): ResourceRecordModifier = new ResourceRecordModifier {
+    override def apply(rr: ResourceRecord) = rr.copy(name = name)
+  }
+}
+
+object RRType extends ResourceRecordField(_.`type`) {
+  def apply(`type`: Int): ResourceRecordModifier = new ResourceRecordModifier {
+    override def apply(rr: ResourceRecord) = rr.copy(`type` = `type`)
+  }
+}
+
+object RRClass extends ResourceRecordField(_.`class`) {
+  def apply(`class`: Int): ResourceRecordModifier = new ResourceRecordModifier {
+    override def apply(rr: ResourceRecord) = rr.copy(`class` = `class`)
+  }
+}
+
 object RRTtl extends ResourceRecordField(_.`ttl`) {
   def apply(ttl: Long) = new ResourceRecordModifier {
     override def apply(rr: ResourceRecord) = rr.copy(ttl = ttl)

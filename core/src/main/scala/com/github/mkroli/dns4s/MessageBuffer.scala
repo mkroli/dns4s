@@ -48,11 +48,13 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
     put(a)
   }
 
+  /*
   def getSignedBigInt(bytes: Int) =
     BigInt(getBytes(bytes) toArray)
 
   def putSignedBigInt(bytes: Int, i: BigInt) =
     putBytes(bytes, i.toByteArray)
+  */
 
   def getUnsignedBigInt(bytes: Int) =
     BigInt((0: Byte) +: getBytes(bytes) toArray)
@@ -64,6 +66,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
     })
   }
 
+  /*
   def getSignedLong(bytes: Int) = {
     require(bytes > 0 && bytes <= 8)
     getSignedBigInt(bytes).toLong
@@ -73,6 +76,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
     require(bytes > 0 && bytes <= 8)
     putSignedBigInt(bytes, l)
   }
+  */
 
   def getUnsignedLong(bytes: Int) = {
     require(bytes > 0 && bytes < 8)
@@ -84,6 +88,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
     putUnsignedBigInt(bytes, l)
   }
 
+  /*
   def getSignedInt(bytes: Int) = {
     require(bytes > 0 && bytes <= 4)
     getSignedBigInt(bytes).toInt
@@ -93,6 +98,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
     require(bytes > 0 && bytes <= 4)
     putSignedBigInt(bytes, i)
   }
+  */
 
   def getUnsignedInt(bytes: Int) = {
     require(bytes > 0 && bytes < 4)
@@ -181,7 +187,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
 }
 
 object MessageBuffer {
-  def apply() = new MessageBuffer(ByteBuffer.allocate(4096), Map())
+  def apply(): MessageBuffer = MessageBuffer(ByteBuffer.allocate(4096))
 
   def apply(buf: ByteBuffer) = new MessageBuffer(buf, Map())
 }

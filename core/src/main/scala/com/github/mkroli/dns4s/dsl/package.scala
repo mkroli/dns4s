@@ -59,15 +59,6 @@ package object dsl {
   implicit def questionSectionModifierToQuestionSection(qsm: QuestionSectionModifier): QuestionSection =
     qsm(QuestionSection("", ResourceRecord.typeA, ResourceRecord.classIN))
 
-  implicit class QuestionSectionModifierString(name: String) extends QuestionSectionModifier with ResourceRecordModifier {
-    override def apply(qs: QuestionSection) = qs.copy(qname = name)
-
-    override def apply(rr: ResourceRecord) = rr.copy(name = name)
-  }
-
-  implicit def stringToQuestionSection(s: String): QuestionSection =
-    questionSectionModifierToQuestionSection(QuestionSectionModifierString(s))
-
   implicit def resourceRecordModifierToResourceRecord(rrm: ResourceRecordModifier): ResourceRecord = {
     rrm(ResourceRecord(
       "",

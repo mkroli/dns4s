@@ -19,7 +19,7 @@ import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.QuestionSection
 
 trait QuestionSectionModifier { self =>
-  def ~(qsm: QuestionSectionModifier) = new QuestionSectionModifier {
+  def ~(qsm: QuestionSectionModifier): QuestionSectionModifier = new QuestionSectionModifier {
     override def apply(qs: QuestionSection): QuestionSection = qsm(self(qs))
   }
 
@@ -27,7 +27,7 @@ trait QuestionSectionModifier { self =>
 }
 
 object Questions {
-  def apply(question: QuestionSection*) = new MessageModifier {
+  def apply(question: QuestionSection*): MessageModifier = new MessageModifier {
     override def apply(msg: Message) = msg.copy(header = msg.header.copy(qdcount = msg.header.qdcount + question.size), question = msg.question ++ question)
   }
 
@@ -38,6 +38,20 @@ private[dsl] abstract class QuestionExtractor[T](e: QuestionSection => T) {
   def unapply(qs: QuestionSection): Option[T] = Some(e(qs))
 }
 
-object QName extends QuestionExtractor(_.qname)
-object QType extends QuestionExtractor(_.qtype)
-object QClass extends QuestionExtractor(_.qclass)
+object QName extends QuestionExtractor(_.qname) {
+  def apply(qname: String): QuestionSectionModifier = new QuestionSectionModifier {
+    override def apply(qs: QuestionSection) = qs.copy(qname = qname)
+  }
+}
+
+object QType extends QuestionExtractor(_.qtype) {
+  def apply(qtype: Int): QuestionSectionModifier = new QuestionSectionModifier {
+    override def apply(qs: QuestionSection) = qs.copy(qtype = qtype)
+  }
+}
+
+object QClass extends QuestionExtractor(_.qclass) {
+  def apply(qclass: Int): QuestionSectionModifier = new QuestionSectionModifier {
+    override def apply(qs: QuestionSection) = qs.copy(qclass = qclass)
+  }
+}
