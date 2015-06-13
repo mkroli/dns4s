@@ -25,7 +25,7 @@ resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.3.9",
-  "com.github.mkroli" %% "dns4s-akka" % "0.7")
+  "com.github.mkroli" %% "dns4s-akka" % "0.8")
 ```
 
 #### Imports
@@ -44,7 +44,7 @@ The following is an excerpt from [examples/simple/../DnsServer.scala](https://gi
 class DnsHandlerActor extends Actor {
   override def receive = {
     case Query(_) ~ Questions(QName(host) ~ TypeA() :: Nil) =>
-      sender ! Response ~ Questions(host) ~ Answers(ARecord("1.2.3.4"))
+      sender ! Response ~ Questions(host) ~ Answers(RRName(host) ~ ARecord("1.2.3.4"))
   }
 }
 

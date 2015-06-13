@@ -28,7 +28,7 @@ class DnsServerHandler extends SimpleChannelInboundHandler[DnsPacket] {
   def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket) {
     Some(packet.content).collect {
       case Query(_) ~ Id(id) ~ Questions(QName(host) ~ TypeA() :: Nil) =>
-        Response ~ Id(id) ~ Questions(host) ~ Answers(ARecord("1.2.3.4"))
+        Response ~ Id(id) ~ Questions(QName(host)) ~ Answers(ARecord("1.2.3.4"))
     }.foreach { msg =>
       ctx.channel.writeAndFlush(DnsPacket(msg, packet.sender))
     }

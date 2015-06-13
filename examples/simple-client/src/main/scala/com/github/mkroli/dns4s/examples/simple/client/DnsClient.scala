@@ -33,7 +33,7 @@ object DnsClient extends App {
   implicit val timeout = Timeout(5 seconds)
   import system.dispatcher
 
-  IO(Dns) ? Dns.DnsPacket(Query ~ Questions("google.de"), new InetSocketAddress("8.8.8.8", 53)) onSuccess {
+  IO(Dns) ? Dns.DnsPacket(Query ~ Questions(QName("google.de")), new InetSocketAddress("8.8.8.8", 53)) onSuccess {
     case Response(Answers(answers)) =>
       answers.collect {
         case ARecord(arecord) => println(arecord.address.getHostAddress)

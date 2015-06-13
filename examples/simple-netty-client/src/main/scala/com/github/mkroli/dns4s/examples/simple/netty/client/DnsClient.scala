@@ -54,7 +54,7 @@ object DnsClient extends App {
     .bind(0)
     .addListener(new GenericFutureListener[NettyFuture[Void]] {
       override def operationComplete(f: NettyFuture[Void]) {
-        channel.channel.writeAndFlush(DnsPacket(Query ~ Questions("google.de"), new InetSocketAddress("8.8.8.8", 53)))
+        channel.channel.writeAndFlush(DnsPacket(Query ~ Questions(QName("google.de")), new InetSocketAddress("8.8.8.8", 53)))
       }
     })
 }
