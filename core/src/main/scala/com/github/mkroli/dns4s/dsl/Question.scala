@@ -27,8 +27,10 @@ trait QuestionSectionModifier { self =>
 }
 
 object Questions {
-  def apply(question: QuestionSection*): MessageModifier = new MessageModifier {
-    override def apply(msg: Message) = msg.copy(header = msg.header.copy(qdcount = msg.header.qdcount + question.size), question = msg.question ++ question)
+  def apply[T](question: T*)(implicit toQuestionSection: T => QuestionSection): MessageModifier = new MessageModifier {
+    override def apply(msg: Message) = msg.copy(
+      header = msg.header.copy(qdcount = msg.header.qdcount + question.size),
+      question = msg.question ++ question.map(toQuestionSection))
   }
 
   def unapply(msg: Message): Option[Seq[QuestionSection]] = Some(msg.question.toList)
