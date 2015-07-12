@@ -22,11 +22,14 @@ import sbtrelease.ReleaseStateTransformations._
 import com.typesafe.sbt.osgi.SbtOsgi._
 
 object Build extends sbt.Build {
+  lazy val scalaVersions = "2.11.7" :: "2.10.5" :: Nil
+  lazy val akkaVersion = "2.3.12"
+
   def projectSettings(n: String) = Seq(
     name := n,
     organization := "com.github.mkroli",
-    scalaVersion := "2.11.7",
-    crossScalaVersions := Seq("2.10.5", "2.11.7"),
+    scalaVersion := scalaVersions.head,
+    crossScalaVersions := scalaVersions,
     scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation"))
 
   def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) = osgiSettings ++ Seq(
@@ -45,7 +48,9 @@ object Build extends sbt.Build {
     libraryDependencies ++= Seq(
       "com.google.guava" % "guava" % "[15.+,18.+]",
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
-      "com.typesafe.akka" %% "akka-actor" % "2.3.11"))
+      "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+      "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+      "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"))
 
   lazy val dns4sNettyProjectSettings = Seq(
     libraryDependencies ++= Seq(
