@@ -24,6 +24,7 @@ import com.typesafe.sbt.osgi.SbtOsgi._
 object Build extends sbt.Build {
   lazy val scalaVersions = "2.11.7" :: "2.10.5" :: Nil
   lazy val akkaVersion = "2.3.12"
+  lazy val scalaTestVersion = "2.2.5"
 
   def projectSettings(n: String) = Seq(
     name := n,
@@ -41,7 +42,7 @@ object Build extends sbt.Build {
     libraryDependencies ++= Seq(
       "com.google.guava" % "guava" % "[15.+,18.+]",
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
-      "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+      "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
       "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"))
 
   lazy val dns4sAkkaProjectSettings = Seq(
@@ -49,12 +50,13 @@ object Build extends sbt.Build {
       "com.google.guava" % "guava" % "[15.+,18.+]",
       "com.google.code.findbugs" % "jsr305" % "+" % "provided",
       "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-      "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+      "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
       "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"))
 
   lazy val dns4sNettyProjectSettings = Seq(
     libraryDependencies ++= Seq(
-      "io.netty" % "netty-handler" % "4.0.+"))
+      "io.netty" % "netty-handler" % "4.0.+",
+      "org.scalatest" %% "scalatest" % scalaTestVersion % "test"))
 
   lazy val projectReleaseSettings = Seq(
     releaseProcess := Seq[ReleaseStep](
