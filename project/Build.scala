@@ -16,8 +16,7 @@
 import sbt._
 import sbt.Keys._
 import sbtrelease._
-import sbtrelease.ReleasePlugin._
-import sbtrelease.ReleasePlugin.ReleaseKeys._
+import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
 import com.typesafe.sbt.osgi.SbtOsgi._
 
@@ -76,7 +75,6 @@ object Build extends sbt.Build {
     id = "dns4s",
     base = file("."),
     settings = Defaults.defaultSettings ++
-      releaseSettings ++
       projectSettings("dns4s") ++
       projectReleaseSettings ++
       parentSettings)
