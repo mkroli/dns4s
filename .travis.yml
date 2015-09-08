@@ -1,5 +1,7 @@
 sudo: false
 language: scala
+before_script:
+  - echo -e 'addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.0.4")\n\naddSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.0.0")' > project/tmpCoverage.sbt
 script:
   - sbt clean coverage test coverageAggregate
 after_success:
