@@ -21,8 +21,8 @@ import sbtrelease.ReleaseStateTransformations._
 import com.typesafe.sbt.osgi.SbtOsgi._
 
 object Build extends sbt.Build {
-  lazy val scalaVersions = "2.11.7" :: "2.10.5" :: Nil
-  lazy val akkaVersion = "2.3.12"
+  lazy val scalaVersions = "2.11.7" :: "2.10.6" :: Nil
+  lazy val akkaVersion = "[2.3.0,2.5.0["
   lazy val scalaTestVersion = "2.2.5"
 
   def projectSettings(n: String) = Seq(
