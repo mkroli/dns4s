@@ -37,6 +37,13 @@ class HeaderSpec extends FunSpec {
       }
     }
 
+    it("should be possible to create a response to a query") {
+      Response(Query ~ Id(123) ~ Questions(QName("test") ~ TypeA)) match {
+        case Response(msg) ~ Id(123) ~ Questions(QName("test") ~ TypeA() :: Nil) =>
+          assert(msg.header.qr === true)
+      }
+    }
+
     it("should be possible to set the id") {
       Query ~ Id(123) match {
         case Query(msg ~ Id(123)) =>

@@ -31,7 +31,9 @@ private[dsl] trait DnsQr { self: Message =>
 }
 
 object Query extends PlainMessage(false) with DnsQr
-object Response extends PlainMessage(true) with DnsQr
+object Response extends PlainMessage(true) with DnsQr {
+  def apply(msg: Message) = msg.copy(header = msg.header.copy(qr = true))
+}
 
 private[dsl] abstract class DnsFlag(set: HeaderSection => HeaderSection, get: (HeaderSection) => Boolean) extends MessageModifier {
   override def apply(msg: Message) = msg.copy(header = set(msg.header))
