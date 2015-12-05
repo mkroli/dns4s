@@ -30,12 +30,17 @@ object Build extends sbt.Build {
     description := d,
     organization := "com.github.mkroli",
     scalaVersion := scalaVersions.head,
+    scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-target:jvm-1.6"),
     crossScalaVersions := scalaVersions,
     publishMavenStyle := true,
     publishArtifact in Test := false,
     licenses := Seq("Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
     homepage := Some(url("https://github.com/mkroli/dns4s")),
-    scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation"))
+    pomExtra := (
+      <scm>
+        <url>git@github.com:mkroli/dns4s.git</url>
+        <connection>scm:git:git@github.com:mkroli/dns4s.git</connection>
+      </scm>))
 
   def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) = osgiSettings ++ Seq(
     OsgiKeys.exportPackage := packages.map(pkg => packagesPrefix :: (if (pkg.isEmpty) Nil else pkg :: "*" :: Nil) mkString "."),
