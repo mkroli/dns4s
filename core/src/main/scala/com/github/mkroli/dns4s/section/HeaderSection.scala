@@ -39,7 +39,7 @@ case class HeaderSection(
   require(nscount >= 0 && nscount < (1 << 16))
   require(arcount >= 0 && arcount < (1 << 16))
 
-  def apply(buf: MessageBuffer) = {
+  override def apply(buf: MessageBuffer) = {
     val tmpQr = if (qr) 1 << 15 else 0
     val tmpOpcode = (opcode & 15) << 11
     val tmpAa = if (aa) 1 << 10 else 0

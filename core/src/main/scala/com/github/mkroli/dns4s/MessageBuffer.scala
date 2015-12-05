@@ -122,7 +122,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
           val dn = getDomainNamePart(positions + pos)
           buf.position(pos)
           dn
-        case s if s == 0 => Nil
+        case 0 => Nil
         case s => new String((0 until s).map(_ => buf.get()).toArray) :: getDomainNamePart(positions)
       }
     }
