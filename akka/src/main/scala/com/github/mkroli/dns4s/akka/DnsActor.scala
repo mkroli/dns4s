@@ -44,7 +44,7 @@ class DnsActor(port: Int, handler: ActorRef)(implicit timeout: Timeout) extends 
   var nextFreeId = 0
 
   val requests = JavaConversions.mapAsScalaMap(CacheBuilder.newBuilder()
-    .expireAfterWrite(5, TimeUnit.SECONDS)
+    .expireAfterWrite(timeout.duration.toSeconds, TimeUnit.SECONDS)
     .build[Integer, ActorRef]()
     .asMap())
 

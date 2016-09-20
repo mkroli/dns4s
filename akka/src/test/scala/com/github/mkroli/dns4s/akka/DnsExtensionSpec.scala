@@ -38,7 +38,7 @@ import akka.util.Timeout
 class DnsExtensionSpec extends FunSpec with TestKitBase with ImplicitSender with BeforeAndAfterAll {
   implicit lazy val system = ActorSystem()
   import system._
-  implicit lazy val timeout = Timeout(5 seconds)
+  implicit lazy val timeout = Timeout(12 seconds)
 
   override def afterAll = shutdown(system)
 

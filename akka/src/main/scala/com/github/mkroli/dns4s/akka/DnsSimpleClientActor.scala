@@ -23,8 +23,8 @@ import akka.actor.Props
 import akka.actor.Stash
 import akka.util.Timeout
 
-class DnsSimpleClientActor extends Actor with Stash {
-  val dnsActor = context.actorOf(Props(new DnsActor(0, self)(Timeout(5 seconds))), "dns")
+class DnsSimpleClientActor()(implicit val timeout: Timeout = Timeout(5 seconds)) extends Actor with Stash {
+  val dnsActor = context.actorOf(Props(new DnsActor(0, self)), "dns")
 
   override def receive = {
     case Dns.Bound =>
