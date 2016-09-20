@@ -15,13 +15,15 @@
  */
 package com.github.mkroli.dns4s.akka
 
+import akka.util.Timeout
 import com.github.mkroli.dns4s.dsl.Query
+import scala.concurrent.duration.DurationInt
 
 import akka.actor.Actor
 import akka.actor.Props
 
-class DnsExtensionActor extends Actor {
-  lazy val simple = context.actorOf(Props[DnsSimpleClientActor], "simple")
+class DnsExtensionActor()(implicit val timeout: Timeout = Timeout(5 seconds)) extends Actor {
+  lazy val simple = context.actorOf(Props(new DnsSimpleClientActor()), "simple")
 
   override def receive = {
     case Dns.Bind(handler, port, timeout) =>

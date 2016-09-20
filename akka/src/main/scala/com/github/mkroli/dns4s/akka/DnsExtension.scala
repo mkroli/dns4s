@@ -17,18 +17,14 @@ package com.github.mkroli.dns4s.akka
 
 import java.net.InetSocketAddress
 
-import scala.concurrent.duration.DurationInt
-import scala.language.postfixOps
-
-import com.github.mkroli.dns4s.Message
-
-import akka.actor.ActorRef
-import akka.actor.ExtendedActorSystem
-import akka.actor.ExtensionId
-import akka.actor.ExtensionIdProvider
-import akka.actor.Props
+import akka.actor.{ActorRef, ExtendedActorSystem, ExtensionId, ExtensionIdProvider, Props}
 import akka.io.IO.Extension
 import akka.util.Timeout
+import com.github.mkroli.dns4s.Message
+import com.typesafe.config.{ConfigFactory, Config}
+
+import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
 
 object Dns extends ExtensionId[DnsExtension] with ExtensionIdProvider {
   override def createExtension(system: ExtendedActorSystem) = new DnsExtension(system)
@@ -44,8 +40,13 @@ object Dns extends ExtensionId[DnsExtension] with ExtensionIdProvider {
   case object Unbound
 
   case class DnsPacket(message: Message, destination: InetSocketAddress)
+
 }
 
 class DnsExtension(system: ExtendedActorSystem) extends Extension {
-  override val manager = system.actorOf(Props[DnsExtensionActor], "dns4s")
+  val conf = ConfigFactory
+    .load()
+    .withFallback(ConfigFactory.parseString("dns4s.timeout=5"))
+  implicit val timeout = Timeout(conf.getInt("dns4s.timeout") seconds)
+  override val manager = system.actorOf(Props(new DnsExtensionActor()), "dns4s")
 }
