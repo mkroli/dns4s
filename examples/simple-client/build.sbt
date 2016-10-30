@@ -15,10 +15,10 @@
  */
 name := "dns4s-example-simple-client"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % "2.4.1",
+  "com.typesafe.akka" %% "akka-actor" % "2.4.12",
   "com.github.mkroli" %% "dns4s-akka" % "0.9")

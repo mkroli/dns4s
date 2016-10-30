@@ -15,7 +15,7 @@
  */
 name := "dns4s-example-simple-netty-client"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
