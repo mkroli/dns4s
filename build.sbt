@@ -16,7 +16,7 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.11.8" :: "2.10.6" :: Nil
+lazy val scalaVersions = "2.11.8" :: "2.10.6" :: "2.12.0-RC2" :: Nil
 lazy val guavaVersion = "[15.0,21.0["
 lazy val akkaVersion = "[2.3.0,2.5.0["
 lazy val nettyVersion = "[4.0.0,4.2.0["
@@ -28,7 +28,11 @@ def projectSettings(n: String, d: String) = Seq(
   description := d,
   organization := "com.github.mkroli",
   scalaVersion := scalaVersions.head,
-  scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-target:jvm-1.6"),
+  scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation") ++ (CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
+    case Some((2, 12)) => Seq("-target:jvm-1.8")
+    case x => Seq.empty
+  }),
   crossScalaVersions := scalaVersions,
   publishMavenStyle := true,
   publishArtifact in Test := false,

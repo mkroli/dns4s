@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Michael Krolikowski
+ * Copyright 2015-2016 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,35 +18,29 @@ package com.github.mkroli.dns4s.akka
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit
 
-import scala.collection.JavaConversions
+import akka.actor.{Actor, ActorRef}
+import akka.io.{IO, Udp}
+import akka.io.Udp.CommandFailed
+import akka.pattern.ask
+import akka.util.{ByteString, Timeout}
+import com.github.mkroli.dns4s.{Message, MessageBuffer}
+import com.github.mkroli.dns4s.dsl.{Query, Response}
+import com.google.common.cache.CacheBuilder
+
+import scala.collection.JavaConverters._
 import scala.language.postfixOps
 import scala.util.Try
 
-import com.github.mkroli.dns4s.Message
-import com.github.mkroli.dns4s.MessageBuffer
-import com.github.mkroli.dns4s.dsl.Query
-import com.github.mkroli.dns4s.dsl.Response
-import com.google.common.cache.CacheBuilder
-
-import akka.actor.Actor
-import akka.actor.ActorRef
-import akka.io.IO
-import akka.io.Udp
-import akka.io.Udp.CommandFailed
-import akka.pattern.ask
-import akka.util.ByteString
-import akka.util.Timeout
-
 class DnsActor(port: Int, handler: ActorRef)(implicit timeout: Timeout) extends Actor {
-  import context.system
-  import context.dispatcher
+  import context.{dispatcher, system}
 
   var nextFreeId = 0
 
-  val requests = JavaConversions.mapAsScalaMap(CacheBuilder.newBuilder()
+  val requests = CacheBuilder.newBuilder()
     .expireAfterWrite(5, TimeUnit.SECONDS)
     .build[Integer, ActorRef]()
-    .asMap())
+    .asMap()
+    .asScala
 
   override def preStart() {
     IO(Udp) ! Udp.Bind(self, new InetSocketAddress(port))
@@ -74,7 +68,7 @@ class DnsActor(port: Int, handler: ActorRef)(implicit timeout: Timeout) extends 
         ByteString(message.copy(header = message.header.copy(id = nextFreeId))().flipped.buf),
         destination)
     case Udp.Received(MessageInByteString(Query(message)), remote) =>
-      handler ? message onSuccess {
+      (handler ? message).foreach {
         case Response(response) =>
           socket ! Udp.Send(
             ByteString(response.copy(header = response.header.copy(id = message.header.id))().flipped.buf),
