@@ -16,9 +16,11 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.11.7" :: "2.10.6" :: Nil
+lazy val scalaVersions = "2.11.8" :: "2.10.6" :: Nil
 lazy val akkaVersion = "[2.3.0,2.5.0["
-lazy val scalaTestVersion = "2.2.5"
+lazy val scalaTestVersion = "3.0.0"
+lazy val guavaVersion = "[15.+,20.+]"
+lazy val scalaCheckVersion = "1.13.3"
 
 def projectSettings(n: String, d: String) = Seq(
   name := n,
@@ -44,14 +46,14 @@ def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: St
 
 lazy val dns4sProjectSettings = Seq(
   libraryDependencies ++= Seq(
-    "com.google.guava" % "guava" % "[15.+,18.+]",
+    "com.google.guava" % "guava" % guavaVersion,
     "com.google.code.findbugs" % "jsr305" % "+" % "provided",
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
-    "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"))
+    "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test"))
 
 lazy val dns4sAkkaProjectSettings = Seq(
   libraryDependencies ++= Seq(
-    "com.google.guava" % "guava" % "[15.+,18.+]",
+    "com.google.guava" % "guava" % guavaVersion,
     "com.google.code.findbugs" % "jsr305" % "+" % "provided",
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
@@ -92,6 +94,7 @@ lazy val dns4sCore = Project(
     projectOsgiSettings("dns4s-core", "com.github.mkroli.dns4s", "", "dsl", "section") ++
     projectSettings("dns4s-core", "Scala DNS implementation") ++
     dns4sProjectSettings)
+  .enablePlugins(SbtOsgi)
 
 lazy val dns4sAkka = Project(
   id = "dns4s-akka",
@@ -100,6 +103,7 @@ lazy val dns4sAkka = Project(
     projectOsgiSettings("dns4s-akka", "com.github.mkroli.dns4s", "akka") ++
     projectSettings("dns4s-akka", "Scala DNS implementation - Akka extension") ++
     dns4sAkkaProjectSettings)
+  .enablePlugins(SbtOsgi)
   .dependsOn(dns4sCore)
 
 lazy val dns4sNetty = Project(
@@ -109,4 +113,5 @@ lazy val dns4sNetty = Project(
     projectOsgiSettings("dns4s-netty", "com.github.mkroli.dns4s", "netty") ++
     projectSettings("dns4s-netty", "Scala DNS implementation - Netty extension") ++
     dns4sNettyProjectSettings)
+  .enablePlugins(SbtOsgi)
   .dependsOn(dns4sCore)

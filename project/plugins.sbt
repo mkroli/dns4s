@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Michael Krolikowski
+ * Copyright 2014-2016 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.0")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.3")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.7.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.1")
 
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.1")
