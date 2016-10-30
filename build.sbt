@@ -17,9 +17,10 @@
 import ReleaseTransformations._
 
 lazy val scalaVersions = "2.11.8" :: "2.10.6" :: Nil
-lazy val akkaVersion = "[2.3.0,2.5.0["
-lazy val scalaTestVersion = "3.0.0"
 lazy val guavaVersion = "[15.+,20.+]"
+lazy val akkaVersion = "[2.3.+,2.4.+]"
+lazy val nettyVersion = "[4.0.+,4.1.+]"
+lazy val scalaTestVersion = "3.0.0"
 lazy val scalaCheckVersion = "1.13.3"
 
 def projectSettings(n: String, d: String) = Seq(
@@ -61,7 +62,7 @@ lazy val dns4sAkkaProjectSettings = Seq(
 
 lazy val dns4sNettyProjectSettings = Seq(
   libraryDependencies ++= Seq(
-    "io.netty" % "netty-handler" % "4.0.+",
+    "io.netty" % "netty-handler" % nettyVersion,
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test"))
 
 lazy val projectReleaseSettings = Seq(
