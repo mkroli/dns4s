@@ -85,7 +85,7 @@ lazy val parentSettings = Seq(
   publishArtifact := false)
 
 lazy val siteSettings = Seq(
-  scalacOptions ++= Seq("-skip-packages", "akka.pattern"),
+  scalacOptions ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
   git.remoteRepo := "git@github.com:mkroli/dns4s.git",
   siteMappings ++= (mappings in(ScalaUnidoc, packageDoc)).value)
 
