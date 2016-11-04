@@ -16,12 +16,12 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.11.8" :: "2.10.6" :: "2.12.0-RC2" :: Nil
+lazy val scalaVersions = "2.12.0" :: "2.11.8" :: "2.10.6" :: Nil
 lazy val guavaVersion = "[15.0,21.0["
 lazy val akkaVersion = "[2.3.0,2.5.0["
 lazy val nettyVersion = "[4.0.0,4.2.0["
 lazy val scalaTestVersion = "3.0.0"
-lazy val scalaCheckVersion = "1.13.3"
+lazy val scalaCheckVersion = "1.13.4"
 
 def projectSettings(n: String, d: String) = Seq(
   name := n,
