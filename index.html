@@ -1,76 +1,160 @@
 <!DOCTYPE html >
 <html>
         <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
           <title>dns4s 0.10-SNAPSHOT</title>
           <meta name="description" content="dns4s 0.10 - SNAPSHOT" />
           <meta name="keywords" content="dns4s 0.10 SNAPSHOT" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
       <script type="text/javascript" src="lib/jquery.js"></script>
-      <script type="text/javascript" src="lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="lib/jquery.layout.js"></script>
+      <script type="text/javascript" src="lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="lib/jquery.mousewheel.min.js"></script>
       <script type="text/javascript" src="lib/index.js"></script>
+      <script type="text/javascript" src="index.js"></script>
       <script type="text/javascript" src="lib/scheduler.js"></script>
+      <script type="text/javascript" src="lib/template.js"></script>
+      <script type="text/javascript" src="lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '';
+      </script>
     
         </head>
         <body>
-      <div id="library">
-        <img class="class icon" alt="class icon" src="lib/class.png" />
-        <img class="trait icon" alt="trait icon" src="lib/trait.png" />
-        <img class="object icon" alt="trait icon" src="lib/object.png" />
-        <img class="package icon" alt="trait icon" src="lib/package.png" />
-      </div>
-      <div id="browser" class="ui-layout-west">
-      <div class="ui-west-center">
-      <div id="filter">
-          <div id="textfilter"></div>
-          <div id="letters"><a target="template" href="index/index-_.html">#</a><a target="template" href="index/index-a.html">A</a><a target="template" href="index/index-b.html">B</a><a target="template" href="index/index-c.html">C</a><a target="template" href="index/index-d.html">D</a><a target="template" href="index/index-e.html">E</a><a target="template" href="index/index-f.html">F</a><a target="template" href="index/index-g.html">G</a><a target="template" href="index/index-h.html">H</a><a target="template" href="index/index-i.html">I</a><span>J</span><span>K</span><a target="template" href="index/index-l.html">L</a><a target="template" href="index/index-m.html">M</a><a target="template" href="index/index-n.html">N</a><a target="template" href="index/index-o.html">O</a><a target="template" href="index/index-p.html">P</a><a target="template" href="index/index-q.html">Q</a><a target="template" href="index/index-r.html">R</a><a target="template" href="index/index-s.html">S</a><a target="template" href="index/index-t.html">T</a><a target="template" href="index/index-u.html">U</a><span>V</span><a target="template" href="index/index-w.html">W</a><span>X</span><span>Y</span><span>Z</span> – <span>deprecated</span></div>
-      </div>
-      <div class="pack" id="tpl">
-            
-            <ol class="templates"></ol>
-            <ol class="packages"> <li class="pack" title="com">
-            <a class="tplshow" href="com/package.html" target="template">com</a>
-            <ol class="templates"></ol>
-            <ol class="packages"> <li class="pack" title="com.github">
-            <a class="tplshow" href="com/github/package.html" target="template">com.github</a>
-            <ol class="templates"></ol>
-            <ol class="packages"> <li class="pack" title="com.github.mkroli">
-            <a class="tplshow" href="com/github/mkroli/package.html" target="template">com.github.mkroli</a>
-            <ol class="templates"></ol>
-            <ol class="packages"> <li class="pack" title="com.github.mkroli.dns4s">
-            <a class="tplshow" href="com/github/mkroli/dns4s/package.html" target="template">com.github.mkroli.dns4s</a>
-            <ol class="templates"><li title="com.github.mkroli.dns4s.Message"><a class="tplshow" href="com/github/mkroli/dns4s/Message$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/Message.html" target="template"><span class="case class">(case class)</span><span class="tplLink">Message</span></a></li><li title="com.github.mkroli.dns4s.MessageBuffer"><a class="tplshow" href="com/github/mkroli/dns4s/MessageBuffer$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/MessageBuffer.html" target="template"><span class="class">(class)</span><span class="tplLink">MessageBuffer</span></a></li><li title="com.github.mkroli.dns4s.MessageBufferEncoder"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/MessageBufferEncoder.html" target="template"><span class="trait">(trait)</span><span class="tplLink">MessageBufferEncoder</span></a></li></ol>
-            <ol class="packages"> <li class="pack" title="com.github.mkroli.dns4s.akka">
-            <a class="tplshow" href="com/github/mkroli/dns4s/akka/package.html" target="template">com.github.mkroli.dns4s.akka</a>
-            <ol class="templates"><li title="com.github.mkroli.dns4s.akka.Dns"><a class="tplshow" href="com/github/mkroli/dns4s/akka/Dns$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Dns</span></a></li><li title="com.github.mkroli.dns4s.akka.DnsActor"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/akka/DnsActor.html" target="template"><span class="class">(class)</span><span class="tplLink">DnsActor</span></a></li><li title="com.github.mkroli.dns4s.akka.DnsExtension"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/akka/DnsExtension.html" target="template"><span class="class">(class)</span><span class="tplLink">DnsExtension</span></a></li><li title="com.github.mkroli.dns4s.akka.DnsExtensionActor"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/akka/DnsExtensionActor.html" target="template"><span class="class">(class)</span><span class="tplLink">DnsExtensionActor</span></a></li><li title="com.github.mkroli.dns4s.akka.DnsSimpleClientActor"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/akka/DnsSimpleClientActor.html" target="template"><span class="class">(class)</span><span class="tplLink">DnsSimpleClientActor</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.github.mkroli.dns4s.dsl">
-            <a class="tplshow" href="com/github/mkroli/dns4s/dsl/package.html" target="template">com.github.mkroli.dns4s.dsl</a>
-            <ol class="templates"><li title="com.github.mkroli.dns4s.dsl.AAAARecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/AAAARecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">AAAARecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.Additional"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Additional$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Additional</span></a></li><li title="com.github.mkroli.dns4s.dsl.Answers"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Answers$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Answers</span></a></li><li title="com.github.mkroli.dns4s.dsl.ARecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ARecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ARecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.AuthoritativeAnswer"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/AuthoritativeAnswer$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">AuthoritativeAnswer</span></a></li><li title="com.github.mkroli.dns4s.dsl.Authority"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Authority$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Authority</span></a></li><li title="com.github.mkroli.dns4s.dsl.ClassAsterisk"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ClassAsterisk$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ClassAsterisk</span></a></li><li title="com.github.mkroli.dns4s.dsl.ClassCH"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ClassCH$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ClassCH</span></a></li><li title="com.github.mkroli.dns4s.dsl.ClassCS"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ClassCS$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ClassCS</span></a></li><li title="com.github.mkroli.dns4s.dsl.ClassHS"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ClassHS$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ClassHS</span></a></li><li title="com.github.mkroli.dns4s.dsl.ClassIN"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ClassIN$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ClassIN</span></a></li><li title="com.github.mkroli.dns4s.dsl.CNameRecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/CNameRecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">CNameRecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.ComposableMessage"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/dsl/package$$ComposableMessage.html" target="template"><span class="class">(class)</span><span class="tplLink">ComposableMessage</span></a></li><li title="com.github.mkroli.dns4s.dsl.DnsClassName"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/DnsClassName$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">DnsClassName</span></a></li><li title="com.github.mkroli.dns4s.dsl.DnsTypeName"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/DnsTypeName$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">DnsTypeName</span></a></li><li title="com.github.mkroli.dns4s.dsl.EDNS"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/EDNS$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">EDNS</span></a></li><li title="com.github.mkroli.dns4s.dsl.FormatError"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/FormatError$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">FormatError</span></a></li><li title="com.github.mkroli.dns4s.dsl.HInfoRecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/HInfoRecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">HInfoRecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.Id"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Id$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Id</span></a></li><li title="com.github.mkroli.dns4s.dsl.InverseQuery"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/InverseQuery$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">InverseQuery</span></a></li><li title="com.github.mkroli.dns4s.dsl.MessageModifier"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/dsl/MessageModifier.html" target="template"><span class="trait">(trait)</span><span class="tplLink">MessageModifier</span></a></li><li title="com.github.mkroli.dns4s.dsl.MXRecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/MXRecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">MXRecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.NameError"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/NameError$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">NameError</span></a></li><li title="com.github.mkroli.dns4s.dsl.NAPTRRecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/NAPTRRecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">NAPTRRecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.NoError"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/NoError$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">NoError</span></a></li><li title="com.github.mkroli.dns4s.dsl.NotImplemented"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/NotImplemented$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">NotImplemented</span></a></li><li title="com.github.mkroli.dns4s.dsl.NSRecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/NSRecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">NSRecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.OPTRecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/OPTRecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">OPTRecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.PTRRecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/PTRRecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">PTRRecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.QClass"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/QClass$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">QClass</span></a></li><li title="com.github.mkroli.dns4s.dsl.QName"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/QName$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">QName</span></a></li><li title="com.github.mkroli.dns4s.dsl.QType"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/QType$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">QType</span></a></li><li title="com.github.mkroli.dns4s.dsl.Query"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Query$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Query</span></a></li><li title="com.github.mkroli.dns4s.dsl.Questions"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Questions$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Questions</span></a></li><li title="com.github.mkroli.dns4s.dsl.QuestionSectionModifier"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/dsl/QuestionSectionModifier.html" target="template"><span class="trait">(trait)</span><span class="tplLink">QuestionSectionModifier</span></a></li><li title="com.github.mkroli.dns4s.dsl.RecursionAvailable"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/RecursionAvailable$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RecursionAvailable</span></a></li><li title="com.github.mkroli.dns4s.dsl.RecursionDesired"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/RecursionDesired$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RecursionDesired</span></a></li><li title="com.github.mkroli.dns4s.dsl.Refused"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Refused$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Refused</span></a></li><li title="com.github.mkroli.dns4s.dsl.ResourceRecordModifier"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ResourceRecordModifier.html" target="template"><span class="trait">(trait)</span><span class="tplLink">ResourceRecordModifier</span></a></li><li title="com.github.mkroli.dns4s.dsl.Response"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Response$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Response</span></a></li><li title="com.github.mkroli.dns4s.dsl.RRClass"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/RRClass$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RRClass</span></a></li><li title="com.github.mkroli.dns4s.dsl.RRName"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/RRName$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RRName</span></a></li><li title="com.github.mkroli.dns4s.dsl.RRTtl"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/RRTtl$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RRTtl</span></a></li><li title="com.github.mkroli.dns4s.dsl.RRType"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/RRType$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">RRType</span></a></li><li title="com.github.mkroli.dns4s.dsl.ServerFailure"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ServerFailure$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ServerFailure</span></a></li><li title="com.github.mkroli.dns4s.dsl.ServerStatusRequest"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/ServerStatusRequest$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">ServerStatusRequest</span></a></li><li title="com.github.mkroli.dns4s.dsl.SOARecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/SOARecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">SOARecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.StandardQuery"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/StandardQuery$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">StandardQuery</span></a></li><li title="com.github.mkroli.dns4s.dsl.Truncation"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/Truncation$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">Truncation</span></a></li><li title="com.github.mkroli.dns4s.dsl.TXTRecord"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TXTRecord$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TXTRecord</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeA"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeA$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeA</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeAAAA"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeAAAA$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeAAAA</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeAsterisk"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeAsterisk$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeAsterisk</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeAXFR"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeAXFR$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeAXFR</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeCNAME"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeCNAME$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeCNAME</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeHINFO"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeHINFO$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeHINFO</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMAILA"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMAILA$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMAILA</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMAILB"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMAILB$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMAILB</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMB"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMB$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMB</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMD"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMD$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMD</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMF"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMF$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMF</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMG"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMG$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMG</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMINFO"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMINFO$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMINFO</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMR"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMR$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMR</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeMX"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeMX$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeMX</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeNAPTR"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeNAPTR$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeNAPTR</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeNS"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeNS$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeNS</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeNULL"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeNULL$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeNULL</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeOPT"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeOPT$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeOPT</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypePTR"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypePTR$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypePTR</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeSOA"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeSOA$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeSOA</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeSRV"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeSRV$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeSRV</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeTXT"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeTXT$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeTXT</span></a></li><li title="com.github.mkroli.dns4s.dsl.TypeWKS"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/TypeWKS$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">TypeWKS</span></a></li><li title="com.github.mkroli.dns4s.dsl.~"><a class="tplshow" href="com/github/mkroli/dns4s/dsl/$tilde$.html" target="template"><span class="object">(object)</span><div class="placeholder"></div><span class="tplLink">~</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.github.mkroli.dns4s.netty">
-            <a class="tplshow" href="com/github/mkroli/dns4s/netty/package.html" target="template">com.github.mkroli.dns4s.netty</a>
-            <ol class="templates"><li title="com.github.mkroli.dns4s.netty.DnsCodec"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/netty/DnsCodec.html" target="template"><span class="class">(class)</span><span class="tplLink">DnsCodec</span></a></li><li title="com.github.mkroli.dns4s.netty.DnsPacket"><a class="tplshow" href="com/github/mkroli/dns4s/netty/DnsPacket$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/netty/DnsPacket.html" target="template"><span class="class">(class)</span><span class="tplLink">DnsPacket</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li><li class="pack" title="com.github.mkroli.dns4s.section">
-            <a class="tplshow" href="com/github/mkroli/dns4s/section/package.html" target="template">com.github.mkroli.dns4s.section</a>
-            <ol class="templates"><li title="com.github.mkroli.dns4s.section.HeaderSection"><a class="tplshow" href="com/github/mkroli/dns4s/section/HeaderSection$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/HeaderSection.html" target="template"><span class="case class">(case class)</span><span class="tplLink">HeaderSection</span></a></li><li title="com.github.mkroli.dns4s.section.QuestionSection"><a class="tplshow" href="com/github/mkroli/dns4s/section/QuestionSection$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/QuestionSection.html" target="template"><span class="case class">(case class)</span><span class="tplLink">QuestionSection</span></a></li><li title="com.github.mkroli.dns4s.section.Resource"><div class="placeholder"></div><a class="tplshow" href="com/github/mkroli/dns4s/section/Resource.html" target="template"><span class="trait">(trait)</span><span class="tplLink">Resource</span></a></li><li title="com.github.mkroli.dns4s.section.ResourceRecord"><a class="tplshow" href="com/github/mkroli/dns4s/section/ResourceRecord$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/ResourceRecord.html" target="template"><span class="case class">(case class)</span><span class="tplLink">ResourceRecord</span></a></li></ol>
-            <ol class="packages"> <li class="pack" title="com.github.mkroli.dns4s.section.resource">
-            <a class="tplshow" href="com/github/mkroli/dns4s/section/resource/package.html" target="template">com.github.mkroli.dns4s.section.resource</a>
-            <ol class="templates"><li title="com.github.mkroli.dns4s.section.resource.AAAAResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/AAAAResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/AAAAResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">AAAAResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.AResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/AResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/AResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">AResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.CNameResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/CNameResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/CNameResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">CNameResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.HInfoResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/HInfoResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/HInfoResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">HInfoResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.MXResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/MXResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/MXResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">MXResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.NAPTRResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/NAPTRResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/NAPTRResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">NAPTRResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.NSResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/NSResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/NSResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">NSResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.OPTResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/OPTResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/OPTResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">OPTResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.PTRResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/PTRResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/PTRResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">PTRResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.SOAResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/SOAResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/SOAResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">SOAResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.SRVResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/SRVResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/SRVResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">SRVResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.TXTResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/TXTResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/TXTResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">TXTResource</span></a></li><li title="com.github.mkroli.dns4s.section.resource.UnknownResource"><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/UnknownResource$.html" target="template"><span class="object">(object)</span></a><a class="tplshow" href="com/github/mkroli/dns4s/section/resource/UnknownResource.html" target="template"><span class="case class">(case class)</span><span class="tplLink">UnknownResource</span></a></li></ol>
-            <ol class="packages"> </ol>
-          </li></ol>
-          </li></ol>
-          </li></ol>
-          </li></ol>
-          </li></ol>
-          </li></ol>
-          </div></div><script src="index.js"></script>
+      <div id="search">
+        <span id="doc-title">dns4s<span id="doc-version">0.10-SNAPSHOT</span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
     </div>
-      <div id="content" class="ui-layout-center">
-        <iframe id="template" name="template" src="package.html"></iframe>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 current" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="index.html#_root_" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">root</span>
+      </span>
+      
+      
+    </li><li name="_root_.com" visbl="pub" class="indented1 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="com"></a><a id="com:com"></a>
+      <span class="permalink">
+      <a href="index.html#com" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="com/index.html">
+              <span class="name">com</span>
+            </a>
+      </span>
+      
+      
+    </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="package value">
+      <div id="definition">
+        <div class="big-circle package">p</div>
+        
+        <h1>root package<span class="permalink">
+      <a href="index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">root</span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
       </div>
     </body>
       </html>
