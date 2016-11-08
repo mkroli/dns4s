@@ -3,7 +3,7 @@ language: scala
 jdk:
   - oraclejdk8
 before_script:
-  - echo -e 'addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.4.0")\n\naddSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.1.0")' > project/tmpCoverage.sbt
+  - echo -e 'addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.0")\n\naddSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.1.0")' > project/tmpCoverage.sbt
 script:
   - sbt clean coverage test coverageReport coverageAggregate
 after_success:
