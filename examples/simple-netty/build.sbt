@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Michael Krolikowski
+ * Copyright 2014-2016 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  */
 name := "dns4s-example-simple-netty"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.0"
 
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
-  "com.github.mkroli" %% "dns4s-netty" % "0.9")
+  "com.github.mkroli" %% "dns4s-netty" % "0.10")
