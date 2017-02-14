@@ -15,16 +15,39 @@
  */
 package com.github.mkroli.dns4s.section.resource
 
+import java.net.InetAddress
+
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.section.Resource
 
-case class OPTResource() extends Resource {
-  def apply(buf: MessageBuffer) = buf
+case class OPTResource(optionCode: Int, optionLength: Int,
+                       addressFamily: Int, netmask: Int,
+                       netmaskScope: Int = 0, inetAddress: String) extends Resource {
+  def apply(buf: MessageBuffer): MessageBuffer = buf.putUnsignedInt(optionCode, 2)
+    .putUnsignedInt(optionLength, 2).putUnsignedInt(2, addressFamily)
+    .putUnsignedInt(1, netmask).putUnsignedInt(1, netmaskScope).putCharacterString(inetAddress)
+
 }
 
 object OPTResource {
-  def apply(buf: MessageBuffer, length: Int) = {
-    buf.getBytes(length)
-    new OPTResource()
+  def apply(buf: MessageBuffer, length: Int): OPTResource = {
+
+
+    val optionCode = buf.getUnsignedInt(2)
+    val optionLength = buf.getUnsignedInt(2)
+    val addressFamily = buf.getUnsignedInt(2)
+    val netmask = buf.getUnsignedInt(1)
+    val netmaskScope = buf.getUnsignedInt(1)
+
+    val inetAddr = {
+      if (addressFamily == 1) {
+        InetAddress.getByAddress(buf.getBytes(4).toArray)
+      }
+      else {
+        InetAddress.getByAddress(buf.getBytes(length - 8).toArray)
+      }
+    }.getHostAddress
+
+    new OPTResource(optionCode, optionLength, addressFamily, netmask, netmaskScope, inetAddr)
   }
 }

@@ -24,7 +24,7 @@ class CommonSpec extends FunSpec {
   describe("Common") {
     it("should be possible to combine MessageModifierS") {
       val txt = Answers(TXTRecord("test"))
-      val ext = EDNS()
+      val ext = EDNS(1, 1, 1, 24, 0, "127.0.0.1")
       val mm = txt ~ ext
       Response ~ mm match {
         case Response(Answers(TXTRecord(TXTResource(Seq("test"))) :: Nil) ~ EDNS(_)) =>

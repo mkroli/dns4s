@@ -21,20 +21,11 @@ import java.net.InetAddress
 
 import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.AAAAResource
-import com.github.mkroli.dns4s.section.resource.AResource
-import com.github.mkroli.dns4s.section.resource.CNameResource
-import com.github.mkroli.dns4s.section.resource.HInfoResource
-import com.github.mkroli.dns4s.section.resource.MXResource
-import com.github.mkroli.dns4s.section.resource.NAPTRResource
-import com.github.mkroli.dns4s.section.resource.NSResource
-import com.github.mkroli.dns4s.section.resource.OPTResource
-import com.github.mkroli.dns4s.section.resource.PTRResource
-import com.github.mkroli.dns4s.section.resource.SOAResource
-import com.github.mkroli.dns4s.section.resource.TXTResource
+import com.github.mkroli.dns4s.section.resource._
 import com.google.common.net.InetAddresses
 
-trait ResourceRecordModifier { self =>
+trait ResourceRecordModifier {
+  self =>
   def ~(rrm: ResourceRecordModifier) = new ResourceRecordModifier {
     override def apply(rr: ResourceRecord): ResourceRecord = rrm(self(rr))
   }
@@ -57,7 +48,9 @@ private[dsl] abstract class ResourceRecordSection(set: (Message, Seq[ResourceRec
 }
 
 object Answers extends ResourceRecordSection((msg, rr) => msg.copy(answer = rr), _.answer)
+
 object Authority extends ResourceRecordSection((msg, rr) => msg.copy(authority = rr), _.authority)
+
 object Additional extends ResourceRecordSection((msg, rr) => msg.copy(additional = rr), _.additional)
 
 private[dsl] abstract class ResourceRecordField[T](e: ResourceRecord => T) {
@@ -96,14 +89,29 @@ private[dsl] abstract class ResourceRecordExtractor[T: Manifest] {
 }
 
 object EDNS {
-  def apply(payloadSize: Int = 4096): MessageModifier = new MessageModifier {
+  def apply(optionCode: Int,
+            optionLength: Int,
+            addressFamily: Int,
+            netmask: Int,
+            netmaskScope: Int = 0,
+            inetAddress: String, payloadSize: Int = 4096): MessageModifier = new MessageModifier {
     override def apply(msg: Message) = {
-      Additional(ResourceRecord("", ResourceRecord.typeOPT, payloadSize, 0, OPTResource())).apply(msg)
+      Additional(ResourceRecord("", ResourceRecord.typeOPT, payloadSize, 0,
+        OPTResource(optionCode, optionLength, addressFamily, netmask, netmaskScope, inetAddress))).apply(msg)
     }
   }
 
-  def unapply(msg: Message): Option[Int] = msg.additional.collectFirst {
-    case ResourceRecord(_, ResourceRecord.typeOPT, payloadSize, _, _) => payloadSize
+  def unapply(msg: Message): Option[OPTResource] = {
+    msg.additional.collectFirst {
+      case ResourceRecord(_, ResourceRecord.typeOPT, _, _,
+      optResource@OPTResource(_, _, addressFamily, _, _, _)) => {
+        optResource
+      }
+    } match {
+      case Some(optResource) if optResource.addressFamily == 1 || optResource.addressFamily == 2 => Some(optResource)
+      case _ => None
+    }
+
   }
 }
 
@@ -161,8 +169,14 @@ object NAPTRRecord extends ResourceRecordExtractor[NAPTRResource] {
 }
 
 object OPTRecord extends ResourceRecordExtractor[OPTResource] {
-  def apply() =
-    resourceRecordModifier(ResourceRecord.typeOPT, OPTResource())
+  def apply(optionCode: Int,
+            optionLength: Int,
+            addressFamily: Int,
+            netmask: Int,
+            netmaskScope: Int = 0,
+            inetAddress: String) =
+    resourceRecordModifier(ResourceRecord.typeOPT,
+      OPTResource(optionCode, optionLength, addressFamily, netmask, netmaskScope, inetAddress))
 }
 
 object NSRecord extends ResourceRecordExtractor[NSResource] {
@@ -187,12 +201,12 @@ object TXTRecord extends ResourceRecordExtractor[TXTResource] {
 
 object SOARecord extends ResourceRecordExtractor[SOAResource] {
   def apply(mname: String,
-    rname: String,
-    serial: Long,
-    refresh: Long,
-    retry: Long,
-    expire: Long,
-    minimum: Long) =
+            rname: String,
+            serial: Long,
+            refresh: Long,
+            retry: Long,
+            expire: Long,
+            minimum: Long) =
     resourceRecordModifier(ResourceRecord.typeSOA,
       SOAResource(mname, rname, serial, refresh, retry, expire, minimum))
 }
