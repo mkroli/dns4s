@@ -22,7 +22,7 @@ import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.section.Resource
 
 case class AResource(address: Inet4Address) extends Resource {
-  def apply(buf: MessageBuffer) = buf.put(address.getAddress())
+  def apply(buf: MessageBuffer): MessageBuffer = buf.put(address.getAddress())
 }
 
 object AResource {

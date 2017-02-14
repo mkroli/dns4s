@@ -77,16 +77,16 @@ class ResourceRecordSpec extends FunSpec {
     }
 
     it("should be possible to set edns") {
-      Response ~ EDNS() match {
-        case Response(EDNS(4096)) =>
+      Response ~ EDNS(1, 1, 1, 24, 0, "127.0.0.1") match {
+        case Response(EDNS(_)) =>
       }
 
-      Response ~ EDNS(123) match {
-        case Response(_) ~ EDNS(123) =>
+      Response ~ EDNS(1, 1, 1, 24, 0, "127.0.0.1") match {
+        case Response(_) ~ EDNS(_) =>
       }
 
-      Response ~ EDNS() match {
-        case Response(Additional(OPTRecord(OPTResource()) ~ RRClass(4096) :: Nil)) =>
+      Response ~ EDNS(1, 1, 1, 24, 0, "127.0.0.1") match {
+        case Response(Additional(OPTRecord(OPTResource(1, 1, 1, 24, 0, "127.0.0.1")) ~ RRClass(4096) :: Nil)) =>
       }
     }
 
@@ -143,8 +143,8 @@ class ResourceRecordSpec extends FunSpec {
     }
 
     it("should be possible to use OPTRecord") {
-      Response ~ Additional(OPTRecord()) match {
-        case Response(Additional(OPTRecord(OPTResource()) :: Nil)) =>
+      Response ~ Additional(OPTRecord(1, 1, 1, 24, 0, "127.0.0.1")) match {
+        case Response(Additional(OPTRecord(OPTResource(1, 1, 1, 24, 0, "127.0.0.1")) :: Nil)) =>
       }
     }
 

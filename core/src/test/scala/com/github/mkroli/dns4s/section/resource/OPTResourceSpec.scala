@@ -28,14 +28,14 @@ class OPTResourceSpec extends FunSpec with PropertyChecks {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(bytesGenerator()) { bytes =>
-          val r = OPTResource()
-          val encoded = r(MessageBuffer()).put(bytes).flipped()
+          val r: OPTResource = OPTResource(1, 1, 1, 24, 0, "127.0.0.1")
+          val encoded = r.apply(MessageBuffer()).put(bytes).flipped()
           assert(r === OPTResource(encoded, bytes.length))
         }
       }
 
       it("should be decoded wrapped in ResourceRecord") {
-        val rr = ResourceRecord("test", ResourceRecord.typeOPT, 0, 0, OPTResource())
+        val rr = ResourceRecord("test", ResourceRecord.typeOPT, 0, 0, OPTResource(1, 1, 1, 24, 0, "127.0.0.1"))
         val a = rr(MessageBuffer()).flipped()
         val b = bytes("04 74 65 73 74 00  0029 0000 00000000 0000")
         assert(b === a.getBytes(a.remaining))
