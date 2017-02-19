@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 Michael Krolikowski
+ * Copyright 2013-2017 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,9 +43,14 @@ trait ResourceRecordModifier { self =>
 }
 
 private[dsl] abstract class ResourceRecordSection(set: (Message, Seq[ResourceRecord]) => Message, get: Message => Seq[ResourceRecord]) {
-  def apply[T](rr: T*)(implicit toResourceRecord: (T) => ResourceRecord): MessageModifier = new MessageModifier {
+  def apply[T](rr: T*)(implicit toResourceRecord: (T) => ResourceRecord): MessageModifier = {
+    apply(append = true, rr: _*)
+  }
+
+  def apply[T](append: Boolean, rr: T*)(implicit toResourceRecord: (T) => ResourceRecord): MessageModifier = new MessageModifier {
     override def apply(msg: Message) = {
-      val msgcp = set(msg, get(msg) ++ rr.map(toResourceRecord))
+      val rrs = if(append) get(msg) ++ rr.map(toResourceRecord) else rr.map(toResourceRecord)
+      val msgcp = set(msg, rrs)
       msgcp.copy(header = msgcp.header.copy(
         ancount = msgcp.answer.size,
         nscount = msgcp.authority.size,
@@ -98,7 +103,7 @@ private[dsl] abstract class ResourceRecordExtractor[T: Manifest] {
 object EDNS {
   def apply(payloadSize: Int = 4096): MessageModifier = new MessageModifier {
     override def apply(msg: Message) = {
-      Additional(ResourceRecord("", ResourceRecord.typeOPT, payloadSize, 0, OPTResource())).apply(msg)
+      Additional(ResourceRecord("", ResourceRecord.typeOPT, payloadSize, 0, OPTResource(Nil))).apply(msg)
     }
   }
 
@@ -161,8 +166,8 @@ object NAPTRRecord extends ResourceRecordExtractor[NAPTRResource] {
 }
 
 object OPTRecord extends ResourceRecordExtractor[OPTResource] {
-  def apply() =
-    resourceRecordModifier(ResourceRecord.typeOPT, OPTResource())
+  def apply(options: List[OPTResource.OPTOption] = Nil) =
+    resourceRecordModifier(ResourceRecord.typeOPT, OPTResource(options))
 }
 
 object NSRecord extends ResourceRecordExtractor[NSResource] {

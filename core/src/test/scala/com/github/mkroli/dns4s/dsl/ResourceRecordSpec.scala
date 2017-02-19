@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Michael Krolikowski
+ * Copyright 2015-2017 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ class ResourceRecordSpec extends FunSpec {
       }
 
       Response ~ EDNS() match {
-        case Response(Additional(OPTRecord(OPTResource()) ~ RRClass(4096) :: Nil)) =>
+        case Response(Additional(OPTRecord(OPTResource(Nil)) ~ RRClass(4096) :: Nil)) =>
       }
     }
 
@@ -144,7 +144,7 @@ class ResourceRecordSpec extends FunSpec {
 
     it("should be possible to use OPTRecord") {
       Response ~ Additional(OPTRecord()) match {
-        case Response(Additional(OPTRecord(OPTResource()) :: Nil)) =>
+        case Response(Additional(OPTRecord(OPTResource(Nil)) :: Nil)) =>
       }
     }
 

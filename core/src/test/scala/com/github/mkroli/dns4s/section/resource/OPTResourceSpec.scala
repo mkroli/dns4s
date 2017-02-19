@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Michael Krolikowski
+ * Copyright 2015-2017 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,14 +28,19 @@ class OPTResourceSpec extends FunSpec with PropertyChecks {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(bytesGenerator()) { bytes =>
-          val r = OPTResource()
-          val encoded = r(MessageBuffer()).put(bytes).flipped()
-          assert(r === OPTResource(encoded, bytes.length))
+          val r = OPTResource(OPTResource.OPTOption(1, OPTResource.UnknownOPTOptionData(bytes)) :: Nil)
+          val encoded = r(MessageBuffer()).flipped()
+
+          OPTResource(encoded, bytes.length + 4).options match {
+            case OPTResource.OPTOption(1, OPTResource.UnknownOPTOptionData(b)) :: Nil =>
+              assert(b === bytes)
+            case _ => fail()
+          }
         }
       }
 
       it("should be decoded wrapped in ResourceRecord") {
-        val rr = ResourceRecord("test", ResourceRecord.typeOPT, 0, 0, OPTResource())
+        val rr = ResourceRecord("test", ResourceRecord.typeOPT, 0, 0, OPTResource(Nil))
         val a = rr(MessageBuffer()).flipped()
         val b = bytes("04 74 65 73 74 00  0029 0000 00000000 0000")
         assert(b === a.getBytes(a.remaining))
