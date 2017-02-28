@@ -19,7 +19,6 @@ import java.net.InetAddress
 
 import com.github.mkroli.dns4s.{MessageBuffer, MessageBufferEncoder}
 import com.github.mkroli.dns4s.section.Resource
-import com.google.common.net.InetAddresses
 
 case class OPTResource(options: List[OPTResource.OPTOption]) extends Resource {
   override def apply(buf: MessageBuffer) = {
@@ -80,7 +79,14 @@ object OPTResource {
       val family = buf.getUnsignedInt(2)
       val sourcePrefixLength = buf.getUnsignedInt(1)
       val scopePrefixLength = buf.getUnsignedInt(1)
-      val address = InetAddresses.fromLittleEndianByteArray(buf.getBytes(optionLength - 4).toArray)
+      val addressDataLength = optionLength - 4
+      val addressDataBytes = buf.getBytes(addressDataLength)
+      val familyLength = family match {
+        case `familyIPv4` => 4
+        case `familyIPv6` => 16
+      }
+      val paddingBytes = Vector.fill(familyLength - addressDataLength)(0: Byte)
+      val address = InetAddress.getByAddress((addressDataBytes ++ paddingBytes).toArray)
       ClientSubnetOPTOptionData(family, sourcePrefixLength, scopePrefixLength, address)
     }
   }
