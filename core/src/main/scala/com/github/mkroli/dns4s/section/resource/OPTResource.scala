@@ -63,11 +63,17 @@ object OPTResource {
 
   case class ClientSubnetOPTOptionData(family: Int, sourcePrefixLength: Int, scopePrefixLength: Int, address: InetAddress) extends OPTOptionData {
     override def apply(buf: MessageBuffer) = {
+      val addressLength = math.ceil(sourcePrefixLength / 8.0).toInt
+      val addressBytes = address.getAddress.take(addressLength)
+      val mask: Byte = ((1 << (sourcePrefixLength % 8)) - 1).toByte
+      val lastByte: Byte = addressBytes(addressBytes.length - 1)
+      val lastBytePadded: Byte = (lastByte & mask).toByte
+      addressBytes(addressBytes.length - 1) = lastBytePadded
       buf
         .putUnsignedInt(2, family)
         .putUnsignedInt(1, sourcePrefixLength)
         .putUnsignedInt(1, scopePrefixLength)
-        .put(address.getAddress)
+        .put(addressBytes)
     }
   }
 
