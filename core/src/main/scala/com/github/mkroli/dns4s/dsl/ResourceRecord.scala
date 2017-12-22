@@ -93,7 +93,7 @@ object RRTtl extends ResourceRecordField(_.`ttl`) {
   }
 }
 
-private[dsl] abstract class ResourceRecordExtractor[T: Manifest] {
+private[dsl] abstract class ResourceRecordExtractor[T: Manifest] extends ContainedMatcher[ResourceRecord, T] {
   def unapply(rr: ResourceRecord): Option[T] = rr.rdata match {
     case rr: T => Some(rr)
     case _ => None

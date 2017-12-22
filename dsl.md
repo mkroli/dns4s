@@ -426,11 +426,22 @@ response match {
 #### OPTRecord
 ```scala
 // Creation
-val response: Message = Response ~ Questions(QName("example.com") ~ TypeOPT) ~ Answers(OPTRecord())
+val response: Message = Response ~ Questions(QName("example.com") ~ TypeOPT) ~ Additional(OPTRecord(Nil))
 
 // Matching
 response match {
-  case Response(_) ~ Answers(OPTRecord(r) :: Nil) => ()
+  case Response(_) ~ Additional(OPTRecord(r) :: Nil) => ()
+}
+```
+
+##### ClientSubnetOption
+```scala
+// Creation
+val response: Message = Response ~ Additional(OPTRecord(ClientSubnetOption(OPTResource.ClientSubnetOPTOptionData.familyIPv4, 24, 0, InetAddress.getByName("1.2.3.0")) :: Nil))
+
+// Matching
+response match {
+  case Response(_) ~ Additional(OPTRecord(OPTResource(ClientSubnetOption(ClientSubnetOPTOptionData(family, sourcePrefixLength, scopePrefixLength, address)) :: Nil)) :: Nil) => ()
 }
 ```
 
