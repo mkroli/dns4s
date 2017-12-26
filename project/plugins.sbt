@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.3")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.7")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.1")
+addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.2")
 
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.1")
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.0")
 
-addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.3.3")
+addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.1")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.1.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.1")
 
 resolvers += "jgit-repo" at "http://download.eclipse.org/jgit/maven"
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.5.4")
+addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.2")

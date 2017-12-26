@@ -16,7 +16,7 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.12.0" :: "2.11.8" :: "2.10.6" :: Nil
+lazy val scalaVersions = "2.12.4" :: "2.11.11" :: "2.10.6" :: Nil
 lazy val guavaVersion = "[15.0,21.0["
 lazy val akkaVersion = "[2.3.0,2.5.0["
 lazy val nettyVersion = "[4.0.0,4.2.0["
@@ -91,20 +91,19 @@ lazy val siteSettings = Seq(
 
 lazy val dns4sRoot = Project(
   id = "dns4s",
-  base = file("."),
-  settings = Defaults.coreDefaultSettings ++
+  base = file("."))
+  .settings(Defaults.coreDefaultSettings ++
     projectSettings("dns4s", "Scala DNS implementation") ++
     projectReleaseSettings ++
     parentSettings ++
-    unidocSettings ++
-    ghpages.settings ++
     siteSettings)
+  .enablePlugins(GhpagesPlugin, ScalaUnidocPlugin)
   .aggregate(dns4sCore, dns4sAkka, dns4sNetty)
 
 lazy val dns4sCore = Project(
   id = "dns4s-core",
-  base = file("core"),
-  settings = Defaults.coreDefaultSettings ++
+  base = file("core"))
+  .settings(Defaults.coreDefaultSettings ++
     projectOsgiSettings("dns4s-core", "com.github.mkroli.dns4s", "", "dsl", "section") ++
     projectSettings("dns4s-core", "Scala DNS implementation") ++
     dns4sProjectSettings)
@@ -112,8 +111,8 @@ lazy val dns4sCore = Project(
 
 lazy val dns4sAkka = Project(
   id = "dns4s-akka",
-  base = file("akka"),
-  settings = Defaults.coreDefaultSettings ++
+  base = file("akka"))
+  .settings(Defaults.coreDefaultSettings ++
     projectOsgiSettings("dns4s-akka", "com.github.mkroli.dns4s", "akka") ++
     projectSettings("dns4s-akka", "Scala DNS implementation - Akka extension") ++
     dns4sAkkaProjectSettings)
@@ -122,8 +121,8 @@ lazy val dns4sAkka = Project(
 
 lazy val dns4sNetty = Project(
   id = "dns4s-netty",
-  base = file("netty"),
-  settings = Defaults.coreDefaultSettings ++
+  base = file("netty"))
+  .settings(Defaults.coreDefaultSettings ++
     projectOsgiSettings("dns4s-netty", "com.github.mkroli.dns4s", "netty") ++
     projectSettings("dns4s-netty", "Scala DNS implementation - Netty extension") ++
     dns4sNettyProjectSettings)
