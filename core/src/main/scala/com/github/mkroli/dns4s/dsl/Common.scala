@@ -23,18 +23,6 @@ object ~ {
   def unapply[T](t: T): Option[(T, T)] = Some(t, t)
 }
 
-class Contained[A, B](u: A => Option[B]) {
-  def unapply(i: Iterable[A]): Option[B] = i.map(u).collectFirst {
-    case Some(x) => x
-  }
-}
-
-trait ContainedMatcher[A, B] {
-  val contained = new Contained[A, B](unapply _)
-
-  def unapply(a: A): Option[B]
-}
-
 trait MessageModifier { self =>
   def ~(mm: MessageModifier) = new MessageModifier {
     override def apply(m: Message): Message = mm(self(m))

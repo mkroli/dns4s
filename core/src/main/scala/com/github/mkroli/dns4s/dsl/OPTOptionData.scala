@@ -5,7 +5,7 @@ import java.net.InetAddress
 import com.github.mkroli.dns4s.section.resource.OPTResource
 import com.github.mkroli.dns4s.section.resource.OPTResource.{ClientSubnetOPTOptionData, OPTOption, UnknownOPTOptionData}
 
-private[dsl] abstract class OptionDataExtractor[T: Manifest] extends ContainedMatcher[OPTOption, T] {
+private[dsl] abstract class OptionDataExtractor[T: Manifest] {
   def unapply(o: OPTOption): Option[T] = o.data match {
     case o: T => Some(o)
     case _ => None

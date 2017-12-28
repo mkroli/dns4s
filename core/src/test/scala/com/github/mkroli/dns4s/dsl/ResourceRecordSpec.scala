@@ -21,6 +21,7 @@ import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.OPTResource
 import com.github.mkroli.dns4s.section.resource.AResource
 import java.net.InetAddress
+
 import com.github.mkroli.dns4s.section.resource.AAAAResource
 import com.github.mkroli.dns4s.section.resource.CNameResource
 import com.github.mkroli.dns4s.section.resource.MXResource
@@ -28,6 +29,7 @@ import com.github.mkroli.dns4s.section.resource.NAPTRResource
 import com.github.mkroli.dns4s.section.resource.NSResource
 import com.github.mkroli.dns4s.section.resource.PTRResource
 import com.github.mkroli.dns4s.section.resource.HInfoResource
+import com.github.mkroli.dns4s.section.resource.OPTResource.{ClientSubnetOPTOptionData, UnknownOPTOptionData}
 import com.github.mkroli.dns4s.section.resource.SOAResource
 
 class ResourceRecordSpec extends FunSpec {
@@ -47,6 +49,18 @@ class ResourceRecordSpec extends FunSpec {
     it("should be possible to create an additional") {
       Response ~ Additional(RRName("test") ~ TXTRecord("test")) match {
         case Response(Additional(RRName("test") :: Nil)) =>
+      }
+    }
+
+    it("should replace all resource records if append is false") {
+      Response ~ Answers(RRName("test") ~ TXTRecord("first")) ~ Answers(append = false, RRName("test") ~ TXTRecord("second")) match {
+        case Response(Answers(RRName("test") ~ TXTRecord(TXTResource(Seq("second"))) :: Nil)) =>
+      }
+    }
+
+    it("should preserve all resource records if append is true") {
+      Response ~ Answers(RRName("test") ~ TXTRecord("first")) ~ Answers(append = true, RRName("test") ~ TXTRecord("second")) match {
+        case Response(Answers(RRName("test") ~ TXTRecord(TXTResource(Seq("first"))) :: RRName("test") ~ TXTRecord(TXTResource(Seq("second"))) :: Nil)) =>
       }
     }
 
@@ -145,6 +159,23 @@ class ResourceRecordSpec extends FunSpec {
     it("should be possible to use OPTRecord") {
       Response ~ Additional(OPTRecord()) match {
         case Response(Additional(OPTRecord(OPTResource(Nil)) :: Nil)) =>
+      }
+    }
+
+    describe("OPTRecord OptionData") {
+      it("should be possible to use UnknownOption") {
+        val bytes = Array[Byte](1, 2, 3, 4)
+        Response ~ Additional(OPTRecord(UnknownOption(1, bytes) :: Nil)) match {
+          case Response(Additional(OPTRecord(OPTResource(UnknownOption(UnknownOPTOptionData(`bytes`)) :: Nil)) :: Nil)) =>
+        }
+      }
+
+      it("should be possible to use ClientSubnetOption") {
+        val address = InetAddress.getByAddress(Array(-1, -1, -1, -1))
+        Response ~ Additional(OPTRecord(ClientSubnetOption(ClientSubnetOPTOptionData.familyIPv4, 32, 32, address) :: Nil)) match {
+          case Response(Additional(OPTRecord(OPTResource(UnknownOption(UnknownOPTOptionData(_)) :: Nil)) :: Nil)) => fail()
+          case Response(Additional(OPTRecord(OPTResource(ClientSubnetOption(ClientSubnetOPTOptionData(ClientSubnetOPTOptionData.familyIPv4, 32, 32, `address`)) :: Nil)) :: Nil)) =>
+        }
       }
     }
 
