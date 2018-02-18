@@ -1,95 +1,107 @@
 DSL
 ===
 
+Use the following imports for the examples:
+```tut:silent
+import com.github.mkroli.dns4s._
+import com.github.mkroli.dns4s.dsl._
+import com.github.mkroli.dns4s.section._
+import com.github.mkroli.dns4s.section.resource._
+```
+
 Header
 ------
 
 ### ID
-```scala
+```tut:book
 // Creation
 val msg: Message = Query ~ Id(123)
 
 // Matching
-msg match {
+val id = msg match {
   case Id(id) => id
 }
 ```
 
 ### QR
-```scala
+```tut:book
 // Creation
 val query: Message = Query
 val response1: Message = Response
 val response2: Message = Response(query)
 
 // Matching
-query match {
-  case Query(msg)    => msg
-  case Response(msg) => msg
+val qr = query match {
+  case Query(msg)    => "query"
+  case Response(msg) => "response"
 }
 ```
 
 ### Opcode
-```scala
+```tut:book
 // Creation
 val query1: Message = Query ~ StandardQuery
 val query2: Message = Query ~ InverseQuery
 val query3: Message = Query ~ ServerStatusRequest
 
 // Matching
-query1 match {
-  case StandardQuery()       => ???
-  case InverseQuery()        => ???
-  case ServerStatusRequest() => ???
+val op = query1 match {
+  case StandardQuery()       => "standard-query"
+  case InverseQuery()        => "inverse-query"
+  case ServerStatusRequest() => "server-status-request"
 }
 ```
 
 ### AA
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ AuthoritativeAnswer
 
 // Matching
-response match {
-  case AuthoritativeAnswer() => ???
+val aa = response match {
+  case AuthoritativeAnswer() => true
+  case _ => false
 }
 ```
 
 ### TC
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Truncation
 
 // Matching
-response match {
-  case Truncation() => ???
+val tc = response match {
+  case Truncation() => true
+  case _ => false
 }
 ```
 
 ### RD
-```scala
+```tut:book
 // Creation
 val query: Message = Query ~ RecursionDesired
 
 // Matching
-query match {
-  case RecursionDesired() => ???
+val rd = query match {
+  case RecursionDesired() => true
+  case _ => false
 }
 ```
 
 ### RA
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ RecursionAvailable
 
 // Matching
-response match {
-  case RecursionAvailable() => ???
+val ra = response match {
+  case RecursionAvailable() => true
+  case _ => false
 }
 ```
 
 ### RCODE
-```scala
+```tut:book
 // Creation
 val response1: Message = Response ~ NoError
 val response2: Message = Response ~ FormatError
@@ -99,13 +111,13 @@ val response5: Message = Response ~ NotImplemented
 val response6: Message = Response ~ Refused
 
 // Matching
-response1 match {
-  case Response(r) ~ NoError()        => ???
-  case Response(r) ~ FormatError()    => ???
-  case Response(r) ~ ServerFailure()  => ???
-  case Response(r) ~ NameError()      => ???
-  case Response(r) ~ NotImplemented() => ???
-  case Response(r) ~ Refused()        => ???
+val rCode = response1 match {
+  case Response(r) ~ NoError()        => "no-error"
+  case Response(r) ~ FormatError()    => "format-error"
+  case Response(r) ~ ServerFailure()  => "server-failure"
+  case Response(r) ~ NameError()      => "name-error"
+  case Response(r) ~ NotImplemented() => "not-implemented"
+  case Response(r) ~ Refused()        => "refused"
 }
 ```
 
@@ -113,30 +125,30 @@ Sections
 --------
 
 ### Question section
-```scala
+```tut:book
 // Creation
 val query: Message = Query ~ Questions()
 
 // Matching
-query match {
-  case Query(q) ~ Questions(Nil) => ???
+val questions = query match {
+  case Query(_) ~ Questions(questions) => questions
 }
 ```
 
 #### QNAME
-```scala
+```tut:book
 // Creation
 val query1: Message = Query ~ Questions(QName("example.com"))
-val query2: Message = Query ~ Questions(QName("example.com") ~ QName("www.example.com"))
+val query2: Message = Query ~ Questions(QName("example.com"), QName("www.example.com"))
 
 // Matching
-query2 match {
-  case Query(q) ~ Questions(QName(name1) :: QName(name2) :: Nil) => (name1, name2)
+val names = query2 match {
+  case Query(_) ~ Questions(QName(name1) :: QName(name2) :: Nil) => (name1, name2)
 }
 ```
 
 #### QTYPE
-```scala
+```tut:book
 // Creation
 val query: Message = Query ~ Questions(QName("example.com") ~ QType(ResourceRecord.typeTXT))
 
@@ -166,38 +178,38 @@ val queryMAILA:    Message = Query ~ Questions(QName("example.com") ~ TypeMAILA)
 val queryAsterisk: Message = Query ~ Questions(QName("example.com") ~ TypeAsterisk)
 
 // Matching
-query match {
-  case Query(q) ~ Questions(QName(name) ~ TypeA()        :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeNS()       :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMD()       :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMF()       :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeCNAME()    :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeSOA()      :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMB()       :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMG()       :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMR()       :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeNULL()     :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeWKS()      :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypePTR()      :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeHINFO()    :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMINFO()    :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMX()       :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeTXT()      :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeAAAA()     :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeSRV()      :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeNAPTR()    :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeOPT()      :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeAXFR()     :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMAILB()    :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeMAILA()    :: Nil) => ???
-  case Query(q) ~ Questions(QName(name) ~ TypeAsterisk() :: Nil) => ???
+val `type` = query match {
+  case Query(q) ~ Questions(QName(name) ~ TypeA()        :: Nil) => "A"
+  case Query(q) ~ Questions(QName(name) ~ TypeNS()       :: Nil) => "NS"
+  case Query(q) ~ Questions(QName(name) ~ TypeMD()       :: Nil) => "MD"
+  case Query(q) ~ Questions(QName(name) ~ TypeMF()       :: Nil) => "MF"
+  case Query(q) ~ Questions(QName(name) ~ TypeCNAME()    :: Nil) => "CNAME"
+  case Query(q) ~ Questions(QName(name) ~ TypeSOA()      :: Nil) => "SOA"
+  case Query(q) ~ Questions(QName(name) ~ TypeMB()       :: Nil) => "MB"
+  case Query(q) ~ Questions(QName(name) ~ TypeMG()       :: Nil) => "MG"
+  case Query(q) ~ Questions(QName(name) ~ TypeMR()       :: Nil) => "MR"
+  case Query(q) ~ Questions(QName(name) ~ TypeNULL()     :: Nil) => "NULL"
+  case Query(q) ~ Questions(QName(name) ~ TypeWKS()      :: Nil) => "WKS"
+  case Query(q) ~ Questions(QName(name) ~ TypePTR()      :: Nil) => "PTR"
+  case Query(q) ~ Questions(QName(name) ~ TypeHINFO()    :: Nil) => "HINFO"
+  case Query(q) ~ Questions(QName(name) ~ TypeMINFO()    :: Nil) => "MINFO"
+  case Query(q) ~ Questions(QName(name) ~ TypeMX()       :: Nil) => "MX"
+  case Query(q) ~ Questions(QName(name) ~ TypeTXT()      :: Nil) => "TXT"
+  case Query(q) ~ Questions(QName(name) ~ TypeAAAA()     :: Nil) => "AAAA"
+  case Query(q) ~ Questions(QName(name) ~ TypeSRV()      :: Nil) => "SRV"
+  case Query(q) ~ Questions(QName(name) ~ TypeNAPTR()    :: Nil) => "NAPTR"
+  case Query(q) ~ Questions(QName(name) ~ TypeOPT()      :: Nil) => "OPT"
+  case Query(q) ~ Questions(QName(name) ~ TypeAXFR()     :: Nil) => "AXFR"
+  case Query(q) ~ Questions(QName(name) ~ TypeMAILB()    :: Nil) => "MAILB"
+  case Query(q) ~ Questions(QName(name) ~ TypeMAILA()    :: Nil) => "MAILA"
+  case Query(q) ~ Questions(QName(name) ~ TypeAsterisk() :: Nil) => "Asterisk"
 
-  case Query(q) ~ Questions(QName(name) ~ QType(t) :: Nil) => t
+  case Query(q) ~ Questions(QName(name) ~ QType(t) :: Nil) => t.toString
 }
 ```
 
 #### QCLASS
-```scala
+```tut:book
 // Creation
 val query: Message = Query ~ Questions(QName("example.com") ~ QType(ResourceRecord.typeA) ~ QClass(ResourceRecord.classIN))
 
@@ -208,7 +220,7 @@ val queryHS:       Message = Query ~ Questions(QName("example.com") ~ TypeA ~ Cl
 val queryAsterisk: Message = Query ~ Questions(QName("example.com") ~ TypeA ~ ClassAsterisk)
 
 // Matching
-query match {
+val qclass = query match {
   case Query(q) ~ Questions(QName(name) ~ QType(t) ~ QClass(c) :: Nil) => c
 
   case Query(q) ~ Questions(QName(name) ~ TypeA() ~ ClassIN() :: Nil) => ???
@@ -220,53 +232,53 @@ query match {
 ```
 
 ### Answer section
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers()
 
 // Matching
-response match {
-  case Response(r) ~ Answers(Nil) => ???
+val answers = response match {
+  case Response(r) ~ Answers(answers) => answers
 }
 ```
 
 ### Authority records section
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Authority()
 
 // Matching
-response match {
-  case Response(r) ~ Authority(Nil) => ???
+val authority = response match {
+  case Response(r) ~ Authority(authority) => authority
 }
 ```
 
 ### Additional records section
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Additional()
 
 // Matching
-response match {
-  case Response(r) ~ Additional(Nil) => ???
+val additional = response match {
+  case Response(r) ~ Additional(additional) => additional
 }
 ```
 
 ### Resource record
 
 #### NAME
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(RRName("example.com"))
 
 // Matching
-response match {
+val name = response match {
   case Response(r) ~ Answers(RRName(name) :: Nil) => name
 }
 ```
 
 #### TYPE
-```scala
+```tut:book
 // Creation
 val response:         Message = Response ~ Answers(RRName("example.com") ~ RRType(ResourceRecord.typeTXT))
 
@@ -296,38 +308,38 @@ val responseMAILA:    Message = Response ~ Answers(RRName("example.com") ~ TypeM
 val responseAsterisk: Message = Response ~ Answers(RRName("example.com") ~ TypeAsterisk)
 
 // Matching
-response match {
-  case Response(r) ~ Answers(RRName(name) ~ TypeA()        :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeNS()       :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMD()       :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMF()       :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeCNAME()    :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeSOA()      :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMB()       :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMG()       :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMR()       :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeNULL()     :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeWKS()      :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypePTR()      :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeHINFO()    :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMINFO()    :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMX()       :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeTXT()      :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeAAAA()     :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeSRV()      :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeNAPTR()    :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeOPT()      :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeAXFR()     :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMAILB()    :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeMAILA()    :: Nil) => ???
-  case Response(r) ~ Answers(RRName(name) ~ TypeAsterisk() :: Nil) => ???
+val rtype = response match {
+  case Response(r) ~ Answers(RRName(name) ~ TypeA()        :: Nil) => "A"
+  case Response(r) ~ Answers(RRName(name) ~ TypeNS()       :: Nil) => "NS"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMD()       :: Nil) => "MD"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMF()       :: Nil) => "MF"
+  case Response(r) ~ Answers(RRName(name) ~ TypeCNAME()    :: Nil) => "CNAME"
+  case Response(r) ~ Answers(RRName(name) ~ TypeSOA()      :: Nil) => "SOA"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMB()       :: Nil) => "MB"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMG()       :: Nil) => "MG"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMR()       :: Nil) => "MR"
+  case Response(r) ~ Answers(RRName(name) ~ TypeNULL()     :: Nil) => "NULL"
+  case Response(r) ~ Answers(RRName(name) ~ TypeWKS()      :: Nil) => "WKS"
+  case Response(r) ~ Answers(RRName(name) ~ TypePTR()      :: Nil) => "PTR"
+  case Response(r) ~ Answers(RRName(name) ~ TypeHINFO()    :: Nil) => "HINFO"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMINFO()    :: Nil) => "MINFO"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMX()       :: Nil) => "MX"
+  case Response(r) ~ Answers(RRName(name) ~ TypeTXT()      :: Nil) => "TXT"
+  case Response(r) ~ Answers(RRName(name) ~ TypeAAAA()     :: Nil) => "AAAA"
+  case Response(r) ~ Answers(RRName(name) ~ TypeSRV()      :: Nil) => "SRV"
+  case Response(r) ~ Answers(RRName(name) ~ TypeNAPTR()    :: Nil) => "NAPTR"
+  case Response(r) ~ Answers(RRName(name) ~ TypeOPT()      :: Nil) => "OPT"
+  case Response(r) ~ Answers(RRName(name) ~ TypeAXFR()     :: Nil) => "AXFR"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMAILB()    :: Nil) => "MAILB"
+  case Response(r) ~ Answers(RRName(name) ~ TypeMAILA()    :: Nil) => "MAILA"
+  case Response(r) ~ Answers(RRName(name) ~ TypeAsterisk() :: Nil) => "Asterisk"
 
-  case Response(r) ~ Answers(RRName(name) ~ RRType(t)      :: Nil) => t
+  case Response(r) ~ Answers(RRName(name) ~ RRType(t)      :: Nil) => t.toString
 }
 ```
 
 #### CLASS
-```scala
+```tut:book
 // Creation
 val response:         Message = Response ~ Answers(RRName("example.com") ~ RRClass(ResourceRecord.classIN))
 
@@ -338,24 +350,24 @@ val responseHS:       Message = Response ~ Answers(RRName("example.com") ~ Class
 val responseAsterisk: Message = Response ~ Answers(RRName("example.com") ~ ClassAsterisk)
 
 // Matching
-response match {
-  case Response(q) ~ Answers(ClassIN()       :: Nil) => ???
-  case Response(q) ~ Answers(ClassCS()       :: Nil) => ???
-  case Response(q) ~ Answers(ClassCH()       :: Nil) => ???
-  case Response(q) ~ Answers(ClassHS()       :: Nil) => ???
-  case Response(q) ~ Answers(ClassAsterisk() :: Nil) => ???
+val `class` = response match {
+  case Response(q) ~ Answers(ClassIN()       :: Nil) => "IN"
+  case Response(q) ~ Answers(ClassCS()       :: Nil) => "CS"
+  case Response(q) ~ Answers(ClassCH()       :: Nil) => "CH"
+  case Response(q) ~ Answers(ClassHS()       :: Nil) => "HS"
+  case Response(q) ~ Answers(ClassAsterisk() :: Nil) => "Asterisk"
 
-  case Response(q) ~ Answers(QClass(c)       :: Nil) => c
+  case Response(q) ~ Answers(RRClass(c)       :: Nil) => c.toString
 }
 ```
 
 #### TTL
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(RRName("example.com") ~ RRType(ResourceRecord.typeTXT) ~ RRClass(ResourceRecord.classIN) ~ RRTtl(123))
 
 // Matching
-response match {
+val ttl = response match {
   case Response(r) ~ Answers(RRName(name) ~ RRType(t) ~ RRClass(c) ~ RRTtl(ttl) :: Nil) => ttl
 }
 ```
@@ -363,139 +375,139 @@ response match {
 ### Resource records
 
 #### ARecord
-```scala
+```tut:book
 // Creation
-val address: Inet4Address = ???
+val address: java.net.Inet4Address = java.net.InetAddress.getByAddress(Array.fill[Byte](4)(0)).asInstanceOf[java.net.Inet4Address]
 val response1: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(ARecord(address))
 val response2: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(ARecord(Array[Byte](1, 2, 3, 4)))
 val response3: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(ARecord("1.2.3.4"))
 
 // Matching
-response1 match {
+val address = response1 match {
   case Response(_) ~ Answers(ARecord(r) :: Nil) => r.address
 }
 ```
 
 #### AAAARecord
-```scala
+```tut:book
 // Creation
-val address: Inet6Address = ???
+val address: java.net.Inet6Address = java.net.InetAddress.getByAddress(Array.fill[Byte](16)(0)).asInstanceOf[java.net.Inet6Address]
 val response1: Message = Response ~ Questions(QName("example.com") ~ TypeAAAA) ~ Answers(AAAARecord(address))
 val response2: Message = Response ~ Questions(QName("example.com") ~ TypeAAAA) ~ Answers(AAAARecord(Array[Byte](1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)))
 val response3: Message = Response ~ Questions(QName("example.com") ~ TypeAAAA) ~ Answers(AAAARecord("0123:4567:89ab:cdef:0123:4567:89ab:cdef"))
 
 // Matching
-response1 match {
+val address = response1 match {
   case Response(_) ~ Answers(AAAARecord(r) :: Nil) => r.address
 }
 ```
 
 #### CNameRecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("www.example.com") ~ TypeCNAME) ~ Answers(CNameRecord("example.com"))
 
 // Matching
-response match {
+val cname = response match {
   case Response(_) ~ Answers(CNameRecord(r) :: Nil) => r.cname
 }
 ```
 
 #### MXRecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeMX) ~ Answers(MXRecord(1, "example.com"))
 
 // Matching
-response match {
+val (preference, exchange) = response match {
   case Response(_) ~ Answers(MXRecord(r) :: Nil) => (r.preference, r.exchange)
 }
 ```
 
 #### NAPTRRecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeNAPTR) ~ Answers(NAPTRRecord(1, 1, "A", "", "!^.*$!example.com!", ""))
 
 // Matching
-response match {
+val (order, preference, flags, services, regexp, replacement) = response match {
   case Response(_) ~ Answers(NAPTRRecord(r) :: Nil) => (r.order, r.preference, r.flags, r.services, r.regexp, r.replacement)
 }
 ```
 
 #### OPTRecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeOPT) ~ Additional(OPTRecord(Nil))
 
 // Matching
-response match {
-  case Response(_) ~ Additional(OPTRecord(r) :: Nil) => ()
+val optRecord = response match {
+  case Response(_) ~ Additional(OPTRecord(r) :: Nil) => r
 }
 ```
 
 ##### ClientSubnetOption
-```scala
+```tut:book
 // Creation
-val response: Message = Response ~ Additional(OPTRecord(ClientSubnetOption(OPTResource.ClientSubnetOPTOptionData.familyIPv4, 24, 0, InetAddress.getByName("1.2.3.0")) :: Nil))
+val response: Message = Response ~ Additional(OPTRecord(ClientSubnetOption(OPTResource.ClientSubnetOPTOptionData.familyIPv4, 24, 0, java.net.InetAddress.getByName("1.2.3.0")) :: Nil))
 
 // Matching
-response match {
-  case Response(_) ~ Additional(OPTRecord(OPTResource(ClientSubnetOption(ClientSubnetOPTOptionData(family, sourcePrefixLength, scopePrefixLength, address)) :: Nil)) :: Nil) => ()
+val (family, sourcePrefixLength, scopePrefixLength, address) = response match {
+  case Response(_) ~ Additional(OPTRecord(OPTResource(ClientSubnetOption(OPTResource.ClientSubnetOPTOptionData(family, sourcePrefixLength, scopePrefixLength, address)) :: Nil)) :: Nil) => (family, sourcePrefixLength, scopePrefixLength, address)
 }
 ```
 
 #### NSRecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeNS) ~ Answers(NSRecord("example.com"))
 
 // Matching
-response match {
-  case Response(_) ~ Answers(NSRecord(r) :: Nil) => (r.nsdname)
+val nsdname = response match {
+  case Response(_) ~ Answers(NSRecord(r) :: Nil) => r.nsdname
 }
 ```
 
 #### PTRRecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypePTR) ~ Answers(PTRRecord("example.com"))
 
 // Matching
-response match {
-  case Response(_) ~ Answers(PTRRecord(r) :: Nil) => (r.ptrdname)
+val ptrdname = response match {
+  case Response(_) ~ Answers(PTRRecord(r) :: Nil) => r.ptrdname
 }
 ```
 
 #### HInfoRecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeHINFO) ~ Answers(HInfoRecord("CPU", "Linux"))
 
 // Matching
-response match {
+val (cpu, os) = response match {
   case Response(_) ~ Answers(HInfoRecord(r) :: Nil) => (r.cpu, r.os)
 }
 ```
 
 #### TXTRecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeTXT) ~ Answers(TXTRecord("Test", "test", "tesT"))
 
 // Matching
-response match {
-  case Response(_) ~ Answers(TXTRecord(r) :: Nil) => (r.txt)
+val txt = response match {
+  case Response(_) ~ Answers(TXTRecord(r) :: Nil) => r.txt
 }
 ```
 
 #### SOARecord
-```scala
+```tut:book
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeSOA) ~ Answers(SOARecord("example.com", "admin.example.com", 2015122401L, 3600L, 1800L, 604800L, 600L))
 
 // Matching
-response match {
+val (mname, rname, serial, refresh, retry, expire, minimum) = response match {
   case Response(_) ~ Answers(SOARecord(r) :: Nil) => (r.mname, r.rname, r.serial, r.refresh, r.retry, r.expire, r.minimum)
 }
 ```
@@ -504,32 +516,32 @@ Misc
 ----
 
 ### DnsClassName
-```scala
+```tut:book
 // Matching
-val msg: Message = ???
-msg match {
+val msg: Message = Response ~ Questions(QName("example.com") ~ TypeTXT) ~ Answers(TXTRecord("Test", "test", "tesT"))
+val (qclass, aclass) = msg match {
   case Response(_) ~ Questions(DnsClassName(qclass) :: Nil) ~ Answers(DnsClassName(aclass) :: Nil) => (qclass, aclass)
 }
 ```
 
 ### DnsTypeName
 The DnsTypeName object can be used to extract a String representation of a Question or a ResourceRecord.
-```scala
+```tut:book
 // Matching
-val msg: Message = ???
-msg match {
+val msg: Message = Response ~ Questions(QName("example.com") ~ TypeTXT) ~ Answers(TXTRecord("Test", "test", "tesT"))
+val (qtype, atype) = msg match {
   case Response(_) ~ Questions(DnsTypeName(qtype) :: Nil) ~ Answers(DnsTypeName(atype) :: Nil) => (qtype, atype)
 }
 ```
 
 ### EDNS
-```scala
+```tut:book
 // Creation
 val query1: Message = Query ~ Questions(QName("example.com") ~ TypeA) ~ EDNS()
 val query2: Message = Query ~ Questions(QName("example.com") ~ TypeA) ~ EDNS(4096)
 
 // Matching
-query1 match {
+val size = query1 match {
   case Query(_) ~ Questions(q) ~ EDNS(size) => size
 }
 ```

@@ -23,8 +23,14 @@ addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.1")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.1")
 
+addSbtPlugin("io.github.jonas" % "sbt-paradox-material-theme" % "0.4.0")
+
+addSbtPlugin("org.tpolecat" % "tut-plugin" % "0.6.2")
+
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.2")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.1")
 
 addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.2")
+
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.1.18")

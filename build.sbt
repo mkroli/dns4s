@@ -33,6 +33,8 @@ def projectSettings(n: String, d: String) = Seq(
     case Some((2, 12)) => Seq("-target:jvm-1.8")
     case x => Seq.empty
   }),
+  resolvers += "bintray" at "https://api.bintray.com/maven/mkroli/maven/dns4s",
+  mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
   crossScalaVersions := scalaVersions,
   publishMavenStyle := true,
   publishArtifact in Test := false,
@@ -84,10 +86,22 @@ lazy val projectReleaseSettings = Seq(
 lazy val parentSettings = Seq(
   publishArtifact := false)
 
-lazy val siteSettings = Seq(
-  scalacOptions ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
+lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox) ++ Seq(
+  scalacOptions in (Compile, doc) ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
   git.remoteRepo := "git@github.com:mkroli/dns4s.git",
-  siteMappings ++= (mappings in(ScalaUnidoc, packageDoc)).value)
+  siteSubdirName in ScalaUnidoc := "api",
+  addMappingsToSiteDir(mappings in(ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
+  sourceDirectory in Paradox := tutTargetDirectory.value,
+  sourceDirectory in Paradox in paradoxTheme := sourceDirectory.value / "main" / "paradox" / "template",
+  makeSite := makeSite.dependsOn(tut).value,
+  paradoxNavigationDepth := 5,
+  paradoxProperties in Paradox ~= (_ - "github.base_url"),
+  paradoxMaterialTheme in Paradox ~= {
+    _
+      .withCopyright("© Michael Krolikowski")
+      .withRepository(uri("https://github.com/mkroli/dns4s"))
+      .withSocial(uri("https://github.com/mkroli"))
+  })
 
 lazy val dns4sRoot = Project(
   id = "dns4s",
@@ -97,8 +111,9 @@ lazy val dns4sRoot = Project(
     projectReleaseSettings ++
     parentSettings ++
     siteSettings)
-  .enablePlugins(GhpagesPlugin, ScalaUnidocPlugin)
+  .enablePlugins(GhpagesPlugin, ScalaUnidocPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin)
   .aggregate(dns4sCore, dns4sAkka, dns4sNetty)
+  .dependsOn(dns4sCore, dns4sAkka)
 
 lazy val dns4sCore = Project(
   id = "dns4s-core",
