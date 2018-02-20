@@ -113,7 +113,7 @@ lazy val dns4sRoot = Project(
     siteSettings)
   .enablePlugins(GhpagesPlugin, ScalaUnidocPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin)
   .aggregate(dns4sCore, dns4sAkka, dns4sNetty)
-  .dependsOn(dns4sCore, dns4sAkka)
+  .dependsOn(dns4sCore, dns4sAkka, dns4sNetty)
 
 lazy val dns4sCore = Project(
   id = "dns4s-core",
