@@ -143,6 +143,18 @@ mkroli/dns4s
 <li><a href="api/com/github/mkroli/dns4s/index.html">API</a></li>
 </ul>
 <nav class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="toc">Table of contents</label>
+<ul>
+  <li><a href="netty.html#netty-codec" class="header">Netty Codec</a>
+  <ul>
+    <li><a href="netty.html#usage" class="header">Usage</a></li>
+    <li><a href="netty.html#imports" class="header">Imports</a>
+    <ul>
+      <li><a href="netty.html#server" class="header">Server</a></li>
+      <li><a href="netty.html#client" class="header">Client</a></li>
+    </ul></li>
+  </ul></li>
+</ul>
 </nav>
 
 <div class="md-nav__title--site md-version" title="Version">
@@ -153,11 +165,104 @@ mkroli/dns4s
 </div>
 </div>
 </div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="toc">Table of contents</label>
+<ul>
+  <li><a href="netty.html#netty-codec" class="header">Netty Codec</a>
+  <ul>
+    <li><a href="netty.html#usage" class="header">Usage</a></li>
+    <li><a href="netty.html#imports" class="header">Imports</a>
+    <ul>
+      <li><a href="netty.html#server" class="header">Server</a></li>
+      <li><a href="netty.html#client" class="header">Client</a></li>
+    </ul></li>
+  </ul></li>
+</ul>
+</nav>
+
+</div>
+</div>
+</div>
 <div class="md-content">
 <article class="md-content__inner md-typeset">
 <div class="md-content__searchable">
 <h1><a href="#netty-codec" name="netty-codec" class="anchor"><span class="anchor-link"></span></a>Netty Codec</h1>
-<p>The netty part contains the <a href="http://netty.io/4.0/api/io/netty/handler/codec/MessageToMessageCodec.html">MessageToMessageCodec</a> <a href="https://github.com/mkroli/dns4s/blob/master/netty/src/main/scala/com/github/mkroli/dns4s/netty/DnsCodec.scala">DnsCodec</a>. See the examples <a href="https://github.com/mkroli/dns4s/tree/master/examples/simple-netty">simple-netty</a> and <a href="https://github.com/mkroli/dns4s/tree/master/examples/simple-netty-client">simple-netty-client</a> for more information.</p>
+<p>The netty part contains the <a href="http://netty.io/4.0/api/io/netty/handler/codec/MessageToMessageCodec.html">MessageToMessageCodec</a> <a href="https://github.com/mkroli/dns4s/blob/master/netty/src/main/scala/com/github/mkroli/dns4s/netty/DnsCodec.scala">DnsCodec</a>.</p>
+<h2><a href="#usage" name="usage" class="anchor"><span class="anchor-link"></span></a>Usage</h2>
+<p>If you&rsquo;re using <a href="http://scala-sbt.org/">sbt</a> just add the following to your build definition:</p>
+<pre class="prettyprint"><code class="language-scala">resolvers += &quot;bintray&quot; at &quot;http://jcenter.bintray.com&quot;
+
+libraryDependencies ++= Seq(
+  &quot;com.github.mkroli&quot; %% &quot;dns4s-netty&quot; % &quot;0.10&quot;)
+</code></pre>
+<h2><a href="#imports" name="imports" class="anchor"><span class="anchor-link"></span></a>Imports</h2>
+<p>Use the following additional imports to get started:</p>
+<pre class="prettyprint"><code class="language-scala">import com.github.mkroli.dns4s.dsl._
+import com.github.mkroli.dns4s.netty._
+
+import io.netty.util.concurrent.Future
+</code></pre>
+<h3><a href="#server" name="server" class="anchor"><span class="anchor-link"></span></a>Server</h3>
+<p>The following is an excerpt from <a href="https://github.com/mkroli/dns4s/blob/master/examples/simple-netty/src/main/scala/com/github/mkroli/dns4s/examples/simple/netty/DnsServer.scala">examples/simple-netty/../DnsServer.scala</a>:</p>
+<pre class="prettyprint"><code class="language-scala">class DnsServerHandler extends SimpleChannelInboundHandler[DnsPacket] {
+  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket) {
+    Some(packet.content).collect {
+      case Query(q) ~ Questions(QName(host) ~ TypeA() :: Nil) =&gt;
+        Response(q) ~ Answers(RRName(host) ~ ARecord(&quot;1.2.3.4&quot;))
+    }.foreach { msg =&gt;
+      ctx.channel.writeAndFlush(DnsPacket(msg, packet.sender))
+    }
+  }
+}
+
+object DnsServer extends App {
+  new Bootstrap()
+    .group(new NioEventLoopGroup)
+    .channel(classOf[NioDatagramChannel])
+    .handler(new ChannelInitializer[DatagramChannel] {
+      override def initChannel(ch: DatagramChannel) {
+        ch.pipeline.addLast(new DnsCodec, new DnsServerHandler)
+      }
+    })
+    .bind(5354)
+}
+</code></pre>
+<h3><a href="#client" name="client" class="anchor"><span class="anchor-link"></span></a>Client</h3>
+<p>The following is an excerpt from <a href="https://github.com/mkroli/dns4s/blob/master/examples/simple-client/src/main/scala/com/github/mkroli/dns4s/examples/simple/client/DnsClient.scala">examples/simple-netty-client/../DnsClient.scala</a>:</p>
+<pre class="prettyprint"><code class="language-scala">class DnsServerHandler(group: NioEventLoopGroup) extends SimpleChannelInboundHandler[DnsPacket] {
+  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket) {
+    packet.content match {
+      case Response(Answers(answers)) =&gt;
+        answers.collect {
+          case ARecord(arecord) =&gt; println(arecord.address.getHostAddress)
+        }
+      case _ =&gt;
+    }
+    group.shutdownGracefully()
+  }
+}
+
+val group = new NioEventLoopGroup
+val channel: ChannelFuture = {
+  new Bootstrap()
+    .group(group)
+    .channel(classOf[NioDatagramChannel])
+    .handler(new ChannelInitializer[DatagramChannel] {
+      override def initChannel(ch: DatagramChannel) {
+        ch.pipeline.addLast(new DnsCodec, new DnsServerHandler(group))
+      }
+    })
+    .bind(0)
+    .addListener(new GenericFutureListener[Future[Void]] {
+      override def operationComplete(f: Future[Void]) {
+        channel.channel.writeAndFlush(DnsPacket(Query ~ Questions(QName(&quot;google.de&quot;)), new InetSocketAddress(&quot;8.8.8.8&quot;, 53)))
+      }
+    })
+}
+</code></pre>
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
