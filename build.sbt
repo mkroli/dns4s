@@ -96,6 +96,7 @@ lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(
   makeSite := makeSite.dependsOn(tut).value,
   paradoxNavigationDepth := 5,
   paradoxProperties in Paradox ~= (_ - "github.base_url"),
+  paradoxProperties in Paradox += ("version" -> version.value),
   paradoxMaterialTheme in Paradox ~= {
     _
       .withCopyright("© Michael Krolikowski")

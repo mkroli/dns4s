@@ -5,13 +5,16 @@ The akka part contains an akka-io extension.
 
 ## Usage
 If you're using [sbt] just add the following to your build definition:
+
+@@@vars
 ```scala
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.4.12",
-  "com.github.mkroli" %% "dns4s-akka" % "0.10")
+  "com.github.mkroli" %% "dns4s-akka" % "$version$")
 ```
+@@@
 
 ### Imports
 Use the following additional imports to get started:
@@ -26,7 +29,6 @@ import akka.pattern.ask
 import akka.util.Timeout
 import scala.concurrent.duration._
 ```
-
 
 ### Server
 The following is an excerpt from [examples/simple/../DnsServer.scala](https://github.com/mkroli/dns4s/blob/master/examples/simple/src/main/scala/com/github/mkroli/dns4s/examples/simple/DnsServer.scala):

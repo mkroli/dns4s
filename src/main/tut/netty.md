@@ -7,12 +7,15 @@ The netty part contains the
 
 ## Usage
 If you're using [sbt] just add the following to your build definition:
+
+@@@vars
 ```scala
 resolvers += "bintray" at "http://jcenter.bintray.com"
 
 libraryDependencies ++= Seq(
-  "com.github.mkroli" %% "dns4s-netty" % "0.10")
+  "com.github.mkroli" %% "dns4s-netty" % "$version$")
 ```
+@@@
 
 ## Imports
 Use the following additional imports to get started:
