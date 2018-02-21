@@ -73,6 +73,7 @@ lazy val dns4sNettyProjectSettings = Seq(
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test"))
 
 lazy val projectReleaseSettings = Seq(
+  releaseCrossBuild := true,
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
     inquireVersions,
