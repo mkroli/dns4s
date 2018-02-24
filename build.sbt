@@ -77,15 +77,19 @@ lazy val projectReleaseSettings = Seq(
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
     inquireVersions,
+    runClean,
     runTest,
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
+    publishArtifacts,
     setNextVersion,
     commitNextVersion))
 
 lazy val parentSettings = Seq(
-  publishArtifact := false)
+  publishArtifact := false,
+  publish := publish.dependsOn(update),
+  publishLocal := publishLocal.dependsOn(update))
 
 lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox) ++ Seq(
   scalacOptions in (Compile, doc) ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
