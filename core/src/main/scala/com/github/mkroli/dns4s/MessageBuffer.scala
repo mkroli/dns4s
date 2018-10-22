@@ -139,7 +139,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
           dn.span('.'!=) match {
             case (dc, d) =>
               val dr = if (d.isEmpty) d else d.substring(1)
-              val pos = buf.position
+              val pos = buf.position()
               val bytes = dc.getBytes
               val mb = putUnsignedInt(1, bytes.length).put(bytes).putDomainName(dr)
               new MessageBuffer(
