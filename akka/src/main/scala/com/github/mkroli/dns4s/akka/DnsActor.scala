@@ -42,7 +42,7 @@ class DnsActor(port: Int, handler: ActorRef)(implicit timeout: Timeout) extends 
     .asMap()
     .asScala
 
-  override def preStart() {
+  override def preStart(): Unit = {
     IO(Udp) ! Udp.Bind(self, new InetSocketAddress(port))
   }
 

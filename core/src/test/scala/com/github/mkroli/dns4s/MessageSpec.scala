@@ -26,7 +26,7 @@ class MessageSpec extends FunSpec {
   describe("Message") {
     describe("encoding/decoding") {
       it("decode(encode(message)) should be the same as message") {
-        def testEncodeDecode(m: Message) {
+        def testEncodeDecode(m: Message): Unit = {
           assert(m === Message(m().flipped))
         }
         testEncodeDecode(Message(

@@ -75,7 +75,7 @@ class DnsExtensionSpec extends FunSpec with TestKitBase with ImplicitSender with
         expectNoMsg
       }
 
-      def test(serverPort: Int, dnsActor: ActorRef) {
+      def test(serverPort: Int, dnsActor: ActorRef): Unit = {
         val probe = TestProbe()
         dnsActor.tell(Dns.DnsPacket(Query ~ Questions(QName("test.test")), new InetSocketAddress(InetAddress.getLocalHost, serverPort)), probe.ref)
         val (id, questions) = expectMsgPF() {

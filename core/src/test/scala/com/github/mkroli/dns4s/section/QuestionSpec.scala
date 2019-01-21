@@ -53,7 +53,7 @@ class QuestionSpec extends FunSpec {
 
     describe("encoding/decoding") {
       it("decode(encode(question)) should be the same as question") {
-        def testEncodeDecode(q: QuestionSection) {
+        def testEncodeDecode(q: QuestionSection): Unit = {
           assert(q === QuestionSection(q(MessageBuffer()).flipped))
         }
         testEncodeDecode(QuestionSection("", 0, 0))
