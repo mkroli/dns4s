@@ -15,17 +15,12 @@
  */
 package com.github.mkroli.dns4s.section.resource
 
-import org.scalatest.FunSpec
-import org.scalatest.prop.PropertyChecks
-
-import com.github.mkroli.dns4s.MessageBuffer
-import com.github.mkroli.dns4s.bytes
-import com.github.mkroli.dns4s.dnGen
-import com.github.mkroli.dns4s.maxInt
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.uintGen
+import com.github.mkroli.dns4s._
+import org.scalatest.FunSpec
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class MXResourceSpec extends FunSpec with PropertyChecks {
+class MXResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
   describe("MXResource") {
     describe("validation") {
       describe("preference") {

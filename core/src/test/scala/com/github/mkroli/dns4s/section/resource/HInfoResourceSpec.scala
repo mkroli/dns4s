@@ -15,15 +15,12 @@
  */
 package com.github.mkroli.dns4s.section.resource
 
-import org.scalatest.FunSpec
-import org.scalatest.prop.PropertyChecks
-
-import com.github.mkroli.dns4s.MessageBuffer
-import com.github.mkroli.dns4s.bytes
-import com.github.mkroli.dns4s.csGen
+import com.github.mkroli.dns4s.{MessageBuffer, bytes, csGen}
 import com.github.mkroli.dns4s.section.ResourceRecord
+import org.scalatest.FunSpec
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class HInfoResourceSpec extends FunSpec with PropertyChecks {
+class HInfoResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
   describe("HInfoResource") {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {

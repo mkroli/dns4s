@@ -21,9 +21,9 @@ import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.OPTResource.ClientSubnetOPTOptionData
 import com.github.mkroli.dns4s.{MessageBuffer, bytes, bytesGenerator}
 import org.scalatest.FunSpec
-import org.scalatest.prop.PropertyChecks
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class OPTResourceSpec extends FunSpec with PropertyChecks {
+class OPTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
   describe("OPTResource") {
     describe("encoding/decoding") {
       it("should be decoded wrapped in ResourceRecord") {
