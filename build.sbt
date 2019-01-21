@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Michael Krolikowski
+ * Copyright 2014-2019 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.12.4" :: "2.11.12" :: "2.10.7" :: Nil
+lazy val scalaVersions = "2.12.8" :: "2.11.12" :: "2.10.7" :: Nil
 lazy val guavaVersion = "[15.0,24.0["
 lazy val akkaVersion = "[2.3.0,2.6.0["
 lazy val nettyVersion = "[4.0.0,4.2.0["
 lazy val scalaTestVersion = "3.0.5"
-lazy val scalaCheckVersion = "1.13.5"
+lazy val scalaCheckVersion = "1.14.0"
 
 def projectSettings(n: String, d: String) = Seq(
   name := n,
@@ -86,10 +86,7 @@ lazy val projectReleaseSettings = Seq(
     setNextVersion,
     commitNextVersion))
 
-lazy val parentSettings = Seq(
-  publishArtifact := false,
-  publish := publish.dependsOn(update),
-  publishLocal := publishLocal.dependsOn(update))
+lazy val parentSettings = Seq(publishArtifact := false)
 
 lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox) ++ Seq(
   scalacOptions in (Compile, doc) ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
