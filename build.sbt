@@ -16,11 +16,11 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.13.0-M5" :: "2.12.7" :: "2.11.12" :: "2.10.7" :: Nil
+lazy val scalaVersions = "2.13.0-RC1" :: "2.12.7" :: "2.11.12" :: "2.10.7" :: Nil
 lazy val guavaVersion = "[15.0,24.0["
 lazy val akkaVersion = "[2.3.0,2.6.0["
 lazy val nettyVersion = "[4.0.0,4.2.0["
-lazy val scalaTestVersion = "3.0.6-SNAP6"
+lazy val scalaTestVersion = "3.0.8-RC2"
 lazy val scalaCheckVersion = "1.14.0"
 
 def projectSettings(n: String, d: String) = Seq(
@@ -30,8 +30,7 @@ def projectSettings(n: String, d: String) = Seq(
   scalaVersion := scalaVersions.head,
   scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation") ++ (CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
-    case Some((2, 12)) => Seq("-target:jvm-1.8")
-    case x => Seq.empty
+    case _ => Seq("-target:jvm-1.8")
   }),
   resolvers += "bintray" at "https://api.bintray.com/maven/mkroli/maven/dns4s",
   mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
