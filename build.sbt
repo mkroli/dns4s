@@ -87,7 +87,7 @@ lazy val projectReleaseSettings = Seq(
 
 lazy val parentSettings = Seq(publishArtifact := false)
 
-lazy val siteSettings = Seq(
+lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox) ++ Seq(
   scalacOptions in(Compile, doc) ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
   git.remoteRepo := "git@github.com:mkroli/dns4s.git",
   siteSubdirName in ScalaUnidoc := "api",
