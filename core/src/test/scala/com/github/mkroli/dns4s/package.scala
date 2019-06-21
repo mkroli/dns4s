@@ -28,7 +28,7 @@ package object dns4s {
 
   private val hexChars = ('0' to '9') ++ ('A' to 'Z') ++ ('a' to 'z') toSet
 
-  def bytes(s: String) = s.filter(hexChars).sliding(2, 2).map(BigInt(_, 16).toByte).toList
+  def bytes(s: String) = s.toSeq.filter(hexChars).sliding(2, 2).map(s => BigInt(s.mkString, 16).toByte).toList
 
   def bytesGenerator(min: Int = 0, max: Int = 4096) = Gen.choose(min, max).flatMap { size =>
     val byteGenerator = Gen.choose(Byte.MinValue, Byte.MaxValue)

@@ -89,7 +89,7 @@ class HeaderSpec extends FunSpec {
 
     describe("encoding/decoding") {
       it("decode(encode(header)) should be the same as header") {
-        def testEncodeDecode(h: HeaderSection) {
+        def testEncodeDecode(h: HeaderSection): Unit = {
           assert(h === HeaderSection(h(MessageBuffer()).flipped))
         }
         testEncodeDecode(defaultHeader)

@@ -69,7 +69,7 @@ class ResourceRecordSpec extends FunSpec {
 
     describe("encoding/decoding") {
       it("decode(encode(resourceRecord)) should be the same as resourceRecord") {
-        def testEncodeDecode(rr: ResourceRecord) {
+        def testEncodeDecode(rr: ResourceRecord): Unit = {
           assert(rr === ResourceRecord(rr(MessageBuffer()).flipped))
         }
         testEncodeDecode(ResourceRecord("", 0, 0, 0, UnknownResource(Nil, 0)))

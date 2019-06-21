@@ -20,7 +20,7 @@ import com.github.mkroli.dns4s.section.Resource
 
 case class TXTResource(txt: Seq[String]) extends Resource {
   def apply(buf: MessageBuffer) =
-    (buf /: txt)(_ putCharacterString _)
+    txt.foldLeft(buf)(_ putCharacterString _)
 }
 
 object TXTResource {
