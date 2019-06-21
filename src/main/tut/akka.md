@@ -23,6 +23,8 @@ import com.github.mkroli.dns4s.dsl._
 import com.github.mkroli.dns4s.akka._
 ```
 ```tut:invisible
+import scala.language.postfixOps
+
 import akka.actor._
 import akka.io.IO
 import akka.pattern.ask
@@ -54,7 +56,7 @@ implicit val system = ActorSystem("DnsServer")
 implicit val timeout = Timeout(5.seconds)
 import system.dispatcher
 
-IO(Dns) ? Dns.DnsPacket(Query ~ Questions(QName("google.de")), new java.net.InetSocketAddress("8.8.8.8", 53)) onSuccess {
+IO(Dns) ? Dns.DnsPacket(Query ~ Questions(QName("google.de")), new java.net.InetSocketAddress("8.8.8.8", 53)) foreach {
   case Response(Answers(answers)) =>
     answers.collect {
       case ARecord(arecord) => println(arecord.address.getHostAddress)
@@ -62,7 +64,7 @@ IO(Dns) ? Dns.DnsPacket(Query ~ Questions(QName("google.de")), new java.net.Inet
 }
 ```
 ```tut:invisible
-system.terminate
+system.terminate()
 ```
 
 [sbt]:http://scala-sbt.org/

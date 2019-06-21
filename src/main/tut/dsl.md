@@ -2,6 +2,9 @@ DSL
 ===
 
 Use the following imports for the examples:
+```tut:invisible
+import scala.language.postfixOps
+```
 ```tut:silent
 import com.github.mkroli.dns4s._
 import com.github.mkroli.dns4s.dsl._
