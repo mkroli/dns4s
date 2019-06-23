@@ -82,6 +82,7 @@ lazy val projectReleaseSettings = Seq(
     commitReleaseVersion,
     tagRelease,
     publishArtifacts,
+    releaseStepTask(ghpagesPushSite),
     setNextVersion,
     commitNextVersion))
 
@@ -103,7 +104,8 @@ lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(
       .withCopyright("© Michael Krolikowski")
       .withRepository(uri("https://github.com/mkroli/dns4s"))
       .withSocial(uri("https://github.com/mkroli"))
-  })
+  },
+  ghpagesPushSite := ghpagesPushSite.dependsOn(makeSite).value)
 
 lazy val dns4sRoot = Project(
   id = "dns4s",
