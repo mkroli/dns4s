@@ -98,7 +98,7 @@ lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(
   paradoxNavigationDepth := 5,
   paradoxProperties in Paradox ~= (_ - "github.base_url"),
   paradoxProperties in Paradox += ("version" -> version.value),
-  Compile / paradoxMaterialTheme := {
+  paradoxMaterialTheme in Paradox := {
     ParadoxMaterialTheme()
       .withCopyright("© Michael Krolikowski")
       .withRepository(uri("https://github.com/mkroli/dns4s"))
