@@ -1,7 +1,7 @@
 sudo: false
 language: scala
 jdk:
-  - oraclejdk8
+  - openjdk8
 script:
   - sbt clean coverage test coverageReport coverageAggregate
 after_success:
