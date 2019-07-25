@@ -40,11 +40,12 @@ def projectSettings(n: String, d: String) = Seq(
   autoAPIMappings := true,
   licenses := Seq("Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
   homepage := Some(url("https://github.com/mkroli/dns4s")),
-  pomExtra := (
-    <scm>
-      <url>git@github.com:mkroli/dns4s.git</url>
-      <connection>scm:git:git@github.com:mkroli/dns4s.git</connection>
-    </scm>))
+  scmInfo := Some(
+    ScmInfo(
+      url("https://github.com/mkroli/dns4s"),
+      "scm:git@github.com:mkroli/dns4s.git"
+    )
+  ))
 
 def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) = osgiSettings ++ Seq(
   OsgiKeys.exportPackage := packages.map(pkg => packagesPrefix :: (if (pkg.isEmpty) Nil else pkg :: "*" :: Nil) mkString "."),
