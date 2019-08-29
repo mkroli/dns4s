@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Michael Krolikowski
+ * Copyright 2015-2019 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ import akka.util.Timeout
 
 class DnsExtensionSpec extends FunSpec with TestKitBase with ImplicitSender with BeforeAndAfterAll {
   implicit lazy val system = ActorSystem()
-  import system._
   implicit lazy val timeout = Timeout(5 seconds)
 
   override def afterAll = shutdown(system)

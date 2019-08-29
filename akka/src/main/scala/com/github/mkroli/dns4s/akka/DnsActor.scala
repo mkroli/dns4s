@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 Michael Krolikowski
+ * Copyright 2015-2019 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import scala.collection.JavaConverters._
 import scala.language.postfixOps
 import scala.util.Try
 
-class DnsActor(port: Int, handler: ActorRef)(implicit timeout: Timeout) extends Actor {
+class DnsActor(port: Int, requester: ActorRef, handler: ActorRef)(implicit timeout: Timeout) extends Actor {
   import context.{dispatcher, system}
 
   var nextFreeId = 0
@@ -53,10 +53,10 @@ class DnsActor(port: Int, handler: ActorRef)(implicit timeout: Timeout) extends 
 
   override def receive = {
     case Udp.Bound(_) =>
-      handler ! Dns.Bound
+      requester ! Dns.Bound
       context become bound(sender)
     case CommandFailed(Udp.Bind(_, _, _)) =>
-      handler ! Dns.Unbound
+      requester ! Dns.Unbound
       context stop self
   }
 

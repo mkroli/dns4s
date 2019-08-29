@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Michael Krolikowski
+ * Copyright 2015-2019 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import akka.actor.Stash
 import akka.util.Timeout
 
 class DnsSimpleClientActor extends Actor with Stash {
-  val dnsActor = context.actorOf(Props(new DnsActor(0, self)(Timeout(5 seconds))), "dns")
+  val dnsActor = context.actorOf(Props(new DnsActor(0, self, self)(Timeout(5 seconds))), "dns")
 
   override def receive = {
     case Dns.Bound =>

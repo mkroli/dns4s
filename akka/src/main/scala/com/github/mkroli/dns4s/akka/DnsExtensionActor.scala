@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Michael Krolikowski
+ * Copyright 2015-2019 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@ class DnsExtensionActor extends Actor {
   override def receive = {
     case Dns.Bind(handler, port, timeout) =>
       implicit val _timeout = timeout
-      context.actorOf(Props(new DnsActor(port, handler)), s"dns-$port")
+      val requester = sender
+      context.actorOf(Props(new DnsActor(port, requester, handler)), s"dns-$port")
     case p @ Dns.DnsPacket(Query(_), _) =>
       simple forward p
   }
