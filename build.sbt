@@ -74,6 +74,7 @@ lazy val dns4sNettyProjectSettings = Seq(
 
 lazy val projectReleaseSettings = Seq(
   releaseCrossBuild := true,
+  releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
     inquireVersions,
