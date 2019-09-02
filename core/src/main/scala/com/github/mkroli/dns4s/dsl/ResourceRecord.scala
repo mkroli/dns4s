@@ -21,17 +21,7 @@ import java.net.InetAddress
 
 import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.AAAAResource
-import com.github.mkroli.dns4s.section.resource.AResource
-import com.github.mkroli.dns4s.section.resource.CNameResource
-import com.github.mkroli.dns4s.section.resource.HInfoResource
-import com.github.mkroli.dns4s.section.resource.MXResource
-import com.github.mkroli.dns4s.section.resource.NAPTRResource
-import com.github.mkroli.dns4s.section.resource.NSResource
-import com.github.mkroli.dns4s.section.resource.OPTResource
-import com.github.mkroli.dns4s.section.resource.PTRResource
-import com.github.mkroli.dns4s.section.resource.SOAResource
-import com.github.mkroli.dns4s.section.resource.TXTResource
+import com.github.mkroli.dns4s.section.resource.{AAAAResource, AResource, CAAResource, CNameResource, HInfoResource, MXResource, NAPTRResource, NSResource, OPTResource, PTRResource, SOAResource, TXTResource}
 import com.google.common.net.InetAddresses
 
 trait ResourceRecordModifier { self =>
@@ -183,6 +173,11 @@ object PTRRecord extends ResourceRecordExtractor[PTRResource] {
 object HInfoRecord extends ResourceRecordExtractor[HInfoResource] {
   def apply(cpu: String, os: String) =
     resourceRecordModifier(ResourceRecord.typeHINFO, HInfoResource(cpu, os))
+}
+
+object CAARecord extends ResourceRecordExtractor[CAAResource] {
+  def apply(flag: Int, tag: String, value: String) =
+    resourceRecordModifier(ResourceRecord.typeCAA, CAAResource(flag, tag, value))
 }
 
 object TXTRecord extends ResourceRecordExtractor[TXTResource] {

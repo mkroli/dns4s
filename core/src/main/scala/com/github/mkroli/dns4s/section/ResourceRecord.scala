@@ -66,6 +66,7 @@ object ResourceRecord {
   val qtypeMAILB = 253
   val qtypeMAILA = 254
   val qtypeAsterisk = 255
+  val typeCAA = 257
 
   val classIN = 1
   val classCS = 2
@@ -93,6 +94,7 @@ object ResourceRecord {
         case `typeHINFO` => HInfoResource(buf)
         case `typeMX` => MXResource(buf)
         case `typeTXT` => TXTResource(buf, rdlength)
+        case `typeCAA` => CAAResource(buf)
         case _ => UnknownResource(buf, rdlength, `type`)
       }
     }
