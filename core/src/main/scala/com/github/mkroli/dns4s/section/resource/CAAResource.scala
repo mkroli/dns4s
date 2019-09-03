@@ -19,46 +19,51 @@ import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.section.Resource
 
 /**
- * Certification Authority Authorization.
- * A CAA RR contains a single property entry consisting of a tag-value
- * pair.  Each tag represents a property of the CAA record.  The value
- * of a CAA property is that specified in the corresponding value field.
- *
- * @see https://tools.ietf.org/html/rfc6844#section-5.1
- *
- * @param flag  One octet containing Issuer Critical Flag. If the value is set to '1', the
- *              critical flag is asserted and the property MUST be understood
- *              if the CAA record is to be correctly processed by a certificate
- *              issuer.
- * @param tag   The property identifier, a sequence of US-ASCII characters.
- *              Tag values MAY contain US-ASCII characters 'a' through 'z', 'A'
- *              through 'Z', and the numbers 0 through 9.  Tag values SHOULD NOT
- *              contain any other characters.  Matching of tag values is case
- *              insensitive.
- * @param value A sequence of octets representing the property value.
- *              Property values are encoded as binary values and MAY employ sub-
- *              formats.
- *              The length of the value field is specified implicitly as the
- *              remaining length of the enclosing Resource Record data field.
- */
+  * Certification Authority Authorization.
+  * A CAA RR contains a single property entry consisting of a tag-value
+  * pair.  Each tag represents a property of the CAA record.  The value
+  * of a CAA property is that specified in the corresponding value field.
+  *
+  * @see https://tools.ietf.org/html/rfc6844#section-5.1
+  *
+  * @param flag  One octet containing Issuer Critical Flag. If the value is set to '1', the
+  *              critical flag is asserted and the property MUST be understood
+  *              if the CAA record is to be correctly processed by a certificate
+  *              issuer.
+  * @param tag   The property identifier, a sequence of US-ASCII characters.
+  *              Tag values MAY contain US-ASCII characters 'a' through 'z', 'A'
+  *              through 'Z', and the numbers 0 through 9.  Tag values SHOULD NOT
+  *              contain any other characters.  Matching of tag values is case
+  *              insensitive.
+  * @param value A sequence of octets representing the property value.
+  *              Property values are encoded as binary values and MAY employ sub-
+  *              formats.
+  *              The length of the value field is specified implicitly as the
+  *              remaining length of the enclosing Resource Record data field.
+  */
 case class CAAResource(flag: Int, tag: String, value: String) extends Resource {
   require(flag >= 0 && flag <= 255, "flag value should be >= 0 and <= 255")
   require(tag.nonEmpty, "tag should not be empty")
   require(tag.matches("^[a-zA-Z0-9]{1,15}$"), s"tag '$tag' has invalid format")
 
-  def apply(buf: MessageBuffer): MessageBuffer =
+  def apply(buf: MessageBuffer): MessageBuffer = {
+    val tagLength = tag.getBytes.length
     buf
       .putUnsignedInt(1, flag)
-      .putCharacterString(tag)
-      .putCharacterString(value)
+      .putUnsignedInt(1, tagLength)
+      .putBytes(tagLength, tag.getBytes)
+      .put(value.getBytes)
+  }
 }
 
-object CAAResource{
-  def apply(buf: MessageBuffer) : CAAResource = new CAAResource(
-    buf.getUnsignedInt(1),
-    buf.getCharacterString(),
-    buf.getCharacterString()
-  )
+object CAAResource {
+  def apply(buf: MessageBuffer): CAAResource = {
+    val (flag, tagLength) = (buf.getUnsignedInt(1), buf.getUnsignedInt(1))
+    val tagString = byteArrayToString(buf.getBytes(tagLength))
+    val valueString = byteArrayToString(buf.getBytes(buf.remaining()))
+    new CAAResource(flag, tagString, valueString)
+  }
+
+  private def byteArrayToString(byteArray: IndexedSeq[Byte]) =
+    byteArray.map(_.toChar).mkString
 }
-
-
