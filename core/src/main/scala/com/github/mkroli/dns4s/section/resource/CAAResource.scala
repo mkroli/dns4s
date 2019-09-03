@@ -42,8 +42,9 @@ import com.github.mkroli.dns4s.section.Resource
  *              remaining length of the enclosing Resource Record data field.
  */
 case class CAAResource(flag: Int, tag: String, value: String) extends Resource {
-  require(flag >= 0 && flag <= 255)
-  require(tag.matches("^[a-zA-Z0-9]{1,15}$"), "invalid tag format")
+  require(flag >= 0 && flag <= 255, "flag value should be >= 0 and <= 255")
+  require(tag.nonEmpty, "tag should not be empty")
+  require(tag.matches("^[a-zA-Z0-9]{1,15}$"), s"tag '$tag' has invalid format")
 
   def apply(buf: MessageBuffer): MessageBuffer =
     buf
@@ -55,8 +56,8 @@ case class CAAResource(flag: Int, tag: String, value: String) extends Resource {
 object CAAResource{
   def apply(buf: MessageBuffer) : CAAResource = new CAAResource(
     buf.getUnsignedInt(1),
-    buf.getCharacterString,
-    buf.getCharacterString
+    buf.getCharacterString(),
+    buf.getCharacterString()
   )
 }
 
