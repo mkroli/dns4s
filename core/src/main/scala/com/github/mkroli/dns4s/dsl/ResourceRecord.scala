@@ -22,6 +22,12 @@ import java.net.InetAddress
 import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.{AAAAResource, AResource, CAAResource, CNameResource, HInfoResource, MXResource, NAPTRResource, NSResource, OPTResource, PTRResource, SOAResource, TXTResource}
+import com.github.mkroli.dns4s.section.resource.CAAResource.{
+  IODEFResource,
+  IssueResource,
+  IssueWildResource
+}
+import com.github.mkroli.dns4s.section.resource._
 import com.google.common.net.InetAddresses
 
 trait ResourceRecordModifier { self =>
