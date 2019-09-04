@@ -55,11 +55,11 @@ case class CAAResource(flag: Int, tag: String, value: String) extends Resource {
 
 object CAAResource {
 
-
   def apply(buf: MessageBuffer, rdLength: Int): CAAResource = {
+    val pos = buf.buf.position()
     val flag = buf.getUnsignedInt(1)
     val tag = buf.getCharacterString()
-    val valueLength = rdLength - tag.length - 2
+    val valueLength = rdLength - buf.buf.position() + pos
     CAAResource(flag, tag, byteArrayToString(buf.getBytes(valueLength)))
   }
 
