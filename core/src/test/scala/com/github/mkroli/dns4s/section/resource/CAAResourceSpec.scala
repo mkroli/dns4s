@@ -53,7 +53,8 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
         val cr = CAAResource(1, "someTag", "someValue")
-        assert(cr === CAAResource(cr(MessageBuffer()).flipped()))
+        val encoded = cr(MessageBuffer()).flipped()
+        assert(cr === CAAResource(encoded, encoded.remaining()))
       }
 
       it("should be decoded wrapped in CAARecord") {

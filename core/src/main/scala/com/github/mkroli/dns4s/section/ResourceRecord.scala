@@ -94,7 +94,7 @@ object ResourceRecord {
         case `typeHINFO` => HInfoResource(buf)
         case `typeMX` => MXResource(buf)
         case `typeTXT` => TXTResource(buf, rdlength)
-        case `typeCAA` => CAAResource(buf)
+        case `typeCAA` => CAAResource(buf, rdlength)
         case _ => UnknownResource(buf, rdlength, `type`)
       }
     }
