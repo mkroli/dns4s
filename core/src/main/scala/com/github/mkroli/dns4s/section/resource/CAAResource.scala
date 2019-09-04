@@ -46,21 +46,19 @@ case class CAAResource(flag: Int, tag: String, value: String) extends Resource {
   require(tag.nonEmpty, "tag should not be empty")
 
   def apply(buf: MessageBuffer): MessageBuffer = {
-    val tagLength = tag.getBytes.length
     buf
       .putUnsignedInt(1, flag)
-      .putUnsignedInt(1, tagLength)
-      .putBytes(tagLength, tag.getBytes)
+      .putCharacterString(tag)
       .put(value.getBytes)
   }
 }
 
 object CAAResource {
   def apply(buf: MessageBuffer): CAAResource = {
-    val (flag, tagLength) = (buf.getUnsignedInt(1), buf.getUnsignedInt(1))
-    val tagString = byteArrayToString(buf.getBytes(tagLength))
-    val valueString = byteArrayToString(buf.getBytes(buf.remaining()))
-    new CAAResource(flag, tagString, valueString)
+    val flag = buf.getUnsignedInt(1)
+    val tag = buf.getCharacterString()
+    val value = byteArrayToString(buf.getBytes(buf.remaining()))
+    CAAResource(flag, tag, value)
   }
 
   private def byteArrayToString(byteArray: IndexedSeq[Byte]) =
