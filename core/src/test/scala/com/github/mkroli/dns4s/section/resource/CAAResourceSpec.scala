@@ -22,48 +22,76 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
 class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
   describe("CAAResource") {
-    describe("validation"){
-      describe("flag"){
-        it("should fail if flag is less than 0"){
-          intercept[IllegalArgumentException](CAAResource(-2, "someValue", "someValue"))
+    describe("validation") {
+      describe("flag") {
+        it("should fail if flag is less than 0") {
+          intercept[IllegalArgumentException](
+            CAAResource(-2, "someValue", "someValue")
+          )
         }
-        it("should fail if flag is more than 255"){
-          intercept[IllegalArgumentException](CAAResource(256, "someValue", "someValue"))
+        it("should fail if flag is more than 255") {
+          intercept[IllegalArgumentException](
+            CAAResource(256, "someValue", "someValue")
+          )
         }
-        it("should not fail for a valid value"){
+        it("should not fail for a valid value") {
           CAAResource(0, "someValue", "someValue")
           CAAResource(1, "someValue", "someValue")
           CAAResource(100, "someValue", "someValue")
           CAAResource(255, "someValue", "someValue")
         }
       }
-      describe("tag"){
+      describe("tag") {
         it("should fail if it is empty") {
           intercept[IllegalArgumentException](CAAResource(1, "", "someValue"))
         }
         it("should fail if it contains special characters") {
-          intercept[IllegalArgumentException](CAAResource(1, "a-b", "someValue"))
+          intercept[IllegalArgumentException](
+            CAAResource(1, "a-b", "someValue")
+          )
         }
         it("should fail if it is more than 15 characters") {
-          intercept[IllegalArgumentException](CAAResource(1, "abcdefghijklmnopabcdefg", "someValue"))
+          intercept[IllegalArgumentException](
+            CAAResource(1, "abcdefghijklmnopabcdefg", "someValue")
+          )
         }
         it("should not fail for a valid value") {
-            CAAResource(1, "abc123ABC", "someValue")
+          CAAResource(1, "abc123ABC", "someValue")
         }
       }
     }
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
-          val cr = CAAResource(1, "someTag", "someValue")
-          assert(cr === CAAResource(cr(MessageBuffer()).flipped()))
+        val cr = CAAResource(1, "someTag", "someValue")
+        assert(cr === CAAResource(cr(MessageBuffer()).flipped()))
       }
 
       it("should be decoded wrapped in CAARecord") {
-        val caa = CAAResource(1, "testTag", "testValue")
-        val rr = ResourceRecord("test", ResourceRecord.typeCAA, 0, 0, caa)
-        val messageBuffer = rr(MessageBuffer()).flipped()
+        val expectedRecord = ResourceRecord(
+          name = "test",
+          `type` = ResourceRecord.typeCAA,
+          `class` = 0,
+          ttl = 0,
+          rdata = CAAResource(1, "testTag", "testValue")
+        )
 
-        throw new NotImplementedError("test pending")
+        val expectedBytes = bytes(
+            "04 74 65 73 74 00 01 01 " +
+            "00000000000000 12 01 07 " +
+            "74 65 73 74 54 61 67 74 " +
+            "65 73 74 56 61 6c 75 65"
+        )
+
+        val messageBuffer = expectedRecord(MessageBuffer()).flipped
+
+        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining)
+
+        assert(actualBytes === expectedBytes)
+
+        val actualRecord =
+          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped)
+
+        assert(actualRecord === expectedRecord)
       }
     }
   }
