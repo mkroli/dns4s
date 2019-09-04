@@ -45,16 +45,6 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
         it("should fail if it is empty") {
           intercept[IllegalArgumentException](CAAResource(1, "", "someValue"))
         }
-        it("should fail if it contains special characters") {
-          intercept[IllegalArgumentException](
-            CAAResource(1, "a-b", "someValue")
-          )
-        }
-        it("should fail if it is more than 15 characters") {
-          intercept[IllegalArgumentException](
-            CAAResource(1, "abcdefghijklmnopabcdefg", "someValue")
-          )
-        }
         it("should not fail for a valid value") {
           CAAResource(1, "abc123ABC", "someValue")
         }
