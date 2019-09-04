@@ -18,51 +18,80 @@ package com.github.mkroli.dns4s.section.resource
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.section.Resource
 
-/**
-  * Certification Authority Authorization.
-  * A CAA RR contains a single property entry consisting of a tag-value
-  * pair.  Each tag represents a property of the CAA record.  The value
-  * of a CAA property is that specified in the corresponding value field.
-  *
-  * @see https://tools.ietf.org/html/rfc6844#section-5.1
-  *
-  * @param flag  One octet containing Issuer Critical Flag. If the value is set to '1', the
-  *              critical flag is asserted and the property MUST be understood
-  *              if the CAA record is to be correctly processed by a certificate
-  *              issuer.
-  * @param tag   The property identifier, a sequence of US-ASCII characters.
-  *              Tag values MAY contain US-ASCII characters 'a' through 'z', 'A'
-  *              through 'Z', and the numbers 0 through 9.  Tag values SHOULD NOT
-  *              contain any other characters.  Matching of tag values is case
-  *              insensitive.
-  * @param value A sequence of octets representing the property value.
-  *              Property values are encoded as binary values and MAY employ sub-
-  *              formats.
-  *              The length of the value field is specified implicitly as the
-  *              remaining length of the enclosing Resource Record data field.
-  */
-case class CAAResource(flag: Int, tag: String, value: String) extends Resource {
-  require(flag >= 0 && flag <= 255, "flag value should be >= 0 and <= 255")
+sealed abstract class CAAResource(tag: String,
+                                  valueBytes: Array[Byte],
+                                  flagsByte: Byte)
+    extends Resource {
+
   require(tag.nonEmpty, "tag should not be empty")
 
   def apply(buf: MessageBuffer): MessageBuffer = {
     buf
-      .putUnsignedInt(1, flag)
+      .put(flagsByte)
       .putCharacterString(tag)
-      .put(value.getBytes)
+      .put(valueBytes)
   }
 }
 
 object CAAResource {
 
+  private val issue = "issue"
+  private val issuewild = "issuewild"
+  private val iodef = "iodef"
+
   def apply(buf: MessageBuffer, rdLength: Int): CAAResource = {
     val pos = buf.buf.position()
-    val flag = buf.getUnsignedInt(1)
+    val flagByte = buf.get()
     val tag = buf.getCharacterString()
     val valueLength = rdLength - buf.buf.position() + pos
-    CAAResource(flag, tag, byteArrayToString(buf.getBytes(valueLength)))
+    def getValue: String = byteArrayToString(buf.getBytes(valueLength))
+    val issuerCritical: Boolean = flagByte == 1
+
+    tag match {
+      case `issue`     => IssueResource(getValue, issuerCritical)
+      case `issuewild` => IssueWildResource(getValue, issuerCritical)
+      case `iodef`     => IODEFResource(getValue)
+      case unknownTag =>
+        UnknownCAAResource(
+          unknownTag,
+          buf.getBytes(valueLength).toArray,
+          flagByte
+        )
+    }
   }
 
   private def byteArrayToString(byteArray: IndexedSeq[Byte]) =
     byteArray.map(_.toChar).mkString
+
+  private def createFlagByte(issuerCritical: Boolean): Byte =
+    if (issuerCritical) 1 else 0
+
+  case class IssueResource(value: String, issuerCritical: Boolean)
+      extends CAAResource(issue, value.getBytes, createFlagByte(issuerCritical))
+
+  case class IssueWildResource(value: String, issuerCritical: Boolean)
+      extends CAAResource(
+        issuewild,
+        value.getBytes,
+        createFlagByte(issuerCritical)
+      )
+
+  case class IODEFResource(value: String)
+      extends CAAResource(iodef, value.getBytes, createFlagByte(false))
+
+  case class UnknownCAAResource(tag: String,
+                                valueBytes: Array[Byte],
+                                flagsByte: Byte)
+      extends CAAResource(tag, valueBytes, flagsByte) {
+
+    override def equals(obj: Any): Boolean = {
+      obj match {
+        case that: UnknownCAAResource =>
+          tag == that.tag &&
+            (valueBytes sameElements that.valueBytes) &&
+            flagsByte == that.flagsByte
+        case _ => false
+      }
+    }
+  }
 }

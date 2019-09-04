@@ -175,9 +175,27 @@ object HInfoRecord extends ResourceRecordExtractor[HInfoResource] {
     resourceRecordModifier(ResourceRecord.typeHINFO, HInfoResource(cpu, os))
 }
 
-object CAARecord extends ResourceRecordExtractor[CAAResource] {
-  def apply(flag: Int, tag: String, value: String) =
-    resourceRecordModifier(ResourceRecord.typeCAA, CAAResource(flag, tag, value))
+trait CAARecord[T <: CAAResource] extends ResourceRecordExtractor[T]
+
+object IssueRecord extends CAARecord[IssueResource] {
+  def apply(value: String, issuerCritical: Boolean) =
+    resourceRecordModifier(
+      ResourceRecord.typeCAA,
+      IssueResource(value, issuerCritical)
+    )
+}
+
+object IssueWildRecord extends CAARecord[IssueWildResource] {
+  def apply(value: String, issuerCritical: Boolean) =
+    resourceRecordModifier(
+      ResourceRecord.typeCAA,
+      IssueWildResource(value, issuerCritical)
+    )
+}
+
+object IODEFRecord extends CAARecord[IODEFResource] {
+  def apply(value: String) =
+    resourceRecordModifier(ResourceRecord.typeCAA, IODEFResource(value))
 }
 
 object TXTRecord extends ResourceRecordExtractor[TXTResource] {
