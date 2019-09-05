@@ -60,24 +60,6 @@ object CAAResource {
     }
   }
 
-  private[dns4s] def apply(tag: String,
-                           value: Array[Byte],
-                           flag: Byte): CAAResource =
-    CustomCAAResource(tag, value, flag)
-
-  private[dns4s] def apply(tag: String, value: String): CAAResource =
-    tag match {
-      case `iodef` => IODEFResource(value)
-    }
-
-  private[dns4s] def apply(tag: String,
-                           value: String,
-                           issuerCritical: Boolean): CAAResource =
-    tag match {
-      case `issue`     => IssueResource(value, issuerCritical)
-      case `issuewild` => IssueWildResource(value, issuerCritical)
-    }
-
   private def byteArrayToString(byteArray: IndexedSeq[Byte]) =
     byteArray.map(_.toChar).mkString
 
