@@ -15,22 +15,21 @@
  */
 package com.github.mkroli.dns4s.dsl
 
-import org.scalatest.FunSpec
-import com.github.mkroli.dns4s.section.resource.TXTResource
-import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.OPTResource
-import com.github.mkroli.dns4s.section.resource.AResource
 import java.net.InetAddress
 
-import com.github.mkroli.dns4s.section.resource.AAAAResource
-import com.github.mkroli.dns4s.section.resource.CNameResource
-import com.github.mkroli.dns4s.section.resource.MXResource
-import com.github.mkroli.dns4s.section.resource.NAPTRResource
-import com.github.mkroli.dns4s.section.resource.NSResource
-import com.github.mkroli.dns4s.section.resource.PTRResource
-import com.github.mkroli.dns4s.section.resource.HInfoResource
-import com.github.mkroli.dns4s.section.resource.OPTResource.{ClientSubnetOPTOptionData, UnknownOPTOptionData}
-import com.github.mkroli.dns4s.section.resource.SOAResource
+import com.github.mkroli.dns4s.section.ResourceRecord
+import com.github.mkroli.dns4s.section.resource.CAAResource.{
+  CustomCAAResource,
+  IODEFResource,
+  IssueResource,
+  IssueWildResource
+}
+import com.github.mkroli.dns4s.section.resource.OPTResource.{
+  ClientSubnetOPTOptionData,
+  UnknownOPTOptionData
+}
+import com.github.mkroli.dns4s.section.resource._
+import org.scalatest.FunSpec
 
 class ResourceRecordSpec extends FunSpec {
   describe("ResourceRecord") {
@@ -205,7 +204,54 @@ class ResourceRecordSpec extends FunSpec {
 
     it("should be possible to use SOARecord") {
       Response ~ Answers(SOARecord("test1", "test2", 3, 4, 5, 6, 7)) match {
-        case Response(Answers(SOARecord(SOAResource("test1", "test2", 3, 4, 5, 6, 7)) :: Nil)) =>
+        case Response(
+            Answers(
+              SOARecord(SOAResource("test1", "test2", 3, 4, 5, 6, 7)) :: Nil
+            )
+            ) =>
+      }
+    }
+    describe("should be possible to use CAARecord") {
+      it("Issue") {
+        Response ~ Answers(CAARecord.Issue("someValue", issuerCritical = true)) match {
+          case Response(
+              Answers(CAARecord.Issue(IssueResource("someValue", true)) :: Nil)
+              ) =>
+        }
+      }
+
+      it("IssueWild") {
+        Response ~ Answers(
+          CAARecord.IssueWild("someValue", issuerCritical = true)
+        ) match {
+          case Response(
+              Answers(
+                CAARecord.IssueWild(IssueWildResource("someValue", true)) :: Nil
+              )
+              ) =>
+        }
+      }
+
+      it("IODEF") {
+        Response ~ Answers(CAARecord.IODEF("mailto:someone@something")) match {
+          case Response(
+              Answers(
+                CAARecord.IODEF(IODEFResource("mailto:someone@something")) :: Nil
+              )
+              ) =>
+        }
+      }
+
+      it("Custom") {
+        Response ~ Answers(
+          CAARecord.Custom("something", "somevalue".getBytes, 2.toByte)
+        ) match {
+          case Response(
+              Answers(
+                CAARecord.Custom(CustomCAAResource("something", bytes, flags)) :: Nil
+              )
+              ) =>
+        }
       }
     }
   }
