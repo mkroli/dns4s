@@ -63,10 +63,10 @@ object CAAResource {
   private def createFlagByte(issuerCritical: Boolean): Byte =
     if (issuerCritical) 1 else 0
 
-  case class IssueResource(value: String, issuerCritical: Boolean)
+  case class IssueResource(value: String, issuerCritical: Boolean = false)
       extends CAAResource(issue, value.getBytes, createFlagByte(issuerCritical))
 
-  case class IssueWildResource(value: String, issuerCritical: Boolean)
+  case class IssueWildResource(value: String, issuerCritical: Boolean = false)
       extends CAAResource(
         issuewild,
         value.getBytes,

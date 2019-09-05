@@ -198,7 +198,8 @@ object HInfoRecord extends ResourceRecordExtractor[HInfoResource] {
 object CAARecord extends ResourceRecordExtractor[CAAResource] {
   
   object Issue extends ResourceRecordExtractor[IssueResource] {
-    def apply(value: String, issuerCritical: Boolean): ResourceRecordModifier =
+    def apply(value: String,
+              issuerCritical: Boolean = false): ResourceRecordModifier =
       resourceRecordModifier(
         ResourceRecord.typeCAA,
         IssueResource(value, issuerCritical)
@@ -206,7 +207,8 @@ object CAARecord extends ResourceRecordExtractor[CAAResource] {
   }
 
   object IssueWild extends ResourceRecordExtractor[IssueWildResource] {
-    def apply(value: String, issuerCritical: Boolean): ResourceRecordModifier =
+    def apply(value: String,
+              issuerCritical: Boolean = false): ResourceRecordModifier =
       resourceRecordModifier(
         ResourceRecord.typeCAA,
         IssueWildResource(value, issuerCritical)
