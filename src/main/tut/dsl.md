@@ -308,7 +308,7 @@ val responseOPT:      Message = Response ~ Answers(RRName("example.com") ~ TypeO
 val responseAXFR:     Message = Response ~ Answers(RRName("example.com") ~ TypeAXFR)
 val responseMAILB:    Message = Response ~ Answers(RRName("example.com") ~ TypeMAILB)
 val responseMAILA:    Message = Response ~ Answers(RRName("example.com") ~ TypeMAILA)
-val responseCAA:    Message = Response ~ Answers(RRName("example.com") ~ TypeCAA)
+val responseCAA:      Message = Response ~ Answers(RRName("example.com") ~ TypeCAA)
 val responseAsterisk: Message = Response ~ Answers(RRName("example.com") ~ TypeAsterisk)
 
 // Matching
