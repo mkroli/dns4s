@@ -39,14 +39,23 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
 
   def getBytes(bytes: Int) = {
     require(bytes >= 0)
-    (0 until bytes).map(_ => get())
+    IndexedSeq.fill(bytes)(get)
   }
+
+  def getByteArray(bytes: Int) = {
+    require(bytes >= 0)
+    Array.fill(bytes)(get)
+  }
+
+  def getString(bytes: Int) = new String(getByteArray(bytes))
 
   def putBytes(bytes: Int, a: Array[Byte]) = {
     require(a.length <= bytes)
     (0 until (bytes - a.length)).foreach(_ => buf.put(0: Byte))
     put(a)
   }
+
+  def putString(s: String) = put(s.getBytes)
 
   /*
   def getSignedBigInt(bytes: Int) =
@@ -123,7 +132,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
           buf.position(pos)
           dn
         case 0 => Nil
-        case s => new String((0 until s).map(_ => buf.get()).toArray) :: getDomainNamePart(positions)
+        case s => getString(s) :: getDomainNamePart(positions)
       }
     }
     getDomainNamePart(Set()).mkString(".")
@@ -152,7 +161,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
 
   def getCharacterString(): String = {
     val length = getUnsignedInt(1)
-    new String((0 until length).map(_ => buf.get).toArray)
+    getString(length)
   }
 
   def putCharacterString(cs: String): MessageBuffer = {
