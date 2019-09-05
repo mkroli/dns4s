@@ -52,13 +52,31 @@ object CAAResource {
       case `issuewild` => IssueWildResource(getValue, issuerCritical)
       case `iodef`     => IODEFResource(getValue)
       case unknownTag =>
-        UnknownCAAResource(
+        CustomCAAResource(
           unknownTag,
           buf.getBytes(valueLength).toArray,
           flagByte
         )
     }
   }
+
+  private[dns4s] def apply(tag: String,
+                           value: Array[Byte],
+                           flag: Byte): CAAResource =
+    CustomCAAResource(tag, value, flag)
+
+  private[dns4s] def apply(tag: String, value: String): CAAResource =
+    tag match {
+      case `iodef` => IODEFResource(value)
+    }
+
+  private[dns4s] def apply(tag: String,
+                           value: String,
+                           issuerCritical: Boolean): CAAResource =
+    tag match {
+      case `issue`     => IssueResource(value, issuerCritical)
+      case `issuewild` => IssueWildResource(value, issuerCritical)
+    }
 
   private def byteArrayToString(byteArray: IndexedSeq[Byte]) =
     byteArray.map(_.toChar).mkString
@@ -79,14 +97,14 @@ object CAAResource {
   case class IODEFResource(value: String)
       extends CAAResource(iodef, value.getBytes, createFlagByte(false))
 
-  case class UnknownCAAResource(tag: String,
-                                valueBytes: Array[Byte],
-                                flagsByte: Byte)
+  case class CustomCAAResource(tag: String,
+                               valueBytes: Array[Byte],
+                               flagsByte: Byte)
       extends CAAResource(tag, valueBytes, flagsByte) {
 
     override def equals(obj: Any): Boolean = {
       obj match {
-        case that: UnknownCAAResource =>
+        case that: CustomCAAResource =>
           tag == that.tag &&
             (valueBytes sameElements that.valueBytes) &&
             flagsByte == that.flagsByte

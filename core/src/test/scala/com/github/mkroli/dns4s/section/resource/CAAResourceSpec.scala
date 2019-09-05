@@ -20,30 +20,30 @@ import com.github.mkroli.dns4s.section.resource.CAAResource.{
   IODEFResource,
   IssueResource,
   IssueWildResource,
-  UnknownCAAResource
+  CustomCAAResource
 }
 import com.github.mkroli.dns4s.{MessageBuffer, bytes}
 import org.scalatest.FunSpec
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
 class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
-  describe("UnknownCAAResource") {
+  describe("CustomCAAResource") {
     describe("validation") {
       describe("tag") {
         it("should fail if it is empty") {
           intercept[IllegalArgumentException] {
-            UnknownCAAResource("", "someValue".getBytes, Byte.MinValue)
+            CustomCAAResource("", "someValue".getBytes, Byte.MinValue)
           }
         }
         it("should not fail for a valid value") {
-          UnknownCAAResource("someTag", "someValue".getBytes, Byte.MinValue)
+          CustomCAAResource("someTag", "someValue".getBytes, Byte.MinValue)
         }
       }
     }
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
         val expectedResource =
-          UnknownCAAResource("someTag", "someValue".getBytes, 1.toByte)
+          CustomCAAResource("someTag", "someValue".getBytes, 1.toByte)
         val encoded = expectedResource(MessageBuffer()).flipped()
         val actualResource = CAAResource(encoded, encoded.remaining())
         assert(expectedResource === actualResource)
@@ -55,7 +55,7 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
           `type` = ResourceRecord.typeCAA,
           `class` = 0,
           ttl = 0,
-          rdata = UnknownCAAResource("testTag", "testValue".getBytes, 1.toByte)
+          rdata = CustomCAAResource("testTag", "testValue".getBytes, 1.toByte)
         )
 
         val expectedBytes = bytes(
