@@ -44,7 +44,7 @@ object CAAResource {
     val flagByte = buf.get()
     val tag = buf.getCharacterString()
     val valueLength = rdLength - buf.buf.position() + pos
-    def getValue: String = byteArrayToString(buf.getBytes(valueLength))
+    def getValue: String = buf.getString(valueLength)
     val issuerCritical: Boolean = flagByte == 1
 
     tag match {
@@ -59,9 +59,6 @@ object CAAResource {
         )
     }
   }
-
-  private def byteArrayToString(byteArray: IndexedSeq[Byte]) =
-    byteArray.map(_.toChar).mkString
 
   private def createFlagByte(issuerCritical: Boolean): Byte =
     if (issuerCritical) 1 else 0
