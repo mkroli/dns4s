@@ -83,10 +83,9 @@ object CAAResource {
 
     override def equals(obj: Any): Boolean = {
       obj match {
-        case that: CustomCAAResource =>
-          tag == that.tag &&
-            (valueBytes sameElements that.valueBytes) &&
-            flagsByte == that.flagsByte
+        case CustomCAAResource(`tag`, bytes, `flagsByte`)
+            if valueBytes sameElements bytes =>
+          true
         case _ => false
       }
     }

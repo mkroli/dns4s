@@ -47,6 +47,11 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
         val encoded = expectedResource(MessageBuffer()).flipped()
         val actualResource = CAAResource(encoded, encoded.remaining())
         assert(expectedResource === actualResource)
+        assert(
+          expectedResource.copy(
+            valueBytes = expectedResource.valueBytes.map(b => (~b).toByte)
+          ) !== actualResource
+        )
       }
 
       it("should be decoded wrapped in CAARecord") {
