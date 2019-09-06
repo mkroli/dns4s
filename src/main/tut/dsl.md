@@ -520,9 +520,7 @@ val (mname, rname, serial, refresh, retry, expire, minimum) = response match {
 #### CAARecord
 ```tut:book
 // Creation
-val response: Message = Response ~
-                        Questions(QName("example.com") ~ TypeCAA) ~ 
-                        Answers(RRName("example.com") ~ CAARecord.Issue("cert-authority.org"))
+val response: Message = Response ~ Questions(QName("example.com") ~ TypeCAA) ~ Answers(RRName("example.com") ~ CAARecord.Issue("cert-authority.org"))
 
 // Matching
 val value = response match {
