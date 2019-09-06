@@ -39,7 +39,7 @@ def projectSettings(n: String, d: String) = Seq(
   publishArtifact in Test := false,
   bintrayPackage := "dns4s",
   autoAPIMappings := true,
-  licenses := Seq("Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
+  licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
   homepage := Some(url("https://github.com/mkroli/dns4s")),
   scmInfo := Some(
     ScmInfo(
