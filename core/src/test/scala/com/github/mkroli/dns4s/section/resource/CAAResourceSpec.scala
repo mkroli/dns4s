@@ -16,12 +16,7 @@
 package com.github.mkroli.dns4s.section.resource
 
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.CAAResource.{
-  IODEFResource,
-  IssueResource,
-  IssueWildResource,
-  CustomCAAResource
-}
+import com.github.mkroli.dns4s.section.resource.CAAResource.{IODEFResource, IssueResource, IssueWildResource, CustomCAAResource}
 import com.github.mkroli.dns4s.{MessageBuffer, bytes}
 import org.scalatest.FunSpec
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
@@ -44,7 +39,7 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         val expectedResource =
           CustomCAAResource("someTag", "someValue".getBytes, 1.toByte)
-        val encoded = expectedResource(MessageBuffer()).flipped()
+        val encoded        = expectedResource(MessageBuffer()).flipped()
         val actualResource = CAAResource(encoded, encoded.remaining())
         assert(expectedResource === actualResource)
         assert(
@@ -88,7 +83,7 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         val expectedResource =
           IssueResource("someValue", issuerCritical = true)
-        val encoded = expectedResource(MessageBuffer()).flipped()
+        val encoded        = expectedResource(MessageBuffer()).flipped()
         val actualResource = CAAResource(encoded, encoded.remaining())
         assert(expectedResource === actualResource)
       }
@@ -127,7 +122,7 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         val expectedResource =
           IssueWildResource("someValue", issuerCritical = false)
-        val encoded = expectedResource(MessageBuffer()).flipped()
+        val encoded        = expectedResource(MessageBuffer()).flipped()
         val actualResource = CAAResource(encoded, encoded.remaining())
         assert(expectedResource === actualResource)
       }
@@ -167,7 +162,7 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         val expectedResource =
           IODEFResource("someValue")
-        val encoded = expectedResource(MessageBuffer()).flipped()
+        val encoded        = expectedResource(MessageBuffer()).flipped()
         val actualResource = CAAResource(encoded, encoded.remaining())
         assert(expectedResource === actualResource)
       }

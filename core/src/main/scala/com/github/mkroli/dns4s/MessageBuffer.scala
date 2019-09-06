@@ -63,7 +63,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
 
   def putSignedBigInt(bytes: Int, i: BigInt) =
     putBytes(bytes, i.toByteArray)
-  */
+   */
 
   def getUnsignedBigInt(bytes: Int) =
     BigInt((0: Byte) +: getBytes(bytes) toArray)
@@ -71,7 +71,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
   def putUnsignedBigInt(bytes: Int, i: BigInt) = {
     putBytes(bytes, i.toByteArray.toList match {
       case 0 :: tail => tail.toArray
-      case a => a.toArray
+      case a         => a.toArray
     })
   }
 
@@ -85,7 +85,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
     require(bytes > 0 && bytes <= 8)
     putSignedBigInt(bytes, l)
   }
-  */
+   */
 
   def getUnsignedLong(bytes: Int) = {
     require(bytes > 0 && bytes < 8)
@@ -107,7 +107,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
     require(bytes > 0 && bytes <= 4)
     putSignedBigInt(bytes, i)
   }
-  */
+   */
 
   def getUnsignedInt(bytes: Int) = {
     require(bytes > 0 && bytes < 4)
@@ -145,15 +145,13 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
       domains.get(dn) match {
         case Some(pos) => putUnsignedInt(2, 0xC000 | pos)
         case None =>
-          dn.span('.'!=) match {
+          dn.span('.' !=) match {
             case (dc, d) =>
-              val dr = if (d.isEmpty) d else d.substring(1)
-              val pos = buf.position()
+              val dr    = if (d.isEmpty) d else d.substring(1)
+              val pos   = buf.position()
               val bytes = dc.getBytes
-              val mb = putUnsignedInt(1, bytes.length).put(bytes).putDomainName(dr)
-              new MessageBuffer(
-                mb.buf,
-                mb.domains + (dn -> pos))
+              val mb    = putUnsignedInt(1, bytes.length).put(bytes).putDomainName(dr)
+              new MessageBuffer(mb.buf, mb.domains + (dn -> pos))
           }
       }
     }
@@ -177,7 +175,7 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
 
   def processBytes[T](bytes: Int)(f: => T): T = {
     val oldPosition = buf.position()
-    val r = f
+    val r           = f
     require(oldPosition + bytes >= buf.position())
     foreachBuf(_.position(oldPosition + bytes))
     r
@@ -186,10 +184,9 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
   def putLengthOf(bytes: Int, f: (MessageBuffer) => MessageBuffer): MessageBuffer = {
     val oldPosition = buf.position()
     buf.position(oldPosition + bytes)
-    val mb = f(this)
+    val mb          = f(this)
     val newPosition = mb.buf.position()
-    mb
-      .foreachBuf(_.position(oldPosition))
+    mb.foreachBuf(_.position(oldPosition))
       .putUnsignedLong(bytes, newPosition - oldPosition - bytes)
       .foreachBuf(_.position(newPosition))
   }

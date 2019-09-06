@@ -57,8 +57,8 @@ class NAPTRResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       }
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeNAPTR, 0, 0, NAPTRResource(123, 456, "ABC", "DEF", "GHI", "abc.def.ghi"))
-        val a = rr(MessageBuffer()).flipped
-        val b = bytes("""04 74 65 73 74 00  0023 0000 00000000 001D
+        val a  = rr(MessageBuffer()).flipped
+        val b  = bytes("""04 74 65 73 74 00  0023 0000 00000000 001D
                          00 7B
                          01 C8
                          03 41 42 43

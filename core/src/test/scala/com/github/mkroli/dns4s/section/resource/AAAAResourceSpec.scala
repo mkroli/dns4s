@@ -41,7 +41,8 @@ class AAAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
           `type` = ResourceRecord.typeAAAA,
           `class` = 0,
           ttl = 0,
-          rdata = AAAAResource(inet6Address("0fff fff1 fff2 fff3 fff4 fff5 fff6 fff7")))
+          rdata = AAAAResource(inet6Address("0fff fff1 fff2 fff3 fff4 fff5 fff6 fff7"))
+        )
         val a = rr(MessageBuffer()).flipped
         val b = bytes("0474 6573 7400 001C 0000 0000 0000 0010 0fff fff1 fff2 fff3 fff4 fff5 fff6 fff7")
         assert(b === a.getBytes(a.remaining))

@@ -24,7 +24,7 @@ import com.github.mkroli.dns4s.section.resource.OPTResource.{ClientSubnetOPTOpti
 private[dsl] abstract class OptionDataExtractor[T: Manifest] {
   def unapply(o: OPTOption): Option[T] = o.data match {
     case o: T => Some(o)
-    case _ => None
+    case _    => None
   }
 }
 

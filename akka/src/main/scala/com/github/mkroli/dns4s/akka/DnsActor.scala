@@ -36,7 +36,8 @@ class DnsActor(port: Int, requester: ActorRef, handler: ActorRef)(implicit timeo
 
   var nextFreeId = 0
 
-  val requests = CacheBuilder.newBuilder()
+  val requests = CacheBuilder
+    .newBuilder()
     .expireAfterWrite(5, TimeUnit.SECONDS)
     .build[Integer, ActorRef]()
     .asMap()
@@ -64,15 +65,11 @@ class DnsActor(port: Int, requester: ActorRef, handler: ActorRef)(implicit timeo
     case Dns.DnsPacket(Query(message), destination) =>
       nextFreeId = (nextFreeId + 1) % 0x10000
       requests.put(nextFreeId, sender)
-      socket ! Udp.Send(
-        ByteString(message.copy(header = message.header.copy(id = nextFreeId))().flipped.buf),
-        destination)
+      socket ! Udp.Send(ByteString(message.copy(header = message.header.copy(id = nextFreeId))().flipped.buf), destination)
     case Udp.Received(MessageInByteString(Query(message)), remote) =>
       (handler ? message).foreach {
         case Response(response) =>
-          socket ! Udp.Send(
-            ByteString(response.copy(header = response.header.copy(id = message.header.id))().flipped.buf),
-            remote)
+          socket ! Udp.Send(ByteString(response.copy(header = response.header.copy(id = message.header.id))().flipped.buf), remote)
       }
     case Udp.Received(MessageInByteString(Response(message)), remote) =>
       requests.get(message.header.id).foreach { sender =>

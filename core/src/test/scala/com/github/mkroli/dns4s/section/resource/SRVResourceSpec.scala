@@ -50,8 +50,8 @@ class SRVResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeSRV, 0, 0, SRVResource(123, 234, 345, "test.test"))
-        val a = rr(MessageBuffer()).flipped
-        val b = bytes("04 74 65 73 74 00  0021 0000 00000000 000D 007B 00EA 0159 04 74 65 73 74 C000")
+        val a  = rr(MessageBuffer()).flipped
+        val b  = bytes("04 74 65 73 74 00  0021 0000 00000000 000D 007B 00EA 0159 04 74 65 73 74 C000")
         assert(b === a.getBytes(a.remaining))
         assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
       }

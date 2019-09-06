@@ -25,7 +25,7 @@ class CommonSpec extends FunSpec {
     it("should be possible to combine MessageModifierS") {
       val txt = Answers(TXTRecord("test"))
       val ext = EDNS()
-      val mm = txt ~ ext
+      val mm  = txt ~ ext
       Response ~ mm match {
         case Response(Answers(TXTRecord(TXTResource(Seq("test"))) :: Nil) ~ EDNS(_)) =>
       }
@@ -38,11 +38,8 @@ class CommonSpec extends FunSpec {
         }
       }
 
-      List(ResourceRecord.classIN -> "IN",
-        ResourceRecord.classCS -> "CS",
-        ResourceRecord.classCH -> "CH",
-        ResourceRecord.classHS -> "HS",
-        255 -> "Asterisk").foreach {
+      List(ResourceRecord.classIN -> "IN", ResourceRecord.classCS -> "CS", ResourceRecord.classCH -> "CH", ResourceRecord.classHS -> "HS", 255 -> "Asterisk")
+        .foreach {
           case (c, s) => test(c, s)
         }
     }
@@ -55,33 +52,34 @@ class CommonSpec extends FunSpec {
       }
 
       List(
-        ResourceRecord.typeA -> "A",
-        ResourceRecord.typeNS -> "NS",
-        ResourceRecord.typeMD -> "MD",
-        ResourceRecord.typeMF -> "MF",
+        ResourceRecord.typeA     -> "A",
+        ResourceRecord.typeNS    -> "NS",
+        ResourceRecord.typeMD    -> "MD",
+        ResourceRecord.typeMF    -> "MF",
         ResourceRecord.typeCNAME -> "CNAME",
-        ResourceRecord.typeSOA -> "SOA",
-        ResourceRecord.typeMB -> "MB",
-        ResourceRecord.typeMG -> "MG",
-        ResourceRecord.typeMR -> "MR",
-        ResourceRecord.typeNULL -> "NULL",
-        ResourceRecord.typeWKS -> "WKS",
-        ResourceRecord.typePTR -> "PTR",
+        ResourceRecord.typeSOA   -> "SOA",
+        ResourceRecord.typeMB    -> "MB",
+        ResourceRecord.typeMG    -> "MG",
+        ResourceRecord.typeMR    -> "MR",
+        ResourceRecord.typeNULL  -> "NULL",
+        ResourceRecord.typeWKS   -> "WKS",
+        ResourceRecord.typePTR   -> "PTR",
         ResourceRecord.typeHINFO -> "HINFO",
         ResourceRecord.typeMINFO -> "MINFO",
-        ResourceRecord.typeMX -> "MX",
-        ResourceRecord.typeTXT -> "TXT",
-        ResourceRecord.typeAAAA -> "AAAA",
-        ResourceRecord.typeSRV -> "SRV",
+        ResourceRecord.typeMX    -> "MX",
+        ResourceRecord.typeTXT   -> "TXT",
+        ResourceRecord.typeAAAA  -> "AAAA",
+        ResourceRecord.typeSRV   -> "SRV",
         ResourceRecord.typeNAPTR -> "NAPTR",
-        ResourceRecord.typeOPT -> "OPT",
-        ResourceRecord.typeCAA -> "CAA",
-        252 -> "AXFR",
-        253 -> "MAILB",
-        254 -> "MAILA",
-        255 -> "Asterisk").foreach {
-          case (t, s) => test(t, s)
-        }
+        ResourceRecord.typeOPT   -> "OPT",
+        ResourceRecord.typeCAA   -> "CAA",
+        252                      -> "AXFR",
+        253                      -> "MAILB",
+        254                      -> "MAILA",
+        255                      -> "Asterisk"
+      ).foreach {
+        case (t, s) => test(t, s)
+      }
     }
   }
 }

@@ -39,8 +39,8 @@ class AResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeA, 0, 0, AResource(inet4Address("FF 0F F0 FF")))
-        val a = rr(MessageBuffer()).flipped
-        val b = bytes("04 74 65 73 74 00  0001 0000 00000000 0004 FF 0F F0 FF")
+        val a  = rr(MessageBuffer()).flipped
+        val b  = bytes("04 74 65 73 74 00  0001 0000 00000000 0004 FF 0F F0 FF")
         assert(b === a.getBytes(a.remaining))
         assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
       }

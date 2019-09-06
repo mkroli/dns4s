@@ -36,7 +36,7 @@ import akka.testkit.TestProbe
 import akka.util.Timeout
 
 class DnsExtensionSpec extends FunSpec with TestKitBase with ImplicitSender with BeforeAndAfterAll {
-  implicit lazy val system = ActorSystem()
+  implicit lazy val system  = ActorSystem()
   implicit lazy val timeout = Timeout(5 seconds)
 
   override def afterAll = shutdown(system)
@@ -82,7 +82,8 @@ class DnsExtensionSpec extends FunSpec with TestKitBase with ImplicitSender with
         }
         lastSender ! Response ~ Id(id) ~ Questions(questions: _*) ~ Answers(RRName("test.test") ~ ARecord("1.2.3.4"))
         probe.expectMsgPF() {
-          case Response(_) ~ Id(`id`) ~ Questions(`questions`) ~ Answers(RRName("test.test") ~ ARecord(AResource(ip)) :: Nil) if ip.getHostAddress == "1.2.3.4" =>
+          case Response(_) ~ Id(`id`) ~ Questions(`questions`) ~ Answers(RRName("test.test") ~ ARecord(AResource(ip)) :: Nil)
+              if ip.getHostAddress == "1.2.3.4" =>
         }
       }
 

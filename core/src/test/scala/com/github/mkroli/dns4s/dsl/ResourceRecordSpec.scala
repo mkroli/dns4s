@@ -18,16 +18,8 @@ package com.github.mkroli.dns4s.dsl
 import java.net.InetAddress
 
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.CAAResource.{
-  CustomCAAResource,
-  IODEFResource,
-  IssueResource,
-  IssueWildResource
-}
-import com.github.mkroli.dns4s.section.resource.OPTResource.{
-  ClientSubnetOPTOptionData,
-  UnknownOPTOptionData
-}
+import com.github.mkroli.dns4s.section.resource.CAAResource.{CustomCAAResource, IODEFResource, IssueResource, IssueWildResource}
+import com.github.mkroli.dns4s.section.resource.OPTResource.{ClientSubnetOPTOptionData, UnknownOPTOptionData}
 import com.github.mkroli.dns4s.section.resource._
 import org.scalatest.FunSpec
 
@@ -173,7 +165,11 @@ class ResourceRecordSpec extends FunSpec {
         val address = InetAddress.getByAddress(Array(-1, -1, -1, -1))
         Response ~ Additional(OPTRecord(ClientSubnetOption(ClientSubnetOPTOptionData.familyIPv4, 32, 32, address) :: Nil)) match {
           case Response(Additional(OPTRecord(OPTResource(UnknownOption(UnknownOPTOptionData(_)) :: Nil)) :: Nil)) => fail()
-          case Response(Additional(OPTRecord(OPTResource(ClientSubnetOption(ClientSubnetOPTOptionData(ClientSubnetOPTOptionData.familyIPv4, 32, 32, `address`)) :: Nil)) :: Nil)) =>
+          case Response(
+              Additional(
+                OPTRecord(OPTResource(ClientSubnetOption(ClientSubnetOPTOptionData(ClientSubnetOPTOptionData.familyIPv4, 32, 32, `address`)) :: Nil)) :: Nil
+              )
+              ) =>
         }
       }
     }

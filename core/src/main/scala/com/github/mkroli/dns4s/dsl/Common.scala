@@ -41,54 +41,54 @@ private[dsl] abstract class DnsType(t: Int) extends QuestionSectionModifier with
   def unapply(rr: ResourceRecord) = rr.`type` == t
 }
 
-object TypeA extends DnsType(ResourceRecord.typeA)
-object TypeNS extends DnsType(ResourceRecord.typeNS)
-object TypeMD extends DnsType(ResourceRecord.typeMD)
-object TypeMF extends DnsType(ResourceRecord.typeMF)
-object TypeCNAME extends DnsType(ResourceRecord.typeCNAME)
-object TypeSOA extends DnsType(ResourceRecord.typeSOA)
-object TypeMB extends DnsType(ResourceRecord.typeMB)
-object TypeMG extends DnsType(ResourceRecord.typeMG)
-object TypeMR extends DnsType(ResourceRecord.typeMR)
-object TypeNULL extends DnsType(ResourceRecord.typeNULL)
-object TypeWKS extends DnsType(ResourceRecord.typeWKS)
-object TypePTR extends DnsType(ResourceRecord.typePTR)
-object TypeHINFO extends DnsType(ResourceRecord.typeHINFO)
-object TypeMINFO extends DnsType(ResourceRecord.typeMINFO)
-object TypeMX extends DnsType(ResourceRecord.typeMX)
-object TypeTXT extends DnsType(ResourceRecord.typeTXT)
-object TypeAAAA extends DnsType(ResourceRecord.typeAAAA)
-object TypeSRV extends DnsType(ResourceRecord.typeSRV)
-object TypeNAPTR extends DnsType(ResourceRecord.typeNAPTR)
-object TypeOPT extends DnsType(ResourceRecord.typeOPT)
-object TypeAXFR extends DnsType(ResourceRecord.qtypeAXFR)
-object TypeMAILB extends DnsType(ResourceRecord.qtypeMAILB)
-object TypeMAILA extends DnsType(ResourceRecord.qtypeMAILA)
+object TypeA        extends DnsType(ResourceRecord.typeA)
+object TypeNS       extends DnsType(ResourceRecord.typeNS)
+object TypeMD       extends DnsType(ResourceRecord.typeMD)
+object TypeMF       extends DnsType(ResourceRecord.typeMF)
+object TypeCNAME    extends DnsType(ResourceRecord.typeCNAME)
+object TypeSOA      extends DnsType(ResourceRecord.typeSOA)
+object TypeMB       extends DnsType(ResourceRecord.typeMB)
+object TypeMG       extends DnsType(ResourceRecord.typeMG)
+object TypeMR       extends DnsType(ResourceRecord.typeMR)
+object TypeNULL     extends DnsType(ResourceRecord.typeNULL)
+object TypeWKS      extends DnsType(ResourceRecord.typeWKS)
+object TypePTR      extends DnsType(ResourceRecord.typePTR)
+object TypeHINFO    extends DnsType(ResourceRecord.typeHINFO)
+object TypeMINFO    extends DnsType(ResourceRecord.typeMINFO)
+object TypeMX       extends DnsType(ResourceRecord.typeMX)
+object TypeTXT      extends DnsType(ResourceRecord.typeTXT)
+object TypeAAAA     extends DnsType(ResourceRecord.typeAAAA)
+object TypeSRV      extends DnsType(ResourceRecord.typeSRV)
+object TypeNAPTR    extends DnsType(ResourceRecord.typeNAPTR)
+object TypeOPT      extends DnsType(ResourceRecord.typeOPT)
+object TypeAXFR     extends DnsType(ResourceRecord.qtypeAXFR)
+object TypeMAILB    extends DnsType(ResourceRecord.qtypeMAILB)
+object TypeMAILA    extends DnsType(ResourceRecord.qtypeMAILA)
 object TypeAsterisk extends DnsType(ResourceRecord.qtypeAsterisk)
-object TypeCAA extends DnsType(ResourceRecord.typeCAA)
+object TypeCAA      extends DnsType(ResourceRecord.typeCAA)
 
 object DnsTypeName {
   private val dnsTypeToString: PartialFunction[Int, String] = {
-    case 1 => "A"
-    case 2 => "NS"
-    case 3 => "MD"
-    case 4 => "MF"
-    case 5 => "CNAME"
-    case 6 => "SOA"
-    case 7 => "MB"
-    case 8 => "MG"
-    case 9 => "MR"
-    case 10 => "NULL"
-    case 11 => "WKS"
-    case 12 => "PTR"
-    case 13 => "HINFO"
-    case 14 => "MINFO"
-    case 15 => "MX"
-    case 16 => "TXT"
-    case 28 => "AAAA"
-    case 33 => "SRV"
-    case 35 => "NAPTR"
-    case 41 => "OPT"
+    case 1   => "A"
+    case 2   => "NS"
+    case 3   => "MD"
+    case 4   => "MF"
+    case 5   => "CNAME"
+    case 6   => "SOA"
+    case 7   => "MB"
+    case 8   => "MG"
+    case 9   => "MR"
+    case 10  => "NULL"
+    case 11  => "WKS"
+    case 12  => "PTR"
+    case 13  => "HINFO"
+    case 14  => "MINFO"
+    case 15  => "MX"
+    case 16  => "TXT"
+    case 28  => "AAAA"
+    case 33  => "SRV"
+    case 35  => "NAPTR"
+    case 41  => "OPT"
     case 252 => "AXFR"
     case 253 => "MAILB"
     case 254 => "MAILA"
@@ -111,18 +111,18 @@ private[dsl] abstract class DnsClass(c: Int) extends QuestionSectionModifier wit
   def unapply(rr: ResourceRecord) = rr.`class` == c
 }
 
-object ClassIN extends DnsClass(1)
-object ClassCS extends DnsClass(2)
-object ClassCH extends DnsClass(3)
-object ClassHS extends DnsClass(4)
+object ClassIN       extends DnsClass(1)
+object ClassCS       extends DnsClass(2)
+object ClassCH       extends DnsClass(3)
+object ClassHS       extends DnsClass(4)
 object ClassAsterisk extends DnsClass(255)
 
 object DnsClassName {
   private val dnsClassToString: PartialFunction[Int, String] = {
-    case 1 => "IN"
-    case 2 => "CS"
-    case 3 => "CH"
-    case 4 => "HS"
+    case 1   => "IN"
+    case 2   => "CS"
+    case 3   => "CH"
+    case 4   => "HS"
     case 255 => "Asterisk"
   }
 

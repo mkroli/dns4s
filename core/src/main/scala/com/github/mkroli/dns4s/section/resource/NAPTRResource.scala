@@ -18,31 +18,28 @@ package com.github.mkroli.dns4s.section.resource
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.section.Resource
 
-case class NAPTRResource(
-  order: Int,
-  preference: Int,
-  flags: String,
-  services: String,
-  regexp: String,
-  replacement: String) extends Resource {
+case class NAPTRResource(order: Int, preference: Int, flags: String, services: String, regexp: String, replacement: String) extends Resource {
   require(order >= 0 && order < (1 << 16))
   require(preference >= 0 && preference < (1 << 16))
 
-  def apply(buf: MessageBuffer) = buf
-    .putUnsignedInt(2, order)
-    .putUnsignedInt(2, preference)
-    .putCharacterString(flags)
-    .putCharacterString(services)
-    .putCharacterString(regexp)
-    .putDomainName(replacement)
+  def apply(buf: MessageBuffer) =
+    buf
+      .putUnsignedInt(2, order)
+      .putUnsignedInt(2, preference)
+      .putCharacterString(flags)
+      .putCharacterString(services)
+      .putCharacterString(regexp)
+      .putDomainName(replacement)
 }
 
 object NAPTRResource {
-  def apply(buf: MessageBuffer) = new NAPTRResource(
-    buf.getUnsignedInt(2),
-    buf.getUnsignedInt(2),
-    buf.getCharacterString(),
-    buf.getCharacterString(),
-    buf.getCharacterString(),
-    buf.getDomainName())
+  def apply(buf: MessageBuffer) =
+    new NAPTRResource(
+      buf.getUnsignedInt(2),
+      buf.getUnsignedInt(2),
+      buf.getCharacterString(),
+      buf.getCharacterString(),
+      buf.getCharacterString(),
+      buf.getDomainName()
+    )
 }

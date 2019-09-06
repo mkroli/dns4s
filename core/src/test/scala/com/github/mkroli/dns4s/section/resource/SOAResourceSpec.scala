@@ -89,18 +89,17 @@ class SOAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(dnGen, dnGen) { (mname, rname) =>
-          forAll(ulongGen(32), ulongGen(32), ulongGen(32), ulongGen(32), ulongGen(32)) {
-            (serial, refresh, retry, expire, minimum) =>
-              val sr = SOAResource(mname, rname, serial, refresh, retry, expire, minimum)
-              assert(sr === SOAResource(sr(MessageBuffer()).flipped))
+          forAll(ulongGen(32), ulongGen(32), ulongGen(32), ulongGen(32), ulongGen(32)) { (serial, refresh, retry, expire, minimum) =>
+            val sr = SOAResource(mname, rname, serial, refresh, retry, expire, minimum)
+            assert(sr === SOAResource(sr(MessageBuffer()).flipped))
           }
         }
       }
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeSOA, 0, 0, SOAResource("test.test", "test.test", 1, 2, 3, 4, 5))
-        val a = rr(MessageBuffer()).flipped
-        val b = bytes("04 74 65 73 74 00  0006 0000 00000000 001D 04 74 65 73 74 C000  C010  00000001 00000002 00000003 00000004 00000005")
+        val a  = rr(MessageBuffer()).flipped
+        val b  = bytes("04 74 65 73 74 00  0006 0000 00000000 001D 04 74 65 73 74 C000  C010  00000001 00000002 00000003 00000004 00000005")
         assert(b === a.getBytes(a.remaining))
         assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
       }

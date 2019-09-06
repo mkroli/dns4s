@@ -35,7 +35,7 @@ object OPTResource {
     if (remainingBytes < 4) {
       options
     } else {
-      val optionCode = buf.getUnsignedInt(2)
+      val optionCode   = buf.getUnsignedInt(2)
       val optionLength = math.min(remainingBytes, buf.getUnsignedInt(2))
       val optionData = optionCode match {
         case `optionClientSubnet` =>
@@ -56,19 +56,20 @@ object OPTResource {
 
   case class OPTOption(code: Int, data: OPTOptionData) extends MessageBufferEncoder {
     override def apply(buf: MessageBuffer) = {
-      buf.putUnsignedInt(2, code)
+      buf
+        .putUnsignedInt(2, code)
         .putLengthOf(2, data.apply)
     }
   }
 
   case class ClientSubnetOPTOptionData(family: Int, sourcePrefixLength: Int, scopePrefixLength: Int, address: InetAddress) extends OPTOptionData {
     override def apply(buf: MessageBuffer) = {
-      val addressLength = (sourcePrefixLength + 7) / 8
-      val addressBytes = address.getAddress.take(addressLength)
+      val addressLength        = (sourcePrefixLength + 7) / 8
+      val addressBytes         = address.getAddress.take(addressLength)
       val addressRemainingBits = sourcePrefixLength % 8
-      if(addressRemainingBits > 0) {
-        val lastByte = addressBytes(addressBytes.length - 1)
-        val mask = (((1 << addressRemainingBits) - 1) << (8 - addressRemainingBits)).toByte
+      if (addressRemainingBits > 0) {
+        val lastByte             = addressBytes(addressBytes.length - 1)
+        val mask                 = (((1 << addressRemainingBits) - 1) << (8 - addressRemainingBits)).toByte
         val lastBytePadded: Byte = (lastByte & mask).toByte
         addressBytes(addressBytes.length - 1) = lastBytePadded
       }
@@ -85,17 +86,17 @@ object OPTResource {
     val familyIPv6 = 2
 
     def apply(buf: MessageBuffer, optionLength: Int): ClientSubnetOPTOptionData = {
-      val family = buf.getUnsignedInt(2)
+      val family             = buf.getUnsignedInt(2)
       val sourcePrefixLength = buf.getUnsignedInt(1)
-      val scopePrefixLength = buf.getUnsignedInt(1)
-      val addressDataLength = optionLength - 4
-      val addressDataBytes = buf.getBytes(addressDataLength)
+      val scopePrefixLength  = buf.getUnsignedInt(1)
+      val addressDataLength  = optionLength - 4
+      val addressDataBytes   = buf.getBytes(addressDataLength)
       val familyLength = family match {
         case `familyIPv4` => 4
         case `familyIPv6` => 16
       }
       val paddingBytes = Vector.fill(familyLength - addressDataLength)(0: Byte)
-      val address = InetAddress.getByAddress((addressDataBytes ++ paddingBytes).toArray)
+      val address      = InetAddress.getByAddress((addressDataBytes ++ paddingBytes).toArray)
       ClientSubnetOPTOptionData(family, sourcePrefixLength, scopePrefixLength, address)
     }
   }

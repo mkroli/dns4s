@@ -35,12 +35,7 @@ import com.github.mkroli.dns4s.section.resource.{
   SOAResource,
   TXTResource
 }
-import com.github.mkroli.dns4s.section.resource.CAAResource.{
-  IODEFResource,
-  IssueResource,
-  IssueWildResource,
-  CustomCAAResource
-}
+import com.github.mkroli.dns4s.section.resource.CAAResource.{IODEFResource, IssueResource, IssueWildResource, CustomCAAResource}
 import com.github.mkroli.dns4s.section.resource._
 import com.google.common.net.InetAddresses
 
@@ -59,20 +54,17 @@ private[dsl] abstract class ResourceRecordSection(set: (Message, Seq[ResourceRec
 
   def apply[T](append: Boolean, rr: T*)(implicit toResourceRecord: (T) => ResourceRecord): MessageModifier = new MessageModifier {
     override def apply(msg: Message) = {
-      val rrs = if(append) get(msg) ++ rr.map(toResourceRecord) else rr.map(toResourceRecord)
+      val rrs   = if (append) get(msg) ++ rr.map(toResourceRecord) else rr.map(toResourceRecord)
       val msgcp = set(msg, rrs)
-      msgcp.copy(header = msgcp.header.copy(
-        ancount = msgcp.answer.size,
-        nscount = msgcp.authority.size,
-        arcount = msgcp.additional.size))
+      msgcp.copy(header = msgcp.header.copy(ancount = msgcp.answer.size, nscount = msgcp.authority.size, arcount = msgcp.additional.size))
     }
   }
 
   def unapply(msg: Message): Option[Seq[ResourceRecord]] = Some(get(msg).toList)
 }
 
-object Answers extends ResourceRecordSection((msg, rr) => msg.copy(answer = rr), _.answer)
-object Authority extends ResourceRecordSection((msg, rr) => msg.copy(authority = rr), _.authority)
+object Answers    extends ResourceRecordSection((msg, rr) => msg.copy(answer = rr), _.answer)
+object Authority  extends ResourceRecordSection((msg, rr) => msg.copy(authority = rr), _.authority)
 object Additional extends ResourceRecordSection((msg, rr) => msg.copy(additional = rr), _.additional)
 
 private[dsl] abstract class ResourceRecordField[T](e: ResourceRecord => T) {
@@ -106,7 +98,7 @@ object RRTtl extends ResourceRecordField(_.`ttl`) {
 private[dsl] abstract class ResourceRecordExtractor[T: Manifest] {
   def unapply(rr: ResourceRecord): Option[T] = rr.rdata match {
     case rr: T => Some(rr)
-    case _ => None
+    case _     => None
   }
 }
 
@@ -129,14 +121,14 @@ object ARecord extends ResourceRecordExtractor[AResource] {
   def apply(addr: Array[Byte]): ResourceRecordModifier = {
     ARecord(InetAddress.getByAddress(addr) match {
       case addr: Inet4Address => addr
-      case _ => throw new RuntimeException
+      case _                  => throw new RuntimeException
     })
   }
 
   def apply(addr: String): ResourceRecordModifier = {
     InetAddresses.forString(addr) match {
       case addr: Inet4Address => ARecord(addr)
-      case _ => throw new RuntimeException
+      case _                  => throw new RuntimeException
     }
   }
 }
@@ -148,14 +140,14 @@ object AAAARecord extends ResourceRecordExtractor[AAAAResource] {
   def apply(addr: Array[Byte]): ResourceRecordModifier = {
     AAAARecord(InetAddress.getByAddress(addr) match {
       case addr: Inet6Address => addr
-      case _ => throw new RuntimeException
+      case _                  => throw new RuntimeException
     })
   }
 
   def apply(addr: String): ResourceRecordModifier = {
     InetAddresses.forString(addr) match {
       case addr: Inet6Address => AAAARecord(addr)
-      case _ => throw new RuntimeException
+      case _                  => throw new RuntimeException
     }
   }
 }
@@ -196,10 +188,9 @@ object HInfoRecord extends ResourceRecordExtractor[HInfoResource] {
 }
 
 object CAARecord extends ResourceRecordExtractor[CAAResource] {
-  
+
   object Issue extends ResourceRecordExtractor[IssueResource] {
-    def apply(value: String,
-              issuerCritical: Boolean = false): ResourceRecordModifier =
+    def apply(value: String, issuerCritical: Boolean = false): ResourceRecordModifier =
       resourceRecordModifier(
         ResourceRecord.typeCAA,
         IssueResource(value, issuerCritical)
@@ -207,8 +198,7 @@ object CAARecord extends ResourceRecordExtractor[CAAResource] {
   }
 
   object IssueWild extends ResourceRecordExtractor[IssueWildResource] {
-    def apply(value: String,
-              issuerCritical: Boolean = false): ResourceRecordModifier =
+    def apply(value: String, issuerCritical: Boolean = false): ResourceRecordModifier =
       resourceRecordModifier(
         ResourceRecord.typeCAA,
         IssueWildResource(value, issuerCritical)
@@ -221,9 +211,7 @@ object CAARecord extends ResourceRecordExtractor[CAAResource] {
   }
 
   object Custom extends ResourceRecordExtractor[CustomCAAResource] {
-    def apply(tag: String,
-              value: Array[Byte],
-              flags: Byte): ResourceRecordModifier =
+    def apply(tag: String, value: Array[Byte], flags: Byte): ResourceRecordModifier =
       resourceRecordModifier(
         ResourceRecord.typeCAA,
         CustomCAAResource(tag, value, flags)
@@ -237,13 +225,6 @@ object TXTRecord extends ResourceRecordExtractor[TXTResource] {
 }
 
 object SOARecord extends ResourceRecordExtractor[SOAResource] {
-  def apply(mname: String,
-    rname: String,
-    serial: Long,
-    refresh: Long,
-    retry: Long,
-    expire: Long,
-    minimum: Long) =
-    resourceRecordModifier(ResourceRecord.typeSOA,
-      SOAResource(mname, rname, serial, refresh, retry, expire, minimum))
+  def apply(mname: String, rname: String, serial: Long, refresh: Long, retry: Long, expire: Long, minimum: Long) =
+    resourceRecordModifier(ResourceRecord.typeSOA, SOAResource(mname, rname, serial, refresh, retry, expire, minimum))
 }

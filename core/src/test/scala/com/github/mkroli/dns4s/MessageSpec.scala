@@ -29,15 +29,16 @@ class MessageSpec extends FunSpec {
         def testEncodeDecode(m: Message): Unit = {
           assert(m === Message(m().flipped))
         }
-        testEncodeDecode(Message(
-          HeaderSection(0, false, 0, false, false, false, false, 0, 0, 0, 0, 0),
-          Nil, Nil, Nil, Nil))
-        testEncodeDecode(Message(
-          HeaderSection(maxInt(16), true, maxInt(4), true, true, true, true, maxInt(4), 1, 1, 1, 1),
-          QuestionSection("test", 1, 2) :: Nil,
-          ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil,
-          ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil,
-          ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil))
+        testEncodeDecode(Message(HeaderSection(0, false, 0, false, false, false, false, 0, 0, 0, 0, 0), Nil, Nil, Nil, Nil))
+        testEncodeDecode(
+          Message(
+            HeaderSection(maxInt(16), true, maxInt(4), true, true, true, true, maxInt(4), 1, 1, 1, 1),
+            QuestionSection("test", 1, 2) :: Nil,
+            ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil,
+            ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil,
+            ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil
+          )
+        )
       }
 
       it("should encode/decode a specific byte array") {
@@ -46,7 +47,8 @@ class MessageSpec extends FunSpec {
           QuestionSection("test", 1, 2) :: Nil,
           ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil,
           ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil,
-          ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil)
+          ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil
+        )
         val a = message().flipped
         val b = bytes("""
             FFFF FF8F 0001 0001 0001 0001

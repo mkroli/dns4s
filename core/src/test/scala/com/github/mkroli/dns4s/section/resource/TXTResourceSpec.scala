@@ -25,7 +25,7 @@ class TXTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(cssGen) { txt =>
-          val cr = TXTResource(txt)
+          val cr      = TXTResource(txt)
           val encoded = cr(MessageBuffer()).flipped
           assert(cr === TXTResource(encoded, encoded.remaining))
         }
@@ -33,8 +33,8 @@ class TXTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeTXT, 0, 0, TXTResource(Seq("test.test")))
-        val a = rr(MessageBuffer()).flipped
-        val b = bytes("04 74 65 73 74 00  0010 0000 00000000 000A 09 74 65 73 74 2E 74 65 73 74")
+        val a  = rr(MessageBuffer()).flipped
+        val b  = bytes("04 74 65 73 74 00  0010 0000 00000000 000A 09 74 65 73 74 2E 74 65 73 74")
         assert(b === a.getBytes(a.remaining))
         assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
       }

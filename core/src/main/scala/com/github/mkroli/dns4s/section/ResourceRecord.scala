@@ -21,12 +21,7 @@ import com.github.mkroli.dns4s.section.resource._
 
 trait Resource extends MessageBufferEncoder
 
-case class ResourceRecord(
-    name: String,
-    `type`: Int,
-    `class`: Int,
-    ttl: Long,
-    rdata: Resource) extends MessageBufferEncoder {
+case class ResourceRecord(name: String, `type`: Int, `class`: Int, ttl: Long, rdata: Resource) extends MessageBufferEncoder {
   require(`type` >= 0 && `type` < (1 << 16))
   require(`class` >= 0 && `class` < (1 << 16))
   require(ttl >= 0 && ttl < (1L << 32))
@@ -42,60 +37,60 @@ case class ResourceRecord(
 }
 
 object ResourceRecord {
-  val typeA = 1
-  val typeNS = 2
-  val typeMD = 3
-  val typeMF = 4
-  val typeCNAME = 5
-  val typeSOA = 6
-  val typeMB = 7
-  val typeMG = 8
-  val typeMR = 9
-  val typeNULL = 10
-  val typeWKS = 11
-  val typePTR = 12
-  val typeHINFO = 13
-  val typeMINFO = 14
-  val typeMX = 15
-  val typeTXT = 16
-  val typeAAAA = 28
-  val typeSRV = 33
-  val typeNAPTR = 35
-  val typeOPT = 41
-  val qtypeAXFR = 252
-  val qtypeMAILB = 253
-  val qtypeMAILA = 254
+  val typeA         = 1
+  val typeNS        = 2
+  val typeMD        = 3
+  val typeMF        = 4
+  val typeCNAME     = 5
+  val typeSOA       = 6
+  val typeMB        = 7
+  val typeMG        = 8
+  val typeMR        = 9
+  val typeNULL      = 10
+  val typeWKS       = 11
+  val typePTR       = 12
+  val typeHINFO     = 13
+  val typeMINFO     = 14
+  val typeMX        = 15
+  val typeTXT       = 16
+  val typeAAAA      = 28
+  val typeSRV       = 33
+  val typeNAPTR     = 35
+  val typeOPT       = 41
+  val qtypeAXFR     = 252
+  val qtypeMAILB    = 253
+  val qtypeMAILA    = 254
   val qtypeAsterisk = 255
-  val typeCAA = 257
+  val typeCAA       = 257
 
-  val classIN = 1
-  val classCS = 2
-  val classCH = 3
-  val classHS = 4
+  val classIN        = 1
+  val classCS        = 2
+  val classCH        = 3
+  val classHS        = 4
   val qclassAsterisk = 255
 
   def apply(buf: MessageBuffer) = {
-    val name = buf.getDomainName()
-    val `type` = buf.getUnsignedInt(2)
-    val `class` = buf.getUnsignedInt(2)
-    val ttl = buf.getUnsignedLong(4)
+    val name     = buf.getDomainName()
+    val `type`   = buf.getUnsignedInt(2)
+    val `class`  = buf.getUnsignedInt(2)
+    val ttl      = buf.getUnsignedLong(4)
     val rdlength = buf.getUnsignedInt(2)
     val rdata = buf.processBytes(rdlength) {
       `type` match {
-        case `typeA` => AResource(buf)
-        case `typeAAAA` => AAAAResource(buf)
-        case `typeSRV` => SRVResource(buf)
+        case `typeA`     => AResource(buf)
+        case `typeAAAA`  => AAAAResource(buf)
+        case `typeSRV`   => SRVResource(buf)
         case `typeNAPTR` => NAPTRResource(buf)
-        case `typeOPT` => OPTResource(buf, rdlength)
-        case `typeNS` => NSResource(buf)
+        case `typeOPT`   => OPTResource(buf, rdlength)
+        case `typeNS`    => NSResource(buf)
         case `typeCNAME` => CNameResource(buf)
-        case `typeSOA` => SOAResource(buf)
-        case `typePTR` => PTRResource(buf)
+        case `typeSOA`   => SOAResource(buf)
+        case `typePTR`   => PTRResource(buf)
         case `typeHINFO` => HInfoResource(buf)
-        case `typeMX` => MXResource(buf)
-        case `typeTXT` => TXTResource(buf, rdlength)
-        case `typeCAA` => CAAResource(buf, rdlength)
-        case _ => UnknownResource(buf, rdlength, `type`)
+        case `typeMX`    => MXResource(buf)
+        case `typeTXT`   => TXTResource(buf, rdlength)
+        case `typeCAA`   => CAAResource(buf, rdlength)
+        case _           => UnknownResource(buf, rdlength, `type`)
       }
     }
     new ResourceRecord(name, `type`, `class`, ttl, rdata)

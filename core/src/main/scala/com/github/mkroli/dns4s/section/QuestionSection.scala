@@ -18,10 +18,7 @@ package com.github.mkroli.dns4s.section
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.MessageBufferEncoder
 
-case class QuestionSection(
-  qname: String,
-  qtype: Int,
-  qclass: Int) extends MessageBufferEncoder {
+case class QuestionSection(qname: String, qtype: Int, qclass: Int) extends MessageBufferEncoder {
   require(qtype >= 0 && qtype < (1 << 16))
   require(qclass >= 0 && qclass < (1 << 16))
 
@@ -35,9 +32,6 @@ case class QuestionSection(
 
 object QuestionSection {
   def apply(buf: MessageBuffer) = {
-    new QuestionSection(
-      buf.getDomainName(),
-      buf.getUnsignedInt(2),
-      buf.getUnsignedInt(2))
+    new QuestionSection(buf.getDomainName(), buf.getUnsignedInt(2), buf.getUnsignedInt(2))
   }
 }

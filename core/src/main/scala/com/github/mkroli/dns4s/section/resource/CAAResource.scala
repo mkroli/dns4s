@@ -18,10 +18,7 @@ package com.github.mkroli.dns4s.section.resource
 import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.section.Resource
 
-sealed abstract class CAAResource(tag: String,
-                                  valueBytes: Array[Byte],
-                                  flagsByte: Byte)
-    extends Resource {
+sealed abstract class CAAResource(tag: String, valueBytes: Array[Byte], flagsByte: Byte) extends Resource {
 
   require(tag.nonEmpty, "tag should not be empty")
 
@@ -35,16 +32,16 @@ sealed abstract class CAAResource(tag: String,
 
 object CAAResource {
 
-  private val issue = "issue"
+  private val issue     = "issue"
   private val issuewild = "issuewild"
-  private val iodef = "iodef"
+  private val iodef     = "iodef"
 
   def apply(buf: MessageBuffer, rdLength: Int): CAAResource = {
-    val pos = buf.buf.position()
-    val flagByte = buf.get()
-    val tag = buf.getCharacterString()
-    val valueLength = rdLength - buf.buf.position() + pos
-    def getValue: String = buf.getString(valueLength)
+    val pos                     = buf.buf.position()
+    val flagByte                = buf.get()
+    val tag                     = buf.getCharacterString()
+    val valueLength             = rdLength - buf.buf.position() + pos
+    def getValue: String        = buf.getString(valueLength)
     val issuerCritical: Boolean = flagByte == 1
 
     tag match {
@@ -63,8 +60,7 @@ object CAAResource {
   private def createFlagByte(issuerCritical: Boolean): Byte =
     if (issuerCritical) 1 else 0
 
-  case class IssueResource(value: String, issuerCritical: Boolean = false)
-      extends CAAResource(issue, value.getBytes, createFlagByte(issuerCritical))
+  case class IssueResource(value: String, issuerCritical: Boolean = false) extends CAAResource(issue, value.getBytes, createFlagByte(issuerCritical))
 
   case class IssueWildResource(value: String, issuerCritical: Boolean = false)
       extends CAAResource(
@@ -73,18 +69,13 @@ object CAAResource {
         createFlagByte(issuerCritical)
       )
 
-  case class IODEFResource(value: String)
-      extends CAAResource(iodef, value.getBytes, createFlagByte(false))
+  case class IODEFResource(value: String) extends CAAResource(iodef, value.getBytes, createFlagByte(false))
 
-  case class CustomCAAResource(tag: String,
-                               valueBytes: Array[Byte],
-                               flagsByte: Byte)
-      extends CAAResource(tag, valueBytes, flagsByte) {
+  case class CustomCAAResource(tag: String, valueBytes: Array[Byte], flagsByte: Byte) extends CAAResource(tag, valueBytes, flagsByte) {
 
     override def equals(obj: Any): Boolean = {
       obj match {
-        case CustomCAAResource(`tag`, bytes, `flagsByte`)
-            if valueBytes sameElements bytes =>
+        case CustomCAAResource(`tag`, bytes, `flagsByte`) if valueBytes sameElements bytes =>
           true
         case _ => false
       }

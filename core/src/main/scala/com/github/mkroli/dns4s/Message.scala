@@ -20,19 +20,20 @@ import com.github.mkroli.dns4s.section.QuestionSection
 import com.github.mkroli.dns4s.section.ResourceRecord
 
 case class Message(
-  header: HeaderSection,
-  question: Seq[QuestionSection],
-  answer: Seq[ResourceRecord],
-  authority: Seq[ResourceRecord],
-  additional: Seq[ResourceRecord]) {
+    header: HeaderSection,
+    question: Seq[QuestionSection],
+    answer: Seq[ResourceRecord],
+    authority: Seq[ResourceRecord],
+    additional: Seq[ResourceRecord]
+) {
   def apply(): MessageBuffer = {
     (header +:
       (question ++
         answer ++
         authority ++
-        additional)).foldLeft(MessageBuffer()) { (buf, encoder) =>
-          encoder(buf)
-        }
+      additional)).foldLeft(MessageBuffer()) { (buf, encoder) =>
+      encoder(buf)
+    }
   }
 }
 
@@ -44,6 +45,7 @@ object Message {
       (1 to header.qdcount).map(_ => QuestionSection(bytes)),
       (1 to header.ancount).map(_ => ResourceRecord(bytes)),
       (1 to header.nscount).map(_ => ResourceRecord(bytes)),
-      (1 to header.arcount).map(_ => ResourceRecord(bytes)))
+      (1 to header.arcount).map(_ => ResourceRecord(bytes))
+    )
   }
 }

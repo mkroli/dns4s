@@ -26,7 +26,7 @@ class DnsExtensionActor extends Actor {
   override def receive = {
     case Dns.Bind(handler, port, timeout) =>
       implicit val _timeout = timeout
-      val requester = sender
+      val requester         = sender
       context.actorOf(Props(new DnsActor(port, requester, handler)), s"dns-$port")
     case p @ Dns.DnsPacket(Query(_), _) =>
       simple forward p

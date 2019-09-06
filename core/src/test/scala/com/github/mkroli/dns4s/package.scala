@@ -30,10 +30,14 @@ package object dns4s {
 
   def bytes(s: String) = s.toSeq.filter(hexChars).sliding(2, 2).map(s => BigInt(s.mkString, 16).toByte).toList
 
-  def bytesGenerator(min: Int = 0, max: Int = 4096) = Gen.choose(min, max).flatMap { size =>
-    val byteGenerator = Gen.choose(Byte.MinValue, Byte.MaxValue)
-    Gen.listOfN(size, byteGenerator)
-  }.map(_.toArray)
+  def bytesGenerator(min: Int = 0, max: Int = 4096) =
+    Gen
+      .choose(min, max)
+      .flatMap { size =>
+        val byteGenerator = Gen.choose(Byte.MinValue, Byte.MaxValue)
+        Gen.listOfN(size, byteGenerator)
+      }
+      .map(_.toArray)
 
   @tailrec
   private def takeChars(i: Int, taken: List[Char] = Nil)(s: List[Char]): (String, String) = s match {
@@ -55,7 +59,8 @@ package object dns4s {
   }
 
   lazy val characterStringGenerator = {
-    Arbitrary.arbitrary[String]
+    Arbitrary
+      .arbitrary[String]
       .map(_.toList)
       .map(takeChars(255))
       .map(_._1)
@@ -63,14 +68,16 @@ package object dns4s {
   lazy val csGen = characterStringGenerator
 
   lazy val characterStringsGenerator = {
-    Arbitrary.arbitrary[String]
+    Arbitrary
+      .arbitrary[String]
       .map(_.filterNot(Set('.')))
       .map(grouped(255))
   }
   lazy val cssGen = characterStringsGenerator
 
   lazy val domainNameGenerator = {
-    Arbitrary.arbitrary[String]
+    Arbitrary
+      .arbitrary[String]
       .map(_.filterNot(Set('.')))
       .map(grouped(63))
       .map(_.mkString("."))

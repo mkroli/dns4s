@@ -21,12 +21,7 @@ import com.github.mkroli.dns4s.Message
 
 import io.netty.channel.DefaultAddressedEnvelope
 
-class DnsPacket(
-  msg: Message,
-  dst: InetSocketAddress,
-  src: InetSocketAddress)
-  extends DefaultAddressedEnvelope[Message, InetSocketAddress](
-    msg, dst, src)
+class DnsPacket(msg: Message, dst: InetSocketAddress, src: InetSocketAddress) extends DefaultAddressedEnvelope[Message, InetSocketAddress](msg, dst, src)
 
 object DnsPacket {
   def apply(msg: Message, dst: InetSocketAddress, src: InetSocketAddress) =

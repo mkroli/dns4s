@@ -19,18 +19,19 @@ import com.github.mkroli.dns4s.MessageBuffer
 import com.github.mkroli.dns4s.MessageBufferEncoder
 
 case class HeaderSection(
-  id: Int,
-  qr: Boolean,
-  opcode: Int,
-  aa: Boolean,
-  tc: Boolean,
-  rd: Boolean,
-  ra: Boolean,
-  rcode: Int,
-  qdcount: Int,
-  ancount: Int,
-  nscount: Int,
-  arcount: Int) extends MessageBufferEncoder {
+    id: Int,
+    qr: Boolean,
+    opcode: Int,
+    aa: Boolean,
+    tc: Boolean,
+    rd: Boolean,
+    ra: Boolean,
+    rcode: Int,
+    qdcount: Int,
+    ancount: Int,
+    nscount: Int,
+    arcount: Int
+) extends MessageBufferEncoder {
   require(id >= 0 && id < (1 << 16))
   require(opcode >= 0 && opcode < (1 << 4))
   require(rcode >= 0 && rcode < (1 << 4))
@@ -40,14 +41,14 @@ case class HeaderSection(
   require(arcount >= 0 && arcount < (1 << 16))
 
   override def apply(buf: MessageBuffer) = {
-    val tmpQr = if (qr) 1 << 15 else 0
+    val tmpQr     = if (qr) 1 << 15 else 0
     val tmpOpcode = (opcode & 15) << 11
-    val tmpAa = if (aa) 1 << 10 else 0
-    val tmpTc = if (tc) 1 << 9 else 0
-    val tmpRd = if (rd) 1 << 8 else 0
-    val tmpRa = if (ra) 1 << 7 else 0
-    val tmpRcode = rcode & 15
-    val tmp = tmpQr | tmpOpcode | tmpAa | tmpTc | tmpRd | tmpRa | tmpRcode
+    val tmpAa     = if (aa) 1 << 10 else 0
+    val tmpTc     = if (tc) 1 << 9 else 0
+    val tmpRd     = if (rd) 1 << 8 else 0
+    val tmpRa     = if (ra) 1 << 7 else 0
+    val tmpRcode  = rcode & 15
+    val tmp       = tmpQr | tmpOpcode | tmpAa | tmpTc | tmpRd | tmpRa | tmpRcode
 
     buf
       .putUnsignedInt(2, id)
@@ -60,22 +61,22 @@ case class HeaderSection(
 }
 
 object HeaderSection {
-  val qrQuery = false
+  val qrQuery    = false
   val qrResponse = true
 
-  val opcodeStandardQuery = 0
-  val opcodeInverseQuery = 1
+  val opcodeStandardQuery       = 0
+  val opcodeInverseQuery        = 1
   val opcodeServerStatusRequest = 2
 
-  val rcodeNoError = 0
-  val rcodeFormatError = 1
-  val rcodeServerFailure = 2
-  val rcodeNameError = 3
+  val rcodeNoError        = 0
+  val rcodeFormatError    = 1
+  val rcodeServerFailure  = 2
+  val rcodeNameError      = 3
   val rcodeNotImplemented = 4
-  val rcodeRefused = 5
+  val rcodeRefused        = 5
 
   def apply(buf: MessageBuffer) = {
-    val id = buf.getUnsignedInt(2)
+    val id  = buf.getUnsignedInt(2)
     val tmp = buf.getUnsignedInt(2)
     new HeaderSection(
       id = id,
@@ -89,6 +90,7 @@ object HeaderSection {
       qdcount = buf.getUnsignedInt(2),
       ancount = buf.getUnsignedInt(2),
       nscount = buf.getUnsignedInt(2),
-      arcount = buf.getUnsignedInt(2))
+      arcount = buf.getUnsignedInt(2)
+    )
   }
 }

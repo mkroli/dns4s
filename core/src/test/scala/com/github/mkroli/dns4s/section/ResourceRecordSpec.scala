@@ -82,7 +82,7 @@ class ResourceRecordSpec extends FunSpec {
       }
 
       it("should skip bytes if the actual resource records size is smaller than rdlength") {
-        val b = MessageBuffer().put(bytes("04 74 65 73 74 00  0001  0001  00000001  0008 0102030400000000").toArray).flipped
+        val b  = MessageBuffer().put(bytes("04 74 65 73 74 00  0001  0001  00000001  0008 0102030400000000").toArray).flipped
         val rr = ResourceRecord(b)
         assert(ResourceRecord("test", 1, 1, 1, AResource(InetAddress.getByAddress(Array[Byte](1, 2, 3, 4)).asInstanceOf[Inet4Address])) === rr)
         assert(0 === b.remaining)

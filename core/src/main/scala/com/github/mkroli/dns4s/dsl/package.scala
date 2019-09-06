@@ -27,23 +27,27 @@ import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.UnknownResource
 
 package object dsl {
-  private[dsl] class PlainMessage(qr: Boolean) extends Message(header = new HeaderSection(
-    id = 0,
-    qr = qr,
-    opcode = HeaderSection.opcodeStandardQuery,
-    aa = false,
-    tc = false,
-    rd = true,
-    ra = false,
-    rcode = HeaderSection.rcodeNoError,
-    qdcount = 0,
-    ancount = 0,
-    nscount = 0,
-    arcount = 0),
-    question = Nil,
-    answer = Nil,
-    authority = Nil,
-    additional = Nil)
+  private[dsl] class PlainMessage(qr: Boolean)
+      extends Message(
+        header = new HeaderSection(
+          id = 0,
+          qr = qr,
+          opcode = HeaderSection.opcodeStandardQuery,
+          aa = false,
+          tc = false,
+          rd = true,
+          ra = false,
+          rcode = HeaderSection.rcodeNoError,
+          qdcount = 0,
+          ancount = 0,
+          nscount = 0,
+          arcount = 0
+        ),
+        question = Nil,
+        answer = Nil,
+        authority = Nil,
+        additional = Nil
+      )
 
   implicit class ComposableMessage(val msg: Message) extends Message(msg.header, msg.question, msg.answer, msg.authority, msg.additional) {
     def ~(mm: MessageModifier) = new ComposableMessage(mm(msg))
@@ -60,11 +64,6 @@ package object dsl {
     qsm(QuestionSection("", ResourceRecord.typeA, ResourceRecord.classIN))
 
   implicit def resourceRecordModifierToResourceRecord(rrm: ResourceRecordModifier): ResourceRecord = {
-    rrm(ResourceRecord(
-      "",
-      ResourceRecord.typeNULL,
-      ResourceRecord.classIN,
-      3600,
-      UnknownResource(Nil, ResourceRecord.typeNULL)))
+    rrm(ResourceRecord("", ResourceRecord.typeNULL, ResourceRecord.classIN, 3600, UnknownResource(Nil, ResourceRecord.typeNULL)))
   }
 }
