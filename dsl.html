@@ -194,6 +194,7 @@ mkroli/dns4s
         <li><a href="dsl.html#hinforecord" class="header">HInfoRecord</a></li>
         <li><a href="dsl.html#txtrecord" class="header">TXTRecord</a></li>
         <li><a href="dsl.html#soarecord" class="header">SOARecord</a></li>
+        <li><a href="dsl.html#caarecord" class="header">CAARecord</a></li>
       </ul></li>
     </ul></li>
     <li><a href="dsl.html#misc" class="header">Misc</a>
@@ -207,7 +208,7 @@ mkroli/dns4s
 </nav>
 
 <div class="md-nav__title--site md-version" title="Version">
-<i class="md-icon">label_outline</i> 0.14.0
+<i class="md-icon">label_outline</i> 0.15.0
 </div>
 </nav>
 
@@ -267,6 +268,7 @@ mkroli/dns4s
         <li><a href="dsl.html#hinforecord" class="header">HInfoRecord</a></li>
         <li><a href="dsl.html#txtrecord" class="header">TXTRecord</a></li>
         <li><a href="dsl.html#soarecord" class="header">SOARecord</a></li>
+        <li><a href="dsl.html#caarecord" class="header">CAARecord</a></li>
       </ul></li>
     </ul></li>
     <li><a href="dsl.html#misc" class="header">Misc</a>
@@ -705,6 +707,9 @@ val responseMAILB:    Message = Response ~ Answers(RRName(&quot;example.com&quot
 val responseMAILA:    Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMAILA)
 // responseMAILA: com.github.mkroli.dns4s.Message = Message(HeaderSection(0,true,0,false,false,true,false,0,0,1,0,0),List(),List(ResourceRecord(example.com,254,1,3600,UnknownResource(List(),10))),List(),List())
 
+val responseCAA:      Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeCAA)
+// responseCAA: com.github.mkroli.dns4s.Message = Message(HeaderSection(0,true,0,false,false,true,false,0,0,1,0,0),List(),List(ResourceRecord(example.com,257,1,3600,UnknownResource(List(),10))),List(),List())
+
 val responseAsterisk: Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeAsterisk)
 // responseAsterisk: com.github.mkroli.dns4s.Message = Message(HeaderSection(0,true,0,false,false,true,false,0,0,1,0,0),List(),List(ResourceRecord(example.com,255,1,3600,UnknownResource(List(),10))),List(),List())
 
@@ -733,6 +738,7 @@ val rtype = response match {
   case Response(r) ~ Answers(RRName(name) ~ TypeAXFR()     :: Nil) =&gt; &quot;AXFR&quot;
   case Response(r) ~ Answers(RRName(name) ~ TypeMAILB()    :: Nil) =&gt; &quot;MAILB&quot;
   case Response(r) ~ Answers(RRName(name) ~ TypeMAILA()    :: Nil) =&gt; &quot;MAILA&quot;
+  case Response(r) ~ Answers(RRName(name) ~ TypeCAA()      :: Nil) =&gt; &quot;CAA&quot;
   case Response(r) ~ Answers(RRName(name) ~ TypeAsterisk() :: Nil) =&gt; &quot;Asterisk&quot;
 
   case Response(r) ~ Answers(RRName(name) ~ RRType(t)      :: Nil) =&gt; t.toString
@@ -949,6 +955,17 @@ val (mname, rname, serial, refresh, retry, expire, minimum) = response match {
 // expire: Long = 604800
 // minimum: Long = 600
 </code></pre>
+<h4><a href="#caarecord" name="caarecord" class="anchor"><span class="anchor-link"></span></a>CAARecord</h4>
+<pre class="prettyprint"><code class="language-scala">// Creation
+val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeCAA) ~ Answers(RRName(&quot;example.com&quot;) ~ CAARecord.Issue(&quot;cert-authority.org&quot;))
+// response: com.github.mkroli.dns4s.Message = Message(HeaderSection(0,true,0,false,false,true,false,0,1,1,0,0),List(QuestionSection(example.com,257,1)),List(ResourceRecord(example.com,257,1,3600,IssueResource(cert-authority.org,false))),List(),List())
+
+// Matching
+val value = response match {
+  case Response(_) ~ Answers(CAARecord.Issue(r) :: Nil) =&gt; r.value
+}
+// value: String = cert-authority.org
+</code></pre>
 <h2><a href="#misc" name="misc" class="anchor"><span class="anchor-link"></span></a>Misc</h2>
 <h3><a href="#dnsclassname" name="dnsclassname" class="anchor"><span class="anchor-link"></span></a>DnsClassName</h3>
 <pre class="prettyprint"><code class="language-scala">// Matching
@@ -990,7 +1007,7 @@ val size = query1 match {
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-0.14.0
+0.15.0
 </span>
 </div>
 </article>
