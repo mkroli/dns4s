@@ -21,17 +21,27 @@ import java.net.InetAddress
 
 import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.AAAAResource
-import com.github.mkroli.dns4s.section.resource.AResource
-import com.github.mkroli.dns4s.section.resource.CNameResource
-import com.github.mkroli.dns4s.section.resource.HInfoResource
-import com.github.mkroli.dns4s.section.resource.MXResource
-import com.github.mkroli.dns4s.section.resource.NAPTRResource
-import com.github.mkroli.dns4s.section.resource.NSResource
-import com.github.mkroli.dns4s.section.resource.OPTResource
-import com.github.mkroli.dns4s.section.resource.PTRResource
-import com.github.mkroli.dns4s.section.resource.SOAResource
-import com.github.mkroli.dns4s.section.resource.TXTResource
+import com.github.mkroli.dns4s.section.resource.{
+  AAAAResource,
+  AResource,
+  CAAResource,
+  CNameResource,
+  HInfoResource,
+  MXResource,
+  NAPTRResource,
+  NSResource,
+  OPTResource,
+  PTRResource,
+  SOAResource,
+  TXTResource
+}
+import com.github.mkroli.dns4s.section.resource.CAAResource.{
+  IODEFResource,
+  IssueResource,
+  IssueWildResource,
+  CustomCAAResource
+}
+import com.github.mkroli.dns4s.section.resource._
 import com.google.common.net.InetAddresses
 
 trait ResourceRecordModifier { self =>
@@ -183,6 +193,42 @@ object PTRRecord extends ResourceRecordExtractor[PTRResource] {
 object HInfoRecord extends ResourceRecordExtractor[HInfoResource] {
   def apply(cpu: String, os: String) =
     resourceRecordModifier(ResourceRecord.typeHINFO, HInfoResource(cpu, os))
+}
+
+object CAARecord extends ResourceRecordExtractor[CAAResource] {
+  
+  object Issue extends ResourceRecordExtractor[IssueResource] {
+    def apply(value: String,
+              issuerCritical: Boolean = false): ResourceRecordModifier =
+      resourceRecordModifier(
+        ResourceRecord.typeCAA,
+        IssueResource(value, issuerCritical)
+      )
+  }
+
+  object IssueWild extends ResourceRecordExtractor[IssueWildResource] {
+    def apply(value: String,
+              issuerCritical: Boolean = false): ResourceRecordModifier =
+      resourceRecordModifier(
+        ResourceRecord.typeCAA,
+        IssueWildResource(value, issuerCritical)
+      )
+  }
+
+  object IODEF extends ResourceRecordExtractor[IODEFResource] {
+    def apply(value: String): ResourceRecordModifier =
+      resourceRecordModifier(ResourceRecord.typeCAA, IODEFResource(value))
+  }
+
+  object Custom extends ResourceRecordExtractor[CustomCAAResource] {
+    def apply(tag: String,
+              value: Array[Byte],
+              flags: Byte): ResourceRecordModifier =
+      resourceRecordModifier(
+        ResourceRecord.typeCAA,
+        CustomCAAResource(tag, value, flags)
+      )
+  }
 }
 
 object TXTRecord extends ResourceRecordExtractor[TXTResource] {

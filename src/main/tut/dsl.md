@@ -308,6 +308,7 @@ val responseOPT:      Message = Response ~ Answers(RRName("example.com") ~ TypeO
 val responseAXFR:     Message = Response ~ Answers(RRName("example.com") ~ TypeAXFR)
 val responseMAILB:    Message = Response ~ Answers(RRName("example.com") ~ TypeMAILB)
 val responseMAILA:    Message = Response ~ Answers(RRName("example.com") ~ TypeMAILA)
+val responseCAA:      Message = Response ~ Answers(RRName("example.com") ~ TypeCAA)
 val responseAsterisk: Message = Response ~ Answers(RRName("example.com") ~ TypeAsterisk)
 
 // Matching
@@ -335,6 +336,7 @@ val rtype = response match {
   case Response(r) ~ Answers(RRName(name) ~ TypeAXFR()     :: Nil) => "AXFR"
   case Response(r) ~ Answers(RRName(name) ~ TypeMAILB()    :: Nil) => "MAILB"
   case Response(r) ~ Answers(RRName(name) ~ TypeMAILA()    :: Nil) => "MAILA"
+  case Response(r) ~ Answers(RRName(name) ~ TypeCAA()      :: Nil) => "CAA"
   case Response(r) ~ Answers(RRName(name) ~ TypeAsterisk() :: Nil) => "Asterisk"
 
   case Response(r) ~ Answers(RRName(name) ~ RRType(t)      :: Nil) => t.toString
@@ -512,6 +514,19 @@ val response: Message = Response ~ Questions(QName("example.com") ~ TypeSOA) ~ A
 // Matching
 val (mname, rname, serial, refresh, retry, expire, minimum) = response match {
   case Response(_) ~ Answers(SOARecord(r) :: Nil) => (r.mname, r.rname, r.serial, r.refresh, r.retry, r.expire, r.minimum)
+}
+```
+
+#### CAARecord
+```tut:book
+// Creation
+val response: Message = Response ~
+                        Questions(QName("example.com") ~ TypeCAA) ~ 
+                        Answers(RRName("example.com") ~ CAARecord.Issue("cert-authority.org"))
+
+// Matching
+val value = response match {
+  case Response(_) ~ Answers(CAARecord.Issue(r) :: Nil) => r.value
 }
 ```
 

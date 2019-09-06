@@ -65,6 +65,7 @@ object TypeAXFR extends DnsType(ResourceRecord.qtypeAXFR)
 object TypeMAILB extends DnsType(ResourceRecord.qtypeMAILB)
 object TypeMAILA extends DnsType(ResourceRecord.qtypeMAILA)
 object TypeAsterisk extends DnsType(ResourceRecord.qtypeAsterisk)
+object TypeCAA extends DnsType(ResourceRecord.typeCAA)
 
 object DnsTypeName {
   private val dnsTypeToString: PartialFunction[Int, String] = {
@@ -91,6 +92,7 @@ object DnsTypeName {
     case 252 => "AXFR"
     case 253 => "MAILB"
     case 254 => "MAILA"
+    case 257 => "CAA"
     case 255 => "Asterisk"
   }
 

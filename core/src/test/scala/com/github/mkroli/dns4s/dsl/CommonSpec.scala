@@ -75,6 +75,7 @@ class CommonSpec extends FunSpec {
         ResourceRecord.typeSRV -> "SRV",
         ResourceRecord.typeNAPTR -> "NAPTR",
         ResourceRecord.typeOPT -> "OPT",
+        ResourceRecord.typeCAA -> "CAA",
         252 -> "AXFR",
         253 -> "MAILB",
         254 -> "MAILA",
