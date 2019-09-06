@@ -55,9 +55,9 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
     put(a)
   }
 
+  /*
   def putString(s: String) = put(s.getBytes)
 
-  /*
   def getSignedBigInt(bytes: Int) =
     BigInt(getBytes(bytes) toArray)
 
