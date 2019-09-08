@@ -22,11 +22,3 @@ It consists of the following parts:
 
 [Scala]:http://www.scala-lang.org
 [DNS]:http://en.wikipedia.org/wiki/Domain_Name_System
-
-Usage
------
-
-@@dependency[sbt,Maven,Gradle] {
-  group="com.github.mkroli" artifact="dns4s-akka_2.12" version="$version$"
-  group2="com.github.mkroli" artifact2="dns4s-netty_2.12" version2="$version$"
-}
