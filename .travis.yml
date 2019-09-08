@@ -2,9 +2,10 @@ sudo: false
 language: scala
 jdk:
   - openjdk8
-script:
-  - sbt clean coverage test coverageReport coverageAggregate
-  - sbt clean scalafmtSbtCheck scalafmtCheckAll
-  - sbt clean makeSite
-after_success:
-  - sbt coveralls
+jobs:
+  include:
+    - stage: Tests
+      script: sbt clean coverage test coverageReport coverageAggregate coveralls
+    - stage: "Formatting and Documentation"
+      script: sbt clean scalafmtSbtCheck scalafmtCheckAll
+    - script: sbt clean makeSite
