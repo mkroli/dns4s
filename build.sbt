@@ -104,6 +104,7 @@ lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(
   git.remoteRepo := "git@github.com:mkroli/dns4s.git",
   siteSubdirName in ScalaUnidoc := "api",
   addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
+  mdocAutoDependency := (CrossVersion.partialVersion(scalaVersion.value) == Some((2, 13))),
   mdocIn := sourceDirectory.value / "main" / "doc",
   sourceDirectory in Paradox := mdocOut.value,
   sourceDirectory in Paradox in paradoxTheme := sourceDirectory.value / "main" / "paradox" / "template",

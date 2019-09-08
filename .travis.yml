@@ -13,8 +13,7 @@ jobs:
       name: "Scala 2.11.12"
     - script: sbt ++2.10.7  clean test
       name: "Scala 2.10.7"
-    - stage: "Formatting and Documentation"
-      script: sbt clean scalafmtSbtCheck scalafmtCheckAll
+    - script: sbt clean scalafmtSbtCheck scalafmtCheckAll
       name: "Code format"
     - script: sbt clean makeSite
       name: "Documentation"
