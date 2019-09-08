@@ -6,6 +6,15 @@ jobs:
   include:
     - stage: Tests
       script: sbt clean coverage test coverageReport coverageAggregate coveralls
+      name: "Scala 2.13.0 (code coverage)"
+    - script: sbt ++2.12.9  clean test
+      name: "Scala 2.12.9"
+    - script: sbt ++2.11.12 clean test
+      name: "Scala 2.11.12"
+    - script: sbt ++2.10.7  clean test
+      name: "Scala 2.10.7"
     - stage: "Formatting and Documentation"
       script: sbt clean scalafmtSbtCheck scalafmtCheckAll
+      name: "Code format"
     - script: sbt clean makeSite
+      name: "Documentation"
