@@ -4,5 +4,7 @@ jdk:
   - openjdk8
 script:
   - sbt clean coverage test coverageReport coverageAggregate
+  - sbt clean scalafmtSbtCheck scalafmtCheckAll
+  - sbt clean makeSite
 after_success:
   - sbt coveralls
