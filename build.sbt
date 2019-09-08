@@ -104,9 +104,10 @@ lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(
   git.remoteRepo := "git@github.com:mkroli/dns4s.git",
   siteSubdirName in ScalaUnidoc := "api",
   addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
-  sourceDirectory in Paradox := tutTargetDirectory.value,
+  mdocIn := sourceDirectory.value / "main" / "doc",
+  sourceDirectory in Paradox := mdocOut.value,
   sourceDirectory in Paradox in paradoxTheme := sourceDirectory.value / "main" / "paradox" / "template",
-  makeSite := makeSite.dependsOn(tut).value,
+  makeSite := makeSite.dependsOn(mdoc.toTask("")).value,
   paradoxNavigationDepth := 5,
   paradoxProperties in Paradox ~= (_ - "github.base_url"),
   paradoxProperties in Paradox += ("version" -> version.value),
@@ -127,7 +128,7 @@ lazy val dns4sRoot = Project(id = "dns4s", base = file("."))
       parentSettings ++
       siteSettings
   )
-  .enablePlugins(GhpagesPlugin, ScalaUnidocPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin)
+  .enablePlugins(GhpagesPlugin, ScalaUnidocPlugin, MdocPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin)
   .aggregate(dns4sCore, dns4sAkka, dns4sNetty)
   .dependsOn(dns4sCore, dns4sAkka, dns4sNetty)
 

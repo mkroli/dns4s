@@ -19,13 +19,13 @@ libraryDependencies ++= Seq(
 
 ## Imports
 Use the following additional imports to get started:
-```tut:silent
+```scala mdoc:silent
 import com.github.mkroli.dns4s.dsl._
 import com.github.mkroli.dns4s.netty._
 
 import io.netty.util.concurrent.Future
 ```
-```tut:invisible
+```scala mdoc:invisible
 import java.net.InetSocketAddress
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel._
@@ -37,9 +37,9 @@ import io.netty.util.concurrent.GenericFutureListener
 
 ### Server
 The following is an excerpt from [examples/simple-netty/../DnsServer.scala](https://github.com/mkroli/dns4s/blob/master/examples/simple-netty/src/main/scala/com/github/mkroli/dns4s/examples/simple/netty/DnsServer.scala):
-```tut:silent
+```scala mdoc:silent
 class DnsServerHandler extends SimpleChannelInboundHandler[DnsPacket] {
-  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket) {
+  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket): Unit = {
     Some(packet.content).collect {
       case Query(q) ~ Questions(QName(host) ~ TypeA() :: Nil) =>
         Response(q) ~ Answers(RRName(host) ~ ARecord("1.2.3.4"))
@@ -54,7 +54,7 @@ object DnsServer extends App {
     .group(new NioEventLoopGroup)
     .channel(classOf[NioDatagramChannel])
     .handler(new ChannelInitializer[DatagramChannel] {
-      override def initChannel(ch: DatagramChannel) {
+      override def initChannel(ch: DatagramChannel): Unit = {
         ch.pipeline.addLast(new DnsCodec, new DnsServerHandler)
       }
     })
@@ -64,9 +64,9 @@ object DnsServer extends App {
 
 ### Client
 The following is an excerpt from [examples/simple-netty-client/../DnsClient.scala](https://github.com/mkroli/dns4s/blob/master/examples/simple-client/src/main/scala/com/github/mkroli/dns4s/examples/simple/client/DnsClient.scala):
-```tut:silent
-class DnsServerHandler(group: NioEventLoopGroup) extends SimpleChannelInboundHandler[DnsPacket] {
-  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket) {
+```scala mdoc:silent
+class DnsClientHandler(group: NioEventLoopGroup) extends SimpleChannelInboundHandler[DnsPacket] {
+  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket): Unit = {
     packet.content match {
       case Response(Answers(answers)) =>
         answers.collect {
@@ -84,13 +84,13 @@ val channel: ChannelFuture = {
     .group(group)
     .channel(classOf[NioDatagramChannel])
     .handler(new ChannelInitializer[DatagramChannel] {
-      override def initChannel(ch: DatagramChannel) {
-        ch.pipeline.addLast(new DnsCodec, new DnsServerHandler(group))
+      override def initChannel(ch: DatagramChannel): Unit = {
+        ch.pipeline.addLast(new DnsCodec, new DnsClientHandler(group))
       }
     })
     .bind(0)
     .addListener(new GenericFutureListener[Future[Void]] {
-      override def operationComplete(f: Future[Void]) {
+      override def operationComplete(f: Future[Void]): Unit = {
         channel.channel.writeAndFlush(DnsPacket(Query ~ Questions(QName("google.de")), new InetSocketAddress("8.8.8.8", 53)))
       }
     })

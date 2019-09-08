@@ -2,10 +2,7 @@ DSL
 ===
 
 Use the following imports for the examples:
-```tut:invisible
-import scala.language.postfixOps
-```
-```tut:silent
+```scala mdoc:silent
 import com.github.mkroli.dns4s._
 import com.github.mkroli.dns4s.dsl._
 import com.github.mkroli.dns4s.section._
@@ -16,7 +13,10 @@ Header
 ------
 
 ### ID
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val msg: Message = Query ~ Id(123)
 
@@ -27,7 +27,10 @@ val id = msg match {
 ```
 
 ### QR
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val query: Message = Query
 val response1: Message = Response
@@ -41,7 +44,10 @@ val qr = query match {
 ```
 
 ### Opcode
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val query1: Message = Query ~ StandardQuery
 val query2: Message = Query ~ InverseQuery
@@ -56,7 +62,10 @@ val op = query1 match {
 ```
 
 ### AA
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ AuthoritativeAnswer
 
@@ -68,7 +77,10 @@ val aa = response match {
 ```
 
 ### TC
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Truncation
 
@@ -80,7 +92,10 @@ val tc = response match {
 ```
 
 ### RD
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val query: Message = Query ~ RecursionDesired
 
@@ -92,7 +107,10 @@ val rd = query match {
 ```
 
 ### RA
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ RecursionAvailable
 
@@ -104,7 +122,10 @@ val ra = response match {
 ```
 
 ### RCODE
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response1: Message = Response ~ NoError
 val response2: Message = Response ~ FormatError
@@ -128,7 +149,10 @@ Sections
 --------
 
 ### Question section
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val query: Message = Query ~ Questions()
 
@@ -139,7 +163,10 @@ val questions = query match {
 ```
 
 #### QNAME
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val query1: Message = Query ~ Questions(QName("example.com"))
 val query2: Message = Query ~ Questions(QName("example.com"), QName("www.example.com"))
@@ -151,7 +178,10 @@ val names = query2 match {
 ```
 
 #### QTYPE
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val query: Message = Query ~ Questions(QName("example.com") ~ QType(ResourceRecord.typeTXT))
 
@@ -212,7 +242,10 @@ val `type` = query match {
 ```
 
 #### QCLASS
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val query: Message = Query ~ Questions(QName("example.com") ~ QType(ResourceRecord.typeA) ~ QClass(ResourceRecord.classIN))
 
@@ -235,7 +268,10 @@ val qclass = query match {
 ```
 
 ### Answer section
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers()
 
@@ -246,7 +282,10 @@ val answers = response match {
 ```
 
 ### Authority records section
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Authority()
 
@@ -257,7 +296,10 @@ val authority = response match {
 ```
 
 ### Additional records section
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Additional()
 
@@ -270,7 +312,10 @@ val additional = response match {
 ### Resource record
 
 #### NAME
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(RRName("example.com"))
 
@@ -281,7 +326,10 @@ val name = response match {
 ```
 
 #### TYPE
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response:         Message = Response ~ Answers(RRName("example.com") ~ RRType(ResourceRecord.typeTXT))
 
@@ -344,7 +392,10 @@ val rtype = response match {
 ```
 
 #### CLASS
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response:         Message = Response ~ Answers(RRName("example.com") ~ RRClass(ResourceRecord.classIN))
 
@@ -367,7 +418,10 @@ val `class` = response match {
 ```
 
 #### TTL
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(RRName("example.com") ~ RRType(ResourceRecord.typeTXT) ~ RRClass(ResourceRecord.classIN) ~ RRTtl(123))
 
@@ -380,10 +434,13 @@ val ttl = response match {
 ### Resource records
 
 #### ARecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
-val address: java.net.Inet4Address = java.net.InetAddress.getByAddress(Array.fill[Byte](4)(0)).asInstanceOf[java.net.Inet4Address]
-val response1: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(ARecord(address))
+val addr: java.net.Inet4Address = java.net.InetAddress.getByAddress(Array.fill[Byte](4)(0)).asInstanceOf[java.net.Inet4Address]
+val response1: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(ARecord(addr))
 val response2: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(ARecord(Array[Byte](1, 2, 3, 4)))
 val response3: Message = Response ~ Questions(QName("example.com") ~ TypeA) ~ Answers(ARecord("1.2.3.4"))
 
@@ -394,10 +451,13 @@ val address = response1 match {
 ```
 
 #### AAAARecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
-val address: java.net.Inet6Address = java.net.InetAddress.getByAddress(Array.fill[Byte](16)(0)).asInstanceOf[java.net.Inet6Address]
-val response1: Message = Response ~ Questions(QName("example.com") ~ TypeAAAA) ~ Answers(AAAARecord(address))
+val addr: java.net.Inet6Address = java.net.InetAddress.getByAddress(Array.fill[Byte](16)(0)).asInstanceOf[java.net.Inet6Address]
+val response1: Message = Response ~ Questions(QName("example.com") ~ TypeAAAA) ~ Answers(AAAARecord(addr))
 val response2: Message = Response ~ Questions(QName("example.com") ~ TypeAAAA) ~ Answers(AAAARecord(Array[Byte](1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)))
 val response3: Message = Response ~ Questions(QName("example.com") ~ TypeAAAA) ~ Answers(AAAARecord("0123:4567:89ab:cdef:0123:4567:89ab:cdef"))
 
@@ -408,7 +468,10 @@ val address = response1 match {
 ```
 
 #### CNameRecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("www.example.com") ~ TypeCNAME) ~ Answers(CNameRecord("example.com"))
 
@@ -419,7 +482,10 @@ val cname = response match {
 ```
 
 #### MXRecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeMX) ~ Answers(MXRecord(1, "example.com"))
 
@@ -430,7 +496,10 @@ val (preference, exchange) = response match {
 ```
 
 #### NAPTRRecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeNAPTR) ~ Answers(NAPTRRecord(1, 1, "A", "", "!^.*$!example.com!", ""))
 
@@ -441,7 +510,10 @@ val (order, preference, flags, services, regexp, replacement) = response match {
 ```
 
 #### OPTRecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeOPT) ~ Additional(OPTRecord(Nil))
 
@@ -452,7 +524,10 @@ val optRecord = response match {
 ```
 
 ##### ClientSubnetOption
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Additional(OPTRecord(ClientSubnetOption(OPTResource.ClientSubnetOPTOptionData.familyIPv4, 24, 0, java.net.InetAddress.getByName("1.2.3.0")) :: Nil))
 
@@ -463,7 +538,10 @@ val (family, sourcePrefixLength, scopePrefixLength, address) = response match {
 ```
 
 #### NSRecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeNS) ~ Answers(NSRecord("example.com"))
 
@@ -474,7 +552,10 @@ val nsdname = response match {
 ```
 
 #### PTRRecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypePTR) ~ Answers(PTRRecord("example.com"))
 
@@ -485,7 +566,10 @@ val ptrdname = response match {
 ```
 
 #### HInfoRecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeHINFO) ~ Answers(HInfoRecord("CPU", "Linux"))
 
@@ -496,7 +580,10 @@ val (cpu, os) = response match {
 ```
 
 #### TXTRecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeTXT) ~ Answers(TXTRecord("Test", "test", "tesT"))
 
@@ -507,7 +594,10 @@ val txt = response match {
 ```
 
 #### SOARecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeSOA) ~ Answers(SOARecord("example.com", "admin.example.com", 2015122401L, 3600L, 1800L, 604800L, 600L))
 
@@ -518,7 +608,10 @@ val (mname, rname, serial, refresh, retry, expire, minimum) = response match {
 ```
 
 #### CAARecord
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val response: Message = Response ~ Questions(QName("example.com") ~ TypeCAA) ~ Answers(RRName("example.com") ~ CAARecord.Issue("cert-authority.org"))
 
@@ -532,7 +625,10 @@ Misc
 ----
 
 ### DnsClassName
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Matching
 val msg: Message = Response ~ Questions(QName("example.com") ~ TypeTXT) ~ Answers(TXTRecord("Test", "test", "tesT"))
 val (qclass, aclass) = msg match {
@@ -542,7 +638,10 @@ val (qclass, aclass) = msg match {
 
 ### DnsTypeName
 The DnsTypeName object can be used to extract a String representation of a Question or a ResourceRecord.
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Matching
 val msg: Message = Response ~ Questions(QName("example.com") ~ TypeTXT) ~ Answers(TXTRecord("Test", "test", "tesT"))
 val (qtype, atype) = msg match {
@@ -551,7 +650,10 @@ val (qtype, atype) = msg match {
 ```
 
 ### EDNS
-```tut:book
+```scala mdoc:reset-class:invisible
+import scala.language.postfixOps, com.github.mkroli.dns4s, dns4s._, dns4s.dsl._, dns4s.section._, dns4s.section.resource._
+```
+```scala mdoc
 // Creation
 val query1: Message = Query ~ Questions(QName("example.com") ~ TypeA) ~ EDNS()
 val query2: Message = Query ~ Questions(QName("example.com") ~ TypeA) ~ EDNS(4096)

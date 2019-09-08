@@ -28,7 +28,7 @@ import io.netty.channel.socket.nio.NioDatagramChannel
 import io.netty.util.concurrent.{ Future => NettyFuture }
 import io.netty.util.concurrent.GenericFutureListener
 
-class DnsServerHandler(group: NioEventLoopGroup) extends SimpleChannelInboundHandler[DnsPacket] {
+class DnsClientHandler(group: NioEventLoopGroup) extends SimpleChannelInboundHandler[DnsPacket] {
   def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket) {
     packet.content match {
       case Response(Answers(answers)) =>
@@ -48,7 +48,7 @@ object DnsClient extends App {
     .channel(classOf[NioDatagramChannel])
     .handler(new ChannelInitializer[DatagramChannel] {
       override def initChannel(ch: DatagramChannel) {
-        ch.pipeline.addLast(new DnsCodec, new DnsServerHandler(group))
+        ch.pipeline.addLast(new DnsCodec, new DnsClientHandler(group))
       }
     })
     .bind(0)

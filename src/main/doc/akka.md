@@ -18,11 +18,11 @@ libraryDependencies ++= Seq(
 
 ### Imports
 Use the following additional imports to get started:
-```tut:silent
+```scala mdoc:silent
 import com.github.mkroli.dns4s.dsl._
 import com.github.mkroli.dns4s.akka._
 ```
-```tut:invisible
+```scala mdoc:invisible
 import scala.language.postfixOps
 
 import akka.actor._
@@ -34,7 +34,7 @@ import scala.concurrent.duration._
 
 ### Server
 The following is an excerpt from [examples/simple/../DnsServer.scala](https://github.com/mkroli/dns4s/blob/master/examples/simple/src/main/scala/com/github/mkroli/dns4s/examples/simple/DnsServer.scala):
-```tut:silent
+```scala mdoc:silent
 class DnsHandlerActor extends Actor {
   override def receive = {
     case Query(q) ~ Questions(QName(host) ~ TypeA() :: Nil) =>
@@ -51,7 +51,7 @@ object DnsServer extends App {
 
 ### Client
 The following is an excerpt from [examples/simple-client/../DnsClient.scala](https://github.com/mkroli/dns4s/blob/master/examples/simple-client/src/main/scala/com/github/mkroli/dns4s/examples/simple/client/DnsClient.scala):
-```tut:silent
+```scala mdoc:silent
 implicit val system = ActorSystem("DnsServer")
 implicit val timeout = Timeout(5.seconds)
 import system.dispatcher
@@ -63,7 +63,7 @@ IO(Dns) ? Dns.DnsPacket(Query ~ Questions(QName("google.de")), new java.net.Inet
     }
 }
 ```
-```tut:invisible
+```scala mdoc:invisible
 system.terminate()
 ```
 
