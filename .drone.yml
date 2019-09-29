@@ -6,25 +6,31 @@ name: default
 steps:
   - name: "Scala 2.13.0 (code coverage)"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    user: sbtuser
     commands:
       - sbt clean coverage test coverageReport coverageAggregate coveralls
   - name: "Scala 2.12.9"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    user: sbtuser
     commands:
       - sbt ++2.12.9  clean test
   - name: "Scala 2.11.12"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    user: sbtuser
     commands:
       - sbt ++2.11.12 clean test
   - name: "Scala 2.10.7"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    user: sbtuser
     commands:
       - sbt ++2.10.7  clean test
   - name: "Code format"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    user: sbtuser
     commands:
       - sbt clean scalafmtSbtCheck scalafmtCheckAll
   - name: "Documentation"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    user: sbtuser
     commands:
       - sbt clean makeSite
