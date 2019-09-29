@@ -1,0 +1,15 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: test
+    image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    commands:
+      - sbt clean coverage test coverageReport coverageAggregate coveralls
+      - sbt ++2.12.9  clean test
+      - sbt ++2.11.12 clean test
+      - sbt ++2.10.7  clean test
+      - sbt clean scalafmtSbtCheck scalafmtCheckAll
+      - sbt clean makeSite
