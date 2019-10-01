@@ -22,7 +22,7 @@ lazy val akkaVersion       = "[2.3.0,2.6.0)"
 lazy val nettyVersion      = "[4.0.0,4.2.0)"
 lazy val findbugsVersion   = "[0.+,)"
 lazy val scalaTestVersion  = "3.0.8"
-lazy val scalaCheckVersion = "1.14.0"
+lazy val scalaCheckVersion = "1.14.1"
 
 def projectSettings(n: String, d: String) =
   Seq(
