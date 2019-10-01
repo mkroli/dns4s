@@ -16,7 +16,7 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions     = "2.13.0" :: "2.12.9" :: "2.11.12" :: "2.10.7" :: Nil
+lazy val scalaVersions     = "2.13.1" :: "2.12.10" :: "2.11.12" :: "2.10.7" :: Nil
 lazy val guavaVersion      = "[15.0,24.0)"
 lazy val akkaVersion       = "[2.3.0,2.6.0)"
 lazy val nettyVersion      = "[4.0.0,4.2.0)"
