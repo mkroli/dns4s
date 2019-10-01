@@ -11,35 +11,35 @@ steps:
       COVERALLS_REPO_TOKEN:
         from_secret: COVERALLS_REPO_TOKEN
     commands:
-      - sbt clean coverage test coverageReport coverageAggregate coveralls
+      - sbt -Dsbt.color=true -Dsbt.supershell=false clean coverage test coverageReport coverageAggregate coveralls
     depends_on: [ clone ]
   - name: "Scala 2.12.9"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
     user: sbtuser
     commands:
-      - sbt ++2.12.9  clean test
+      - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.12.9  clean test
     depends_on: [ clone ]
   - name: "Scala 2.11.12"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
     user: sbtuser
     commands:
-      - sbt ++2.11.12 clean test
+      - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.11.12 clean test
     depends_on: [ clone ]
   - name: "Scala 2.10.7"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
     user: sbtuser
     commands:
-      - sbt ++2.10.7  clean test
+      - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.10.7  clean test
     depends_on: [ clone ]
   - name: "Code format"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
     user: sbtuser
     commands:
-      - sbt clean scalafmtSbtCheck scalafmtCheckAll
+      - sbt -Dsbt.color=true -Dsbt.supershell=false clean scalafmtSbtCheck scalafmtCheckAll
     depends_on: [ clone ]
   - name: "Documentation"
     image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
     user: sbtuser
     commands:
-      - sbt clean makeSite
+      - sbt -Dsbt.color=true -Dsbt.supershell=false clean makeSite
     depends_on: [ clone ]
