@@ -160,7 +160,7 @@ mkroli/dns4s
 </nav>
 
 <div class="md-nav__title--site md-version" title="Version">
-<i class="md-icon">label_outline</i> 0.15.0
+<i class="md-icon">label_outline</i> 0.16.0
 </div>
 </nav>
 
@@ -198,7 +198,7 @@ mkroli/dns4s
 <pre class="prettyprint"><code class="language-scala">resolvers += &quot;bintray&quot; at &quot;http://jcenter.bintray.com&quot;
 
 libraryDependencies ++= Seq(
-  &quot;com.github.mkroli&quot; %% &quot;dns4s-netty&quot; % &quot;0.15.0&quot;)
+  &quot;com.github.mkroli&quot; %% &quot;dns4s-netty&quot; % &quot;0.16.0&quot;)
 </code></pre>
 <h2><a href="#imports" name="imports" class="anchor"><span class="anchor-link"></span></a>Imports</h2>
 <p>Use the following additional imports to get started:</p>
@@ -210,7 +210,7 @@ import io.netty.util.concurrent.Future
 <h3><a href="#server" name="server" class="anchor"><span class="anchor-link"></span></a>Server</h3>
 <p>The following is an excerpt from <a href="https://github.com/mkroli/dns4s/blob/master/examples/simple-netty/src/main/scala/com/github/mkroli/dns4s/examples/simple/netty/DnsServer.scala">examples/simple-netty/../DnsServer.scala</a>:</p>
 <pre class="prettyprint"><code class="language-scala">class DnsServerHandler extends SimpleChannelInboundHandler[DnsPacket] {
-  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket) {
+  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket): Unit = {
     Some(packet.content).collect {
       case Query(q) ~ Questions(QName(host) ~ TypeA() :: Nil) =&gt;
         Response(q) ~ Answers(RRName(host) ~ ARecord(&quot;1.2.3.4&quot;))
@@ -225,7 +225,7 @@ object DnsServer extends App {
     .group(new NioEventLoopGroup)
     .channel(classOf[NioDatagramChannel])
     .handler(new ChannelInitializer[DatagramChannel] {
-      override def initChannel(ch: DatagramChannel) {
+      override def initChannel(ch: DatagramChannel): Unit = {
         ch.pipeline.addLast(new DnsCodec, new DnsServerHandler)
       }
     })
@@ -234,8 +234,8 @@ object DnsServer extends App {
 </code></pre>
 <h3><a href="#client" name="client" class="anchor"><span class="anchor-link"></span></a>Client</h3>
 <p>The following is an excerpt from <a href="https://github.com/mkroli/dns4s/blob/master/examples/simple-client/src/main/scala/com/github/mkroli/dns4s/examples/simple/client/DnsClient.scala">examples/simple-netty-client/../DnsClient.scala</a>:</p>
-<pre class="prettyprint"><code class="language-scala">class DnsServerHandler(group: NioEventLoopGroup) extends SimpleChannelInboundHandler[DnsPacket] {
-  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket) {
+<pre class="prettyprint"><code class="language-scala">class DnsClientHandler(group: NioEventLoopGroup) extends SimpleChannelInboundHandler[DnsPacket] {
+  def channelRead0(ctx: ChannelHandlerContext, packet: DnsPacket): Unit = {
     packet.content match {
       case Response(Answers(answers)) =&gt;
         answers.collect {
@@ -253,13 +253,13 @@ val channel: ChannelFuture = {
     .group(group)
     .channel(classOf[NioDatagramChannel])
     .handler(new ChannelInitializer[DatagramChannel] {
-      override def initChannel(ch: DatagramChannel) {
-        ch.pipeline.addLast(new DnsCodec, new DnsServerHandler(group))
+      override def initChannel(ch: DatagramChannel): Unit = {
+        ch.pipeline.addLast(new DnsCodec, new DnsClientHandler(group))
       }
     })
     .bind(0)
     .addListener(new GenericFutureListener[Future[Void]] {
-      override def operationComplete(f: Future[Void]) {
+      override def operationComplete(f: Future[Void]): Unit = {
         channel.channel.writeAndFlush(DnsPacket(Query ~ Questions(QName(&quot;google.de&quot;)), new InetSocketAddress(&quot;8.8.8.8&quot;, 53)))
       }
     })
@@ -268,7 +268,7 @@ val channel: ChannelFuture = {
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-0.15.0
+0.16.0
 </span>
 </div>
 </article>
