@@ -28,5 +28,5 @@ case class SRVResource(priority: Int, weight: Int, port: Int, target: String) ex
 
 object SRVResource {
   def apply(buf: MessageBuffer) =
-    new SRVResource(buf.getUnsignedInt(2), buf.getUnsignedInt(2), buf.getUnsignedInt(2), buf.getDomainName)
+    new SRVResource(buf.getUnsignedInt(2), buf.getUnsignedInt(2), buf.getUnsignedInt(2), buf.getDomainName())
 }

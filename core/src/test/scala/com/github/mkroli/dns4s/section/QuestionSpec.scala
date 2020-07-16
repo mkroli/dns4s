@@ -54,35 +54,35 @@ class QuestionSpec extends FunSpec {
     describe("encoding/decoding") {
       it("decode(encode(question)) should be the same as question") {
         def testEncodeDecode(q: QuestionSection): Unit = {
-          assert(q === QuestionSection(q(MessageBuffer()).flipped))
+          assert(q === QuestionSection(q(MessageBuffer()).flipped()))
         }
         testEncodeDecode(QuestionSection("", 0, 0))
         testEncodeDecode(QuestionSection("test.test.test", maxInt(16), maxInt(16)))
       }
 
       it("should prevent infinite loop with compression") {
-        val b = MessageBuffer().put(bytes("C000 0000 0000").toArray).flipped
+        val b = MessageBuffer().put(bytes("C000 0000 0000").toArray).flipped()
         intercept[IllegalArgumentException](QuestionSection(b))
       }
 
       it("should prevent buffer underflows using compression") {
-        val b = MessageBuffer().put(bytes("C002").toArray).flipped
+        val b = MessageBuffer().put(bytes("C002").toArray).flipped()
         intercept[BufferUnderflowException](QuestionSection(b))
       }
 
       it("should encode/decode a specific byte array") {
-        val q = QuestionSection("test.test.test", 1, 2)(MessageBuffer()).flipped
-        assert(bytes("04 74 65 73 74  04 74 65 73 74  04 74 65 73 74 00  0001 0002") === q.getBytes(q.remaining))
+        val q = QuestionSection("test.test.test", 1, 2)(MessageBuffer()).flipped()
+        assert(bytes("04 74 65 73 74  04 74 65 73 74  04 74 65 73 74 00  0001 0002") === q.getBytes(q.remaining()))
       }
 
       it("should encode/decode a byte array filled with 0s") {
-        val q = QuestionSection("", 0, 0)(MessageBuffer()).flipped
-        assert(bytes("00 0000 0000") === q.getBytes(q.remaining))
+        val q = QuestionSection("", 0, 0)(MessageBuffer()).flipped()
+        assert(bytes("00 0000 0000") === q.getBytes(q.remaining()))
       }
 
       it("should encode/decode a byte array filled with mostly 1s") {
-        val q = QuestionSection("", maxInt(16), maxInt(16))(MessageBuffer()).flipped
-        assert(bytes("00 FFFF FFFF") === q.getBytes(q.remaining))
+        val q = QuestionSection("", maxInt(16), maxInt(16))(MessageBuffer()).flipped()
+        assert(bytes("00 FFFF FFFF") === q.getBytes(q.remaining()))
       }
     }
   }

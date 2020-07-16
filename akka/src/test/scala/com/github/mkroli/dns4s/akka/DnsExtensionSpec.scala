@@ -48,13 +48,13 @@ class DnsExtensionSpec extends FunSpec with TestKitBase with ImplicitSender with
         expectMsg(Dns.Bound)
         lastSender ! Dns.Unbind
         expectMsg(Dns.Unbound)
-        expectNoMsg
+        expectNoMsg()
       }
 
       it("should not be possible to bind to an invalid port") {
         IO(Dns) ! Dns.Bind(testActor, 1)
         expectMsg(Dns.Unbound)
-        expectNoMsg
+        expectNoMsg()
       }
     }
 
@@ -71,7 +71,7 @@ class DnsExtensionSpec extends FunSpec with TestKitBase with ImplicitSender with
 
         s ! Dns.Unbind
         expectMsg(Dns.Unbound)
-        expectNoMsg
+        expectNoMsg()
       }
 
       def test(serverPort: Int, dnsActor: ActorRef): Unit = {

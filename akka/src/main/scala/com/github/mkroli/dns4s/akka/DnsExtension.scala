@@ -33,7 +33,7 @@ import akka.util.Timeout
 object Dns extends ExtensionId[DnsExtension] with ExtensionIdProvider {
   override def createExtension(system: ExtendedActorSystem) = new DnsExtension(system)
 
-  override def lookup = Dns
+  override def lookup() = Dns
 
   case class Bind(handler: ActorRef, port: Int, implicit val timeout: Timeout = 5 seconds)
 
@@ -47,5 +47,5 @@ object Dns extends ExtensionId[DnsExtension] with ExtensionIdProvider {
 }
 
 class DnsExtension(system: ExtendedActorSystem) extends Extension {
-  override val manager = system.actorOf(Props[DnsExtensionActor], "dns4s")
+  override val manager = system.actorOf(Props[DnsExtensionActor](), "dns4s")
 }

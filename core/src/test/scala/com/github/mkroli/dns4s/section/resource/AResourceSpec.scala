@@ -31,18 +31,18 @@ class AResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         forAll { (a: Byte, b: Byte, c: Byte, d: Byte) =>
           val ar = AResource(InetAddress.getByAddress(Array(a, b, c, d)).asInstanceOf[Inet4Address])
-          assert(ar === AResource(ar(MessageBuffer()).flipped))
-          val encoded = ar(MessageBuffer()).flipped
+          assert(ar === AResource(ar(MessageBuffer()).flipped()))
+          val encoded = ar(MessageBuffer()).flipped()
           assert(Array(a, b, c, d) === encoded.getBytes(encoded.remaining()))
         }
       }
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeA, 0, 0, AResource(inet4Address("FF 0F F0 FF")))
-        val a  = rr(MessageBuffer()).flipped
+        val a  = rr(MessageBuffer()).flipped()
         val b  = bytes("04 74 65 73 74 00  0001 0000 00000000 0004 FF 0F F0 FF")
-        assert(b === a.getBytes(a.remaining))
-        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
+        assert(b === a.getBytes(a.remaining()))
+        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped()))
       }
     }
   }

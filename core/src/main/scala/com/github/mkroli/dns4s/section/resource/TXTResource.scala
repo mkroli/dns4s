@@ -27,7 +27,7 @@ object TXTResource {
   def apply(buf: MessageBuffer, size: Int) = {
     def getCharacterStrings(cs: Seq[String], updatedCsSize: Int): Seq[String] = {
       if (updatedCsSize < size) {
-        val str       = buf.getCharacterString
+        val str       = buf.getCharacterString()
         val updatedCs = cs :+ str
         getCharacterStrings(updatedCs, updatedCsSize + str.getBytes.length + 1)
       } else

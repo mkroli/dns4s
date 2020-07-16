@@ -114,7 +114,7 @@ class ResourceRecordSpec extends FunSpec {
     it("should be possible to use AAAARecord") {
       Response ~ Answers(AAAARecord("1:2:3:4:5:6:7:8")) match {
         case Response(Answers(ARecord(AResource(ip)) :: Nil)) =>
-          fail
+          fail()
         case Response(Answers(AAAARecord(AAAAResource(ip)) :: Nil)) =>
           assert(ip === InetAddress.getByName("1:2:3:4:5:6:7:8"))
       }

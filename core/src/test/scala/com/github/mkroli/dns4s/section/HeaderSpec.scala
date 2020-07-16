@@ -90,26 +90,26 @@ class HeaderSpec extends FunSpec {
     describe("encoding/decoding") {
       it("decode(encode(header)) should be the same as header") {
         def testEncodeDecode(h: HeaderSection): Unit = {
-          assert(h === HeaderSection(h(MessageBuffer()).flipped))
+          assert(h === HeaderSection(h(MessageBuffer()).flipped()))
         }
         testEncodeDecode(defaultHeader)
         testEncodeDecode(HeaderSection(maxInt(16), true, maxInt(4), true, true, true, true, maxInt(4), maxInt(16), maxInt(16), maxInt(16), maxInt(16)))
       }
 
       it("should encode/decode a specific byte array") {
-        val header = HeaderSection(1, false, 2, true, false, true, false, 3, 4, 5, 6, 7)(MessageBuffer()).flipped
-        assert(bytes("0001 1503 0004 0005 0006 0007") === header.getBytes(header.remaining))
+        val header = HeaderSection(1, false, 2, true, false, true, false, 3, 4, 5, 6, 7)(MessageBuffer()).flipped()
+        assert(bytes("0001 1503 0004 0005 0006 0007") === header.getBytes(header.remaining()))
       }
 
       it("should encode/decode a byte array filled with 0s") {
-        val header = HeaderSection(0, false, 0, false, false, false, false, 0, 0, 0, 0, 0)(MessageBuffer()).flipped
-        assert(bytes("0000 0000 0000 0000 0000 0000") == header.getBytes(header.remaining))
+        val header = HeaderSection(0, false, 0, false, false, false, false, 0, 0, 0, 0, 0)(MessageBuffer()).flipped()
+        assert(bytes("0000 0000 0000 0000 0000 0000") == header.getBytes(header.remaining()))
       }
 
       it("should encode/decode a byte array filled with mostly 1s") {
         val header =
-          HeaderSection(maxInt(16), true, maxInt(4), true, true, true, true, maxInt(4), maxInt(16), maxInt(16), maxInt(16), maxInt(16))(MessageBuffer()).flipped
-        assert(bytes("FFFF FF8F FFFF FFFF FFFF FFFF") == header.getBytes(header.remaining))
+          HeaderSection(maxInt(16), true, maxInt(4), true, true, true, true, maxInt(4), maxInt(16), maxInt(16), maxInt(16), maxInt(16))(MessageBuffer()).flipped()
+        assert(bytes("FFFF FF8F FFFF FFFF FFFF FFFF") == header.getBytes(header.remaining()))
       }
     }
   }

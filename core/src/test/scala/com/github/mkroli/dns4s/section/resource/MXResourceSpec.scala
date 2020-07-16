@@ -40,16 +40,16 @@ class MXResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(uintGen(16), dnGen) { (preference, exchange) =>
           val mr = MXResource(preference, exchange)
-          assert(mr === MXResource(mr(MessageBuffer()).flipped))
+          assert(mr === MXResource(mr(MessageBuffer()).flipped()))
         }
       }
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeMX, 0, 0, MXResource(123, "test.test"))
-        val a  = rr(MessageBuffer()).flipped
+        val a  = rr(MessageBuffer()).flipped()
         val b  = bytes("04 74 65 73 74 00  000F 0000 00000000 0009 007B 04 74 65 73 74 C000")
-        assert(b === a.getBytes(a.remaining))
-        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
+        assert(b === a.getBytes(a.remaining()))
+        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped()))
       }
     }
   }

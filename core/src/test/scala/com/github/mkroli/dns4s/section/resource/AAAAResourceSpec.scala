@@ -31,7 +31,7 @@ class AAAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(bytesGenerator(16, 16)) { addr =>
           val ar = AAAAResource(InetAddress.getByAddress(addr).asInstanceOf[Inet6Address])
-          assert(ar === AAAAResource(ar(MessageBuffer()).flipped))
+          assert(ar === AAAAResource(ar(MessageBuffer()).flipped()))
         }
       }
 
@@ -43,20 +43,20 @@ class AAAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
           ttl = 0,
           rdata = AAAAResource(inet6Address("0fff fff1 fff2 fff3 fff4 fff5 fff6 fff7"))
         )
-        val a = rr(MessageBuffer()).flipped
+        val a = rr(MessageBuffer()).flipped()
         val b = bytes("0474 6573 7400 001C 0000 0000 0000 0010 0fff fff1 fff2 fff3 fff4 fff5 fff6 fff7")
-        assert(b === a.getBytes(a.remaining))
-        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
+        assert(b === a.getBytes(a.remaining()))
+        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped()))
       }
 
       it("should encode/decode a byte array filled with 0s") {
-        val ar = AAAAResource(inet6Address("0000 0000 0000 0000 0000 0000 0000 0000"))(MessageBuffer()).flipped
-        assert(bytes("0000 0000 0000 0000 0000 0000 0000 0000") === ar.getBytes(ar.remaining))
+        val ar = AAAAResource(inet6Address("0000 0000 0000 0000 0000 0000 0000 0000"))(MessageBuffer()).flipped()
+        assert(bytes("0000 0000 0000 0000 0000 0000 0000 0000") === ar.getBytes(ar.remaining()))
       }
 
       it("should encode/decode a byte array filled with mostly 1s") {
-        val ar = AAAAResource(inet6Address("ffff ffff ffff ffff ffff ffff ffff ffff"))(MessageBuffer()).flipped
-        assert(bytes("ffff ffff ffff ffff ffff ffff ffff ffff") === ar.getBytes(ar.remaining))
+        val ar = AAAAResource(inet6Address("ffff ffff ffff ffff ffff ffff ffff ffff"))(MessageBuffer()).flipped()
+        assert(bytes("ffff ffff ffff ffff ffff ffff ffff ffff") === ar.getBytes(ar.remaining()))
       }
     }
   }

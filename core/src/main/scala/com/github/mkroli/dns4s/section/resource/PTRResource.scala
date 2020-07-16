@@ -23,5 +23,5 @@ case class PTRResource(ptrdname: String) extends Resource {
 }
 
 object PTRResource {
-  def apply(buf: MessageBuffer) = new PTRResource(buf.getDomainName)
+  def apply(buf: MessageBuffer) = new PTRResource(buf.getDomainName())
 }

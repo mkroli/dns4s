@@ -39,12 +39,12 @@ class MessageBuffer private (val buf: ByteBuffer, val domains: Map[String, Int])
 
   def getBytes(bytes: Int) = {
     require(bytes >= 0)
-    IndexedSeq.fill(bytes)(get)
+    IndexedSeq.fill(bytes)(get())
   }
 
   def getByteArray(bytes: Int) = {
     require(bytes >= 0)
-    Array.fill(bytes)(get)
+    Array.fill(bytes)(get())
   }
 
   def getString(bytes: Int) = new String(getByteArray(bytes))

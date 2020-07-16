@@ -30,7 +30,7 @@ class OPTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
         val rr = ResourceRecord("test", ResourceRecord.typeOPT, 0, 0, OPTResource(Nil))
         val a  = rr(MessageBuffer()).flipped()
         val b  = bytes("04 74 65 73 74 00  0029 0000 00000000 0000")
-        assert(b === a.getBytes(a.remaining))
+        assert(b === a.getBytes(a.remaining()))
         assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped()))
       }
     }
@@ -45,7 +45,7 @@ class OPTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
         )
         val encoded = r(MessageBuffer()).flipped()
 
-        OPTResource(encoded, encoded.remaining).options match {
+        OPTResource(encoded, encoded.remaining()).options match {
           case OPTResource.OPTOption(
                 OPTResource.optionClientSubnet,
                 OPTResource.ClientSubnetOPTOptionData(ClientSubnetOPTOptionData.familyIPv4, 32, 32, address)
@@ -89,13 +89,13 @@ class OPTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
           val expectedCompressed = {
             val fullBytes     = Array.fill[Byte](i / 8)(-1)
             val remainingBits = i % 8
-            val halfByte = (if (remainingBits > 0) {
+            val halfByte = if (remainingBits > 0) {
                               val ones    = (1 << remainingBits) - 1
                               val shifted = ones << (8 - remainingBits)
                               Array(shifted.toByte)
                             } else {
                               Array.emptyByteArray
-                            })
+                            }
             fullBytes ++ halfByte
           }
           val expected = expectedCompressed ++ Array.fill[Byte](bits / 8 - expectedCompressed.length)(0)
@@ -119,7 +119,7 @@ class OPTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
           val r       = OPTResource(OPTResource.OPTOption(1, OPTResource.UnknownOPTOptionData(bytes)) :: Nil)
           val encoded = r(MessageBuffer()).flipped()
 
-          OPTResource(encoded, encoded.remaining).options match {
+          OPTResource(encoded, encoded.remaining()).options match {
             case OPTResource.OPTOption(1, OPTResource.UnknownOPTOptionData(b)) :: Nil =>
               assert(b === bytes)
             case _ => fail()

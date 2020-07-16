@@ -26,16 +26,16 @@ class HInfoResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(csGen, csGen) { (cpu, os) =>
           val cr = HInfoResource(cpu, os)
-          assert(cr === HInfoResource(cr(MessageBuffer()).flipped))
+          assert(cr === HInfoResource(cr(MessageBuffer()).flipped()))
         }
       }
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeHINFO, 0, 0, HInfoResource("test.test", "test.test"))
-        val a  = rr(MessageBuffer()).flipped
+        val a  = rr(MessageBuffer()).flipped()
         val b  = bytes("04 74 65 73 74 00  000D 0000 00000000 0014 09 74 65 73 74 2E 74 65 73 74 09 74 65 73 74 2E 74 65 73 74")
-        assert(b === a.getBytes(a.remaining))
-        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
+        assert(b === a.getBytes(a.remaining()))
+        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped()))
       }
     }
   }

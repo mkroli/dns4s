@@ -26,16 +26,16 @@ class CNameResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(dnGen) { cname =>
           val cr = CNameResource(cname)
-          assert(cr === CNameResource(cr(MessageBuffer()).flipped))
+          assert(cr === CNameResource(cr(MessageBuffer()).flipped()))
         }
       }
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeCNAME, 0, 0, CNameResource("test.test"))
-        val a  = rr(MessageBuffer()).flipped
+        val a  = rr(MessageBuffer()).flipped()
         val b  = bytes("04 74 65 73 74 00  0005 0000 00000000 0007 04 74 65 73 74 C000")
-        assert(b === a.getBytes(a.remaining))
-        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
+        assert(b === a.getBytes(a.remaining()))
+        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped()))
       }
     }
   }

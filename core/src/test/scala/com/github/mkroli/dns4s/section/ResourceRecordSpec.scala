@@ -70,42 +70,42 @@ class ResourceRecordSpec extends FunSpec {
     describe("encoding/decoding") {
       it("decode(encode(resourceRecord)) should be the same as resourceRecord") {
         def testEncodeDecode(rr: ResourceRecord): Unit = {
-          assert(rr === ResourceRecord(rr(MessageBuffer()).flipped))
+          assert(rr === ResourceRecord(rr(MessageBuffer()).flipped()))
         }
         testEncodeDecode(ResourceRecord("", 0, 0, 0, UnknownResource(Nil, 0)))
         testEncodeDecode(ResourceRecord("test.test.test", maxInt(16), maxInt(16), maxLong(32), UnknownResource(Nil, maxInt(16))))
       }
 
       it("should prevent infinite loop with compression") {
-        val b = MessageBuffer().put(bytes("C000 0000 0000 00000000 0000").toArray).flipped
+        val b = MessageBuffer().put(bytes("C000 0000 0000 00000000 0000").toArray).flipped()
         intercept[IllegalArgumentException](ResourceRecord(b))
       }
 
       it("should skip bytes if the actual resource records size is smaller than rdlength") {
-        val b  = MessageBuffer().put(bytes("04 74 65 73 74 00  0001  0001  00000001  0008 0102030400000000").toArray).flipped
+        val b  = MessageBuffer().put(bytes("04 74 65 73 74 00  0001  0001  00000001  0008 0102030400000000").toArray).flipped()
         val rr = ResourceRecord(b)
         assert(ResourceRecord("test", 1, 1, 1, AResource(InetAddress.getByAddress(Array[Byte](1, 2, 3, 4)).asInstanceOf[Inet4Address])) === rr)
-        assert(0 === b.remaining)
+        assert(0 === b.remaining())
       }
 
       it("should fail if the actual resource records size is greater than rdlength") {
-        val b = MessageBuffer().put(bytes("04 74 65 73 74 00  0001  0001  00000001  0002 01020304").toArray).flipped
+        val b = MessageBuffer().put(bytes("04 74 65 73 74 00  0001  0001  00000001  0002 01020304").toArray).flipped()
         intercept[IllegalArgumentException](ResourceRecord(b))
       }
 
       it("should encode/decode a specific byte array") {
-        val rr = ResourceRecord("test.test.test", 1, 2, 3, UnknownResource(Nil, 1))(MessageBuffer()).flipped
-        assert(bytes("04 74 65 73 74  04 74 65 73 74  04 74 65 73 74 00  0001 0002 00000003 0000") === rr.getBytes(rr.remaining))
+        val rr = ResourceRecord("test.test.test", 1, 2, 3, UnknownResource(Nil, 1))(MessageBuffer()).flipped()
+        assert(bytes("04 74 65 73 74  04 74 65 73 74  04 74 65 73 74 00  0001 0002 00000003 0000") === rr.getBytes(rr.remaining()))
       }
 
       it("should encode/decode a byte array filled with 0s") {
-        val rr = ResourceRecord("", 0, 0, 0, UnknownResource(Nil, 0))(MessageBuffer()).flipped
-        assert(bytes("00 0000 0000 00000000 0000") === rr.getBytes(rr.remaining))
+        val rr = ResourceRecord("", 0, 0, 0, UnknownResource(Nil, 0))(MessageBuffer()).flipped()
+        assert(bytes("00 0000 0000 00000000 0000") === rr.getBytes(rr.remaining()))
       }
 
       it("should encode/decode a byte array filled with mostly 1s") {
-        val rr = ResourceRecord("", maxInt(16), maxInt(16), maxLong(32), UnknownResource(Nil, maxInt(16)))(MessageBuffer()).flipped
-        assert(bytes("00 FFFF FFFF FFFFFFFF 0000") === rr.getBytes(rr.remaining))
+        val rr = ResourceRecord("", maxInt(16), maxInt(16), maxLong(32), UnknownResource(Nil, maxInt(16)))(MessageBuffer()).flipped()
+        assert(bytes("00 FFFF FFFF FFFFFFFF 0000") === rr.getBytes(rr.remaining()))
       }
     }
   }

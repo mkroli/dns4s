@@ -27,7 +27,7 @@ class MessageSpec extends FunSpec {
     describe("encoding/decoding") {
       it("decode(encode(message)) should be the same as message") {
         def testEncodeDecode(m: Message): Unit = {
-          assert(m === Message(m().flipped))
+          assert(m === Message(m().flipped()))
         }
         testEncodeDecode(Message(HeaderSection(0, false, 0, false, false, false, false, 0, 0, 0, 0, 0), Nil, Nil, Nil, Nil))
         testEncodeDecode(
@@ -49,7 +49,7 @@ class MessageSpec extends FunSpec {
           ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil,
           ResourceRecord("test", ResourceRecord.typeCNAME, 2, 3, CNameResource("test.test")) :: Nil
         )
-        val a = message().flipped
+        val a = message().flipped()
         val b = bytes("""
             FFFF FF8F 0001 0001 0001 0001
             04 74 65 73 74 00  0001 0002
@@ -57,7 +57,7 @@ class MessageSpec extends FunSpec {
             C00C 0005 0002 00000003 0002 C022
             C00C 0005 0002 00000003 0002 C022
           """)
-        assert(b === a.getBytes(a.remaining))
+        assert(b === a.getBytes(a.remaining()))
       }
     }
   }

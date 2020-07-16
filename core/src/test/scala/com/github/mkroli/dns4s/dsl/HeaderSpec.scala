@@ -23,7 +23,7 @@ class HeaderSpec extends FunSpec {
   describe("Header") {
     it("should be possible to create a query") {
       Query match {
-        case Response(_) => fail
+        case Response(_) => fail()
         case Query(msg) =>
           assert(msg.header.qr === false)
       }
@@ -31,7 +31,7 @@ class HeaderSpec extends FunSpec {
 
     it("should be possible to create a response") {
       Response match {
-        case Query(_) => fail
+        case Query(_) => fail()
         case Response(msg) =>
           assert(msg.header.qr === true)
       }

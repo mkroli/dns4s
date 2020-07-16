@@ -26,16 +26,16 @@ class NSResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
       it("decode(encode(resource)) should be the same as resource") {
         forAll(dnGen) { nsdname =>
           val nr = NSResource(nsdname)
-          assert(nr === NSResource(nr(MessageBuffer()).flipped))
+          assert(nr === NSResource(nr(MessageBuffer()).flipped()))
         }
       }
 
       it("should be decoded wrapped in ResourceRecord") {
         val rr = ResourceRecord("test", ResourceRecord.typeNS, 0, 0, NSResource("test.test"))
-        val a  = rr(MessageBuffer()).flipped
+        val a  = rr(MessageBuffer()).flipped()
         val b  = bytes("04 74 65 73 74 00  0002 0000 00000000 0007 04 74 65 73 74 C000")
-        assert(b === a.getBytes(a.remaining))
-        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped))
+        assert(b === a.getBytes(a.remaining()))
+        assert(rr === ResourceRecord(MessageBuffer().put(b.toArray).flipped()))
       }
     }
   }

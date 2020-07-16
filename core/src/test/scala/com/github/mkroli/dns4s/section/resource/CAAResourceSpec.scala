@@ -65,14 +65,14 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
             "65 73 74 56 61 6c 75 65"
         )
 
-        val messageBuffer = expectedRecord(MessageBuffer()).flipped
+        val messageBuffer = expectedRecord(MessageBuffer()).flipped()
 
-        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining)
+        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining())
 
         assert(actualBytes === expectedBytes)
 
         val actualRecord =
-          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped)
+          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped())
 
         assert(actualRecord === expectedRecord)
       }
@@ -104,14 +104,14 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
             "65 73 74 56 61 6c 75 65"
         )
 
-        val messageBuffer = expectedRecord(MessageBuffer()).flipped
+        val messageBuffer = expectedRecord(MessageBuffer()).flipped()
 
-        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining)
+        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining())
 
         assert(actualBytes === expectedBytes)
 
         val actualRecord =
-          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped)
+          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped())
 
         assert(actualRecord === expectedRecord)
       }
@@ -121,7 +121,7 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {
         val expectedResource =
-          IssueWildResource("someValue", issuerCritical = false)
+          IssueWildResource("someValue")
         val encoded        = expectedResource(MessageBuffer()).flipped()
         val actualResource = CAAResource(encoded, encoded.remaining())
         assert(expectedResource === actualResource)
@@ -144,14 +144,14 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
             "61 6c 75 65"
         )
 
-        val messageBuffer = expectedRecord(MessageBuffer()).flipped
+        val messageBuffer = expectedRecord(MessageBuffer()).flipped()
 
-        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining)
+        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining())
 
         assert(actualBytes === expectedBytes)
 
         val actualRecord =
-          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped)
+          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped())
 
         assert(actualRecord === expectedRecord)
       }
@@ -184,14 +184,14 @@ class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
             "6c 75 65"
         )
 
-        val messageBuffer = expectedRecord(MessageBuffer()).flipped
+        val messageBuffer = expectedRecord(MessageBuffer()).flipped()
 
-        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining)
+        val actualBytes = messageBuffer.getBytes(messageBuffer.remaining())
 
         assert(actualBytes === expectedBytes)
 
         val actualRecord =
-          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped)
+          ResourceRecord(MessageBuffer().put(expectedBytes.toArray).flipped())
 
         assert(actualRecord === expectedRecord)
       }

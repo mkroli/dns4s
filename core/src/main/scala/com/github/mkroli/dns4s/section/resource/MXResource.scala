@@ -27,5 +27,5 @@ case class MXResource(preference: Int, exchange: String) extends Resource {
 
 object MXResource {
   def apply(buf: MessageBuffer) =
-    new MXResource(buf.getUnsignedInt(2), buf.getDomainName)
+    new MXResource(buf.getUnsignedInt(2), buf.getDomainName())
 }

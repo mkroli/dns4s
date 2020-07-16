@@ -25,5 +25,5 @@ case class HInfoResource(cpu: String, os: String) extends Resource {
 
 object HInfoResource {
   def apply(buf: MessageBuffer) =
-    new HInfoResource(buf.getCharacterString, buf.getCharacterString)
+    new HInfoResource(buf.getCharacterString(), buf.getCharacterString())
 }

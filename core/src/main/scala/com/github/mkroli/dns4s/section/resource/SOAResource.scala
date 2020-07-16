@@ -39,8 +39,8 @@ case class SOAResource(mname: String, rname: String, serial: Long, refresh: Long
 object SOAResource {
   def apply(buf: MessageBuffer) =
     new SOAResource(
-      mname = buf.getDomainName,
-      rname = buf.getDomainName,
+      mname = buf.getDomainName(),
+      rname = buf.getDomainName(),
       serial = buf.getUnsignedLong(4),
       refresh = buf.getUnsignedLong(4),
       retry = buf.getUnsignedLong(4),

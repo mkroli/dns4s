@@ -28,7 +28,7 @@ import io.netty.handler.codec.MessageToMessageCodec
 class DnsCodec extends MessageToMessageCodec[DatagramPacket, DnsPacket] {
   override def encode(ctx: ChannelHandlerContext, msg: DnsPacket, out: JList[AnyRef]): Unit = {
     val response = msg.content()()
-    out.add(new DatagramPacket(Unpooled.copiedBuffer(response.flipped.buf), msg.recipient, msg.sender))
+    out.add(new DatagramPacket(Unpooled.copiedBuffer(response.flipped().buf), msg.recipient, msg.sender))
   }
 
   override def decode(ctx: ChannelHandlerContext, msg: DatagramPacket, out: JList[AnyRef]): Unit = {
