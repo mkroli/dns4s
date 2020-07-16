@@ -29,7 +29,7 @@ addSbtPlugin("org.scalameta" % "sbt-mdoc" % "1.3.4")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
 
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.0")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 
 addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.7")
 
@@ -40,3 +40,5 @@ addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.2.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.6")
 
 addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
+
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.1")
