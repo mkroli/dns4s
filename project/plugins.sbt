@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.13")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.5")
 
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.0")
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1")
 
-addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
+addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.3")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.3")
 
 addSbtPlugin("io.github.jonas" % "sbt-paradox-material-theme" % "0.6.0")
 
@@ -33,12 +33,12 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 
 addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.7")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.1")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.7.0")
 
-addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.2.0")
+addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.6")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0")
 
-addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
+addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.6")
 
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.1")
