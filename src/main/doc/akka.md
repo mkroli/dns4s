@@ -38,33 +38,32 @@ The following is an excerpt from [examples/simple/../DnsServer.scala](https://gi
 class DnsHandlerActor extends Actor {
   override def receive = {
     case Query(q) ~ Questions(QName(host) ~ TypeA() :: Nil) =>
-      sender ! Response(q) ~ Answers(RRName(host) ~ ARecord("1.2.3.4"))
+      sender() ! Response(q) ~ Answers(RRName(host) ~ ARecord("1.2.3.4"))
   }
 }
 
 object DnsServer extends App {
   implicit val system = ActorSystem("DnsServer")
   implicit val timeout = Timeout(5 seconds)
-  IO(Dns) ? Dns.Bind(system.actorOf(Props[DnsHandlerActor]), 5354)
+  IO(Dns) ? Dns.Bind(system.actorOf(Props[DnsHandlerActor]()), 5354)
 }
 ```
 
 ### Client
 The following is an excerpt from [examples/simple-client/../DnsClient.scala](https://github.com/mkroli/dns4s/blob/master/examples/simple-client/src/main/scala/com/github/mkroli/dns4s/examples/simple/client/DnsClient.scala):
 ```scala mdoc:silent
-implicit val system = ActorSystem("DnsServer")
-implicit val timeout = Timeout(5.seconds)
-import system.dispatcher
+object DnsClient extends App {
+  implicit val system = ActorSystem("DnsServer")
+  implicit val timeout = Timeout(5.seconds)
+  import system.dispatcher
 
-IO(Dns) ? Dns.DnsPacket(Query ~ Questions(QName("google.de")), new java.net.InetSocketAddress("8.8.8.8", 53)) foreach {
-  case Response(Answers(answers)) =>
-    answers.collect {
-      case ARecord(arecord) => println(arecord.address.getHostAddress)
-    }
+  IO(Dns) ? Dns.DnsPacket(Query ~ Questions(QName("google.de")), new java.net.InetSocketAddress("8.8.8.8", 53)) foreach {
+    case Response(Answers(answers)) =>
+      answers.collect {
+        case ARecord(arecord) => println(arecord.address.getHostAddress)
+      }
+  }
 }
-```
-```scala mdoc:invisible
-system.terminate()
 ```
 
 [sbt]:http://scala-sbt.org/
