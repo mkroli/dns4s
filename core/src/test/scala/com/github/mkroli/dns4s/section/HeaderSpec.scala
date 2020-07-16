@@ -108,7 +108,8 @@ class HeaderSpec extends FunSpec {
 
       it("should encode/decode a byte array filled with mostly 1s") {
         val header =
-          HeaderSection(maxInt(16), true, maxInt(4), true, true, true, true, maxInt(4), maxInt(16), maxInt(16), maxInt(16), maxInt(16))(MessageBuffer()).flipped()
+          HeaderSection(maxInt(16), true, maxInt(4), true, true, true, true, maxInt(4), maxInt(16), maxInt(16), maxInt(16), maxInt(16))(MessageBuffer())
+            .flipped()
         assert(bytes("FFFF FF8F FFFF FFFF FFFF FFFF") == header.getBytes(header.remaining()))
       }
     }

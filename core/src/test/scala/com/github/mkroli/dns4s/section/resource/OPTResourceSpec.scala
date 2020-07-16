@@ -90,12 +90,12 @@ class OPTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
             val fullBytes     = Array.fill[Byte](i / 8)(-1)
             val remainingBits = i % 8
             val halfByte = if (remainingBits > 0) {
-                              val ones    = (1 << remainingBits) - 1
-                              val shifted = ones << (8 - remainingBits)
-                              Array(shifted.toByte)
-                            } else {
-                              Array.emptyByteArray
-                            }
+              val ones    = (1 << remainingBits) - 1
+              val shifted = ones << (8 - remainingBits)
+              Array(shifted.toByte)
+            } else {
+              Array.emptyByteArray
+            }
             fullBytes ++ halfByte
           }
           val expected = expectedCompressed ++ Array.fill[Byte](bits / 8 - expectedCompressed.length)(0)
