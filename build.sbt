@@ -24,8 +24,8 @@ lazy val guavaDependencies = Seq(
 )
 
 lazy val akkaDependencies = Seq(
-  "com.typesafe.akka" %% "akka-actor"   % "[2.3.0,2.6.0)",
-  "com.typesafe.akka" %% "akka-testkit" % "[2.3.0,2.6.0)" % "test"
+  "com.typesafe.akka" %% "akka-actor"   % "[2.3.0,2.7.0)",
+  "com.typesafe.akka" %% "akka-testkit" % "[2.3.0,2.7.0)" % "test"
 )
 
 lazy val nettyDependencies = Seq(
