@@ -15,12 +15,12 @@
  */
 package com.github.mkroli.dns4s.section.resource
 
-import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s._
-import org.scalatest.FunSpec
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import com.github.mkroli.dns4s.section.ResourceRecord
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-class MXResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
+class MXResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("MXResource") {
     describe("validation") {
       describe("preference") {

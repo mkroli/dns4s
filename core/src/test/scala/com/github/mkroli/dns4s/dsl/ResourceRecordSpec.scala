@@ -21,9 +21,9 @@ import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.CAAResource.{CustomCAAResource, IODEFResource, IssueResource, IssueWildResource}
 import com.github.mkroli.dns4s.section.resource.OPTResource.{ClientSubnetOPTOptionData, UnknownOPTOptionData}
 import com.github.mkroli.dns4s.section.resource._
-import org.scalatest.FunSpec
+import org.scalatest.funspec.AnyFunSpec
 
-class ResourceRecordSpec extends FunSpec {
+class ResourceRecordSpec extends AnyFunSpec {
   describe("ResourceRecord") {
     it("should be possible to create an answer") {
       Response ~ Answers(RRName("test") ~ TXTRecord("test")) match {

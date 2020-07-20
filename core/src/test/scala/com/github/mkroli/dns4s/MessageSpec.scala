@@ -15,14 +15,14 @@
  */
 package com.github.mkroli.dns4s
 
-import org.scalatest.FunSpec
+import org.scalatest.funspec.AnyFunSpec
 
 import com.github.mkroli.dns4s.section.HeaderSection
 import com.github.mkroli.dns4s.section.QuestionSection
 import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.CNameResource
 
-class MessageSpec extends FunSpec {
+class MessageSpec extends AnyFunSpec {
   describe("Message") {
     describe("encoding/decoding") {
       it("decode(encode(message)) should be the same as message") {

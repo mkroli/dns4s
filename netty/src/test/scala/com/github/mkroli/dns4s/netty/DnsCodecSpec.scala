@@ -15,16 +15,13 @@
  */
 package com.github.mkroli.dns4s.netty
 
-import java.net.InetAddress
-import java.net.InetSocketAddress
-
-import org.scalatest.FunSpec
+import java.net.{InetAddress, InetSocketAddress}
 
 import com.github.mkroli.dns4s.dsl.Query
-
 import io.netty.channel.embedded.EmbeddedChannel
+import org.scalatest.funspec.AnyFunSpec
 
-class DnsCodecSpec extends FunSpec {
+class DnsCodecSpec extends AnyFunSpec {
   describe("DnsCodec") {
     it("should encode/decode DnsPacket messages") {
       val channel = new EmbeddedChannel(new DnsCodec)

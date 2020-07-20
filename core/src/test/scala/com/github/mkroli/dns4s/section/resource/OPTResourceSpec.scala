@@ -20,10 +20,10 @@ import java.net.InetAddress
 import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.OPTResource.ClientSubnetOPTOptionData
 import com.github.mkroli.dns4s.{MessageBuffer, bytes, bytesGenerator}
-import org.scalatest.FunSpec
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-class OPTResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
+class OPTResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("OPTResource") {
     describe("encoding/decoding") {
       it("should be decoded wrapped in ResourceRecord") {

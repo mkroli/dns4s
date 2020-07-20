@@ -16,12 +16,12 @@
 package com.github.mkroli.dns4s.section.resource
 
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.CAAResource.{IODEFResource, IssueResource, IssueWildResource, CustomCAAResource}
+import com.github.mkroli.dns4s.section.resource.CAAResource.{CustomCAAResource, IODEFResource, IssueResource, IssueWildResource}
 import com.github.mkroli.dns4s.{MessageBuffer, bytes}
-import org.scalatest.FunSpec
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-class CAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
+class CAAResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("CustomCAAResource") {
     describe("validation") {
       describe("tag") {

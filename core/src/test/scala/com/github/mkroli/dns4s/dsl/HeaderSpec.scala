@@ -15,11 +15,10 @@
  */
 package com.github.mkroli.dns4s.dsl
 
-import org.scalatest.FunSpec
-
 import com.github.mkroli.dns4s.section.HeaderSection
+import org.scalatest.funspec.AnyFunSpec
 
-class HeaderSpec extends FunSpec {
+class HeaderSpec extends AnyFunSpec {
   describe("Header") {
     it("should be possible to create a query") {
       Query match {

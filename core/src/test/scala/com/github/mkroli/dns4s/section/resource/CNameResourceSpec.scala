@@ -17,10 +17,10 @@ package com.github.mkroli.dns4s.section.resource
 
 import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.{MessageBuffer, bytes, dnGen}
-import org.scalatest.FunSpec
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-class CNameResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
+class CNameResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("CNameResource") {
     describe("encoding/decoding") {
       it("decode(encode(resource)) should be the same as resource") {

@@ -16,13 +16,28 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions     = "2.13.3" :: "2.12.12" :: "2.11.12" :: "2.10.7" :: Nil
-lazy val guavaVersion      = "[15.0,24.0)"
-lazy val akkaVersion       = "[2.3.0,2.6.0)"
-lazy val nettyVersion      = "[4.0.0,4.2.0)"
-lazy val findbugsVersion   = "[0.+,)"
-lazy val scalaTestVersion  = "3.0.8"
-lazy val scalaCheckVersion = "1.14.1"
+lazy val scalaVersions = "2.13.3" :: "2.12.12" :: "2.11.12" :: "2.10.7" :: Nil
+
+lazy val guavaDependencies = Seq(
+  "com.google.guava"         % "guava"  % "[15.0,24.0)",
+  "com.google.code.findbugs" % "jsr305" % "[0.+,)" % "provided"
+)
+
+lazy val akkaDependencies = Seq(
+  "com.typesafe.akka" %% "akka-actor"   % "[2.3.0,2.6.0)",
+  "com.typesafe.akka" %% "akka-testkit" % "[2.3.0,2.6.0)" % "test"
+)
+
+lazy val nettyDependencies = Seq(
+  "io.netty" % "netty-handler" % "[4.0.0,4.2.0)"
+)
+
+lazy val scalaTestDependencies = Seq(
+  "org.scalatest"     %% "scalatest"         % "3.2.0"   % "test",
+  "org.scalatest"     %% "scalatest-funspec" % "3.2.0"   % "test",
+  "org.scalatestplus" %% "scalacheck-1-14"   % "3.2.0.0" % "test",
+  "org.scalacheck"    %% "scalacheck"        % "1.14.1"  % "test"
+)
 
 def projectSettings(n: String, d: String) =
   Seq(
@@ -59,26 +74,15 @@ def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: St
   )
 
 lazy val dns4sProjectSettings = Seq(
-  libraryDependencies ++= Seq(
-    "com.google.guava"         % "guava"       % guavaVersion,
-    "com.google.code.findbugs" % "jsr305"      % findbugsVersion % "provided",
-    "org.scalatest"            %% "scalatest"  % scalaTestVersion % "test",
-    "org.scalacheck"           %% "scalacheck" % scalaCheckVersion % "test"
-  )
+  libraryDependencies ++= guavaDependencies ++ scalaTestDependencies
 )
 
 lazy val dns4sAkkaProjectSettings = Seq(
-  libraryDependencies ++= Seq(
-    "com.google.guava"         % "guava"         % guavaVersion,
-    "com.google.code.findbugs" % "jsr305"        % findbugsVersion % "provided",
-    "com.typesafe.akka"        %% "akka-actor"   % akkaVersion,
-    "org.scalatest"            %% "scalatest"    % scalaTestVersion % "test",
-    "com.typesafe.akka"        %% "akka-testkit" % akkaVersion % "test"
-  )
+  libraryDependencies ++= guavaDependencies ++ akkaDependencies ++ scalaTestDependencies
 )
 
 lazy val dns4sNettyProjectSettings = Seq(
-  libraryDependencies ++= Seq("io.netty" % "netty-handler" % nettyVersion, "org.scalatest" %% "scalatest" % scalaTestVersion % "test")
+  libraryDependencies ++= nettyDependencies ++ scalaTestDependencies
 )
 
 lazy val projectReleaseSettings = Seq(

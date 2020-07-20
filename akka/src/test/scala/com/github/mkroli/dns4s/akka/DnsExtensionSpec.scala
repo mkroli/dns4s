@@ -15,27 +15,21 @@
  */
 package com.github.mkroli.dns4s.akka
 
-import java.net.InetAddress
-import java.net.InetSocketAddress
+import java.net.{InetAddress, InetSocketAddress}
+
+import akka.actor.{ActorRef, ActorSystem}
+import akka.io.IO
+import akka.testkit.{ImplicitSender, TestKitBase, TestProbe}
+import akka.util.Timeout
+import com.github.mkroli.dns4s.dsl._
+import com.github.mkroli.dns4s.section.resource.AResource
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.funspec.AnyFunSpec
 
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
-import org.scalatest.BeforeAndAfterAll
-import org.scalatest.FunSpec
-
-import com.github.mkroli.dns4s.dsl._
-import com.github.mkroli.dns4s.section.resource.AResource
-
-import akka.actor.ActorRef
-import akka.actor.ActorSystem
-import akka.io.IO
-import akka.testkit.ImplicitSender
-import akka.testkit.TestKitBase
-import akka.testkit.TestProbe
-import akka.util.Timeout
-
-class DnsExtensionSpec extends FunSpec with TestKitBase with ImplicitSender with BeforeAndAfterAll {
+class DnsExtensionSpec extends AnyFunSpec with TestKitBase with ImplicitSender with BeforeAndAfterAll {
   implicit lazy val system  = ActorSystem()
   implicit lazy val timeout = Timeout(5 seconds)
 

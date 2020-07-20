@@ -15,12 +15,11 @@
  */
 package com.github.mkroli.dns4s.dsl
 
-import org.scalatest.FunSpec
-
 import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s.section.resource.TXTResource
+import org.scalatest.funspec.AnyFunSpec
 
-class CommonSpec extends FunSpec {
+class CommonSpec extends AnyFunSpec {
   describe("Common") {
     it("should be possible to combine MessageModifierS") {
       val txt = Answers(TXTRecord("test"))

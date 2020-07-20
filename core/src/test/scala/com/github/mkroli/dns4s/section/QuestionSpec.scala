@@ -17,13 +17,10 @@ package com.github.mkroli.dns4s.section
 
 import java.nio.BufferUnderflowException
 
-import org.scalatest.FunSpec
+import com.github.mkroli.dns4s.{MessageBuffer, bytes, maxInt}
+import org.scalatest.funspec.AnyFunSpec
 
-import com.github.mkroli.dns4s.MessageBuffer
-import com.github.mkroli.dns4s.bytes
-import com.github.mkroli.dns4s.maxInt
-
-class QuestionSpec extends FunSpec {
+class QuestionSpec extends AnyFunSpec {
   describe("QuestionSection") {
     describe("validation") {
       describe("qtype") {

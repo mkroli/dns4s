@@ -15,19 +15,13 @@
  */
 package com.github.mkroli.dns4s.section
 
-import java.net.Inet4Address
-import java.net.InetAddress
+import java.net.{Inet4Address, InetAddress}
 
-import org.scalatest.FunSpec
+import com.github.mkroli.dns4s.{MessageBuffer, bytes, maxInt, maxLong}
+import com.github.mkroli.dns4s.section.resource.{AResource, UnknownResource}
+import org.scalatest.funspec.AnyFunSpec
 
-import com.github.mkroli.dns4s.MessageBuffer
-import com.github.mkroli.dns4s.bytes
-import com.github.mkroli.dns4s.maxInt
-import com.github.mkroli.dns4s.maxLong
-import com.github.mkroli.dns4s.section.resource.AResource
-import com.github.mkroli.dns4s.section.resource.UnknownResource
-
-class ResourceRecordSpec extends FunSpec {
+class ResourceRecordSpec extends AnyFunSpec {
   describe("ResourceRecord") {
     describe("validation") {
       describe("type") {

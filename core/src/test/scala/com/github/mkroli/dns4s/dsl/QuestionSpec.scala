@@ -15,11 +15,10 @@
  */
 package com.github.mkroli.dns4s.dsl
 
-import org.scalatest.FunSpec
-
 import com.github.mkroli.dns4s.section.ResourceRecord
+import org.scalatest.funspec.AnyFunSpec
 
-class QuestionSpec extends FunSpec {
+class QuestionSpec extends AnyFunSpec {
   describe("QuestionSection") {
     it("should be possible to create no questions") {
       Query ~ Questions() match {

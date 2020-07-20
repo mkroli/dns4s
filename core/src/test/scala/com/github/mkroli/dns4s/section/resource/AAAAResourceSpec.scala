@@ -17,12 +17,12 @@ package com.github.mkroli.dns4s.section.resource
 
 import java.net.{Inet6Address, InetAddress}
 
-import com.github.mkroli.dns4s.{MessageBuffer, bytes, bytesGenerator}
 import com.github.mkroli.dns4s.section.ResourceRecord
-import org.scalatest.FunSpec
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import com.github.mkroli.dns4s.{MessageBuffer, bytes, bytesGenerator}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-class AAAAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
+class AAAAResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("AAAAResource") {
     describe("encoding/decoding") {
       def inet6Address(b: String) =

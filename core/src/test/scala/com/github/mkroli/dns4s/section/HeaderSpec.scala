@@ -15,13 +15,10 @@
  */
 package com.github.mkroli.dns4s.section
 
-import org.scalatest.FunSpec
+import com.github.mkroli.dns4s.{MessageBuffer, bytes, maxInt}
+import org.scalatest.funspec.AnyFunSpec
 
-import com.github.mkroli.dns4s.MessageBuffer
-import com.github.mkroli.dns4s.bytes
-import com.github.mkroli.dns4s.maxInt
-
-class HeaderSpec extends FunSpec {
+class HeaderSpec extends AnyFunSpec {
   lazy val defaultHeader = HeaderSection(0, false, 0, false, false, false, false, 0, 0, 0, 0, 0)
 
   describe("HeaderSection") {

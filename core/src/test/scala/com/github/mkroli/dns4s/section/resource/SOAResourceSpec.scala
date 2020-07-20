@@ -15,12 +15,12 @@
  */
 package com.github.mkroli.dns4s.section.resource
 
-import com.github.mkroli.dns4s.section.ResourceRecord
 import com.github.mkroli.dns4s._
-import org.scalatest.FunSpec
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import com.github.mkroli.dns4s.section.ResourceRecord
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-class SOAResourceSpec extends FunSpec with ScalaCheckDrivenPropertyChecks {
+class SOAResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   lazy val defaultResource = SOAResource("", "", 0, 0, 0, 0, 0)
 
   describe("SOAResource") {
