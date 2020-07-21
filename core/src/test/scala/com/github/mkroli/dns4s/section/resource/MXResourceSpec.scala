@@ -20,6 +20,8 @@ import com.github.mkroli.dns4s.section.ResourceRecord
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
+import scala.language.implicitConversions
+
 class MXResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("MXResource") {
     describe("validation") {

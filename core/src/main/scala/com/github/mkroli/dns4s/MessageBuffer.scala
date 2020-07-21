@@ -17,7 +17,7 @@ package com.github.mkroli.dns4s
 
 import java.nio.ByteBuffer
 
-import scala.language.postfixOps
+import scala.language.{implicitConversions, postfixOps}
 
 trait MessageBufferEncoder {
   def apply(buf: MessageBuffer): MessageBuffer

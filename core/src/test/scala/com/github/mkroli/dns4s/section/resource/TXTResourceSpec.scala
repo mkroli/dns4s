@@ -20,6 +20,8 @@ import com.github.mkroli.dns4s.{MessageBuffer, bytes, cssGen}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
+import scala.language.implicitConversions
+
 class TXTResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("TXTResource") {
     describe("encoding/decoding") {

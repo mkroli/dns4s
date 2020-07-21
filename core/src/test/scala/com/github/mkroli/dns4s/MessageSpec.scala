@@ -15,12 +15,11 @@
  */
 package com.github.mkroli.dns4s
 
+import com.github.mkroli.dns4s.section.{HeaderSection, QuestionSection, ResourceRecord}
+import com.github.mkroli.dns4s.section.resource.CNameResource
 import org.scalatest.funspec.AnyFunSpec
 
-import com.github.mkroli.dns4s.section.HeaderSection
-import com.github.mkroli.dns4s.section.QuestionSection
-import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.CNameResource
+import scala.language.implicitConversions
 
 class MessageSpec extends AnyFunSpec {
   describe("Message") {

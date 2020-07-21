@@ -18,6 +18,8 @@ package com.github.mkroli.dns4s.section
 import com.github.mkroli.dns4s.{MessageBuffer, bytes, maxInt}
 import org.scalatest.funspec.AnyFunSpec
 
+import scala.language.implicitConversions
+
 class HeaderSpec extends AnyFunSpec {
   lazy val defaultHeader = HeaderSection(0, false, 0, false, false, false, false, 0, 0, 0, 0, 0)
 

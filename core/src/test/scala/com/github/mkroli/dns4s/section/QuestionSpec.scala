@@ -20,6 +20,8 @@ import java.nio.BufferUnderflowException
 import com.github.mkroli.dns4s.{MessageBuffer, bytes, maxInt}
 import org.scalatest.funspec.AnyFunSpec
 
+import scala.language.implicitConversions
+
 class QuestionSpec extends AnyFunSpec {
   describe("QuestionSection") {
     describe("validation") {

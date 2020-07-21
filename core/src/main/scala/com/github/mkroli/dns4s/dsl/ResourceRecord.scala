@@ -15,29 +15,15 @@
  */
 package com.github.mkroli.dns4s.dsl
 
-import java.net.Inet4Address
-import java.net.Inet6Address
-import java.net.InetAddress
+import java.net.{Inet4Address, Inet6Address, InetAddress}
 
 import com.github.mkroli.dns4s.Message
 import com.github.mkroli.dns4s.section.ResourceRecord
-import com.github.mkroli.dns4s.section.resource.{
-  AAAAResource,
-  AResource,
-  CAAResource,
-  CNameResource,
-  HInfoResource,
-  MXResource,
-  NAPTRResource,
-  NSResource,
-  OPTResource,
-  PTRResource,
-  SOAResource,
-  TXTResource
-}
-import com.github.mkroli.dns4s.section.resource.CAAResource.{IODEFResource, IssueResource, IssueWildResource, CustomCAAResource}
+import com.github.mkroli.dns4s.section.resource.CAAResource.{CustomCAAResource, IODEFResource, IssueResource, IssueWildResource}
 import com.github.mkroli.dns4s.section.resource._
 import com.google.common.net.InetAddresses
+
+import scala.reflect.ClassTag
 
 trait ResourceRecordModifier { self =>
   def ~(rrm: ResourceRecordModifier) = new ResourceRecordModifier {
@@ -95,7 +81,7 @@ object RRTtl extends ResourceRecordField(_.`ttl`) {
   }
 }
 
-private[dsl] abstract class ResourceRecordExtractor[T: Manifest] {
+private[dsl] abstract class ResourceRecordExtractor[T: ClassTag] {
   def unapply(rr: ResourceRecord): Option[T] = rr.rdata match {
     case rr: T => Some(rr)
     case _     => None

@@ -22,6 +22,8 @@ import com.github.mkroli.dns4s.{MessageBuffer, bytes}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
+import scala.language.implicitConversions
+
 class AResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("AResource") {
     describe("encoding/decoding") {

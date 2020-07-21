@@ -21,6 +21,8 @@ import com.github.mkroli.dns4s.{MessageBuffer, bytes}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
+import scala.language.implicitConversions
+
 class CAAResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("CustomCAAResource") {
     describe("validation") {

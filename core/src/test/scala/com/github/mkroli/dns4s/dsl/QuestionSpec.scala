@@ -18,6 +18,8 @@ package com.github.mkroli.dns4s.dsl
 import com.github.mkroli.dns4s.section.ResourceRecord
 import org.scalatest.funspec.AnyFunSpec
 
+import scala.language.implicitConversions
+
 class QuestionSpec extends AnyFunSpec {
   describe("QuestionSection") {
     it("should be possible to create no questions") {

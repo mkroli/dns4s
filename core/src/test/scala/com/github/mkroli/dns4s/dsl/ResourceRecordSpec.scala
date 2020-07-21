@@ -23,6 +23,8 @@ import com.github.mkroli.dns4s.section.resource.OPTResource.{ClientSubnetOPTOpti
 import com.github.mkroli.dns4s.section.resource._
 import org.scalatest.funspec.AnyFunSpec
 
+import scala.language.implicitConversions
+
 class ResourceRecordSpec extends AnyFunSpec {
   describe("ResourceRecord") {
     it("should be possible to create an answer") {
