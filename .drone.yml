@@ -5,7 +5,7 @@ name: default
 
 steps:
   - name: "Scala 2.13.0 (code coverage)"
-    image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
     user: sbtuser
     environment:
       COVERALLS_REPO_TOKEN:
@@ -14,31 +14,31 @@ steps:
       - sbt -Dsbt.color=true -Dsbt.supershell=false clean coverage test coverageReport coverageAggregate coveralls
     depends_on: [ clone ]
   - name: "Scala 2.12.10"
-    image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
     user: sbtuser
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.12.9  clean test
     depends_on: [ clone ]
   - name: "Scala 2.11.12"
-    image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
     user: sbtuser
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.11.12 clean test
     depends_on: [ clone ]
   - name: "Scala 2.10.7"
-    image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
     user: sbtuser
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.10.7  clean test
     depends_on: [ clone ]
   - name: "Code format"
-    image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
     user: sbtuser
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false clean scalafmtSbtCheck scalafmtCheckAll
     depends_on: [ clone ]
   - name: "Documentation"
-    image: hseeberger/scala-sbt:11.0.4_1.3.2_2.13.1
+    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
     user: sbtuser
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false clean makeSite
