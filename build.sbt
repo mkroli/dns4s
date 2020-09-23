@@ -16,7 +16,7 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.13.3" :: "2.12.12" :: "2.11.12" :: "2.10.7" :: "0.24.0-RC1" :: Nil
+lazy val scalaVersions = "2.13.3" :: "2.12.12" :: "2.11.12" :: "2.10.7" :: "0.27.0-RC1" :: Nil
 
 lazy val guavaDependencies = Seq(
   "com.google.guava"         % "guava"  % "[15.0,24.0)",
@@ -35,9 +35,9 @@ lazy val nettyDependencies = Seq(
 )
 
 lazy val scalaTestDependencies = Seq(
-  "org.scalatest"     %% "scalatest"         % "3.2.0"   % "test",
-  "org.scalatest"     %% "scalatest-funspec" % "3.2.0"   % "test",
-  "org.scalatestplus" %% "scalacheck-1-14"   % "3.2.0.0" % "test"
+  "org.scalatest"     %% "scalatest"         % "3.2.2"   % "test",
+  "org.scalatest"     %% "scalatest-funspec" % "3.2.2"   % "test",
+  "org.scalatestplus" %% "scalacheck-1-14"   % "3.2.2.0" % "test"
 )
 
 def projectSettings(n: String, d: String) =

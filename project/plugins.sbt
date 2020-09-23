@@ -41,4 +41,4 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0")
 
 addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.6")
 
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.1")
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.2")
