@@ -35,7 +35,7 @@ steps:
     image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
     user: sbtuser
     commands:
-      - sbt -Dsbt.color=true -Dsbt.supershell=false ++0.24.0-RC1  clean test
+      - sbt -Dsbt.color=true -Dsbt.supershell=false ++0.27.0-RC1  clean test
     depends_on: [ clone ]
   - name: "Code format"
     image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
