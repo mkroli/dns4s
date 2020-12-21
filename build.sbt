@@ -16,7 +16,7 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.13.3" :: "2.12.12" :: "2.11.12" :: "2.10.7" :: "0.27.0-RC1" :: Nil
+lazy val scalaVersions = "2.13.3" :: "2.12.12" :: "2.11.12" :: "2.10.7" :: "3.0.0-M3" :: Nil
 
 lazy val guavaDependencies = Seq(
   "com.google.guava"         % "guava"  % "[15.0,24.0)",
@@ -34,10 +34,20 @@ lazy val nettyDependencies = Seq(
   "io.netty" % "netty-handler" % "[4.0.0,4.2.0)"
 )
 
-lazy val scalaTestDependencies = Seq(
-  "org.scalatest"     %% "scalatest"         % "3.2.2"   % "test",
-  "org.scalatest"     %% "scalatest-funspec" % "3.2.2"   % "test",
-  "org.scalatestplus" %% "scalacheck-1-14"   % "3.2.2.0" % "test"
+lazy val scalaTestDependencies = Def.setting(
+  Seq(
+    "org.scalatest" %% "scalatest"         % "[3.2.2,3.2.3]" % "test",
+    "org.scalatest" %% "scalatest-funspec" % "[3.2.2,3.2.3]" % "test"
+  ) ++ (CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, 10)) =>
+      Seq(
+        "org.scalatestplus" %% "scalacheck-1-14" % "[3.2.2.0,3.2.3.0]" % "test"
+      )
+    case _ =>
+      Seq(
+        "org.scalatestplus" %% "scalacheck-1-15" % "[3.2.2.0,3.2.3.0]" % "test"
+      )
+  })
 )
 
 def projectSettings(n: String, d: String) =
@@ -50,6 +60,7 @@ def projectSettings(n: String, d: String) =
       case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
       case _                  => Seq("-target:jvm-1.8")
     }),
+    scalacOptions ++= { if (isDotty.value) Seq("-source:3.1-migration") else Nil },
     resolvers += "bintray" at "https://api.bintray.com/maven/mkroli/maven/dns4s",
     mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
     crossScalaVersions := scalaVersions,
@@ -75,15 +86,15 @@ def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: St
   )
 
 lazy val dns4sProjectSettings = Seq(
-  libraryDependencies ++= guavaDependencies ++ scalaTestDependencies
+  libraryDependencies ++= guavaDependencies ++ scalaTestDependencies.value
 )
 
 lazy val dns4sAkkaProjectSettings = Seq(
-  libraryDependencies ++= guavaDependencies ++ akkaDependencies.value ++ scalaTestDependencies
+  libraryDependencies ++= guavaDependencies ++ akkaDependencies.value ++ scalaTestDependencies.value
 )
 
 lazy val dns4sNettyProjectSettings = Seq(
-  libraryDependencies ++= nettyDependencies ++ scalaTestDependencies
+  libraryDependencies ++= nettyDependencies ++ scalaTestDependencies.value
 )
 
 lazy val projectReleaseSettings = Seq(
