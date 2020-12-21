@@ -4,48 +4,53 @@ type: docker
 name: default
 
 steps:
+  - name: "Setup permissions"
+    image: busybox:latest
+    user: 0
+    commands:
+      - chown -R 1001: .
   - name: "Scala 2.13.0 (code coverage)"
-    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
-    user: root
+    image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
+    user: 1001
     environment:
       COVERALLS_REPO_TOKEN:
         from_secret: COVERALLS_REPO_TOKEN
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false clean coverage test coverageReport coverageAggregate coveralls
-    depends_on: [ clone ]
+    depends_on: [ clone, "Setup permissions" ]
   - name: "Scala 2.12.10"
-    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
-    user: root
+    image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
+    user: 1001
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.12.9  clean test
-    depends_on: [ clone ]
+    depends_on: [ clone, "Setup permissions" ]
   - name: "Scala 2.11.12"
-    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
-    user: root
+    image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
+    user: 1001
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.11.12 clean test
-    depends_on: [ clone ]
+    depends_on: [ clone, "Setup permissions" ]
   - name: "Scala 2.10.7"
-    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
-    user: root
+    image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
+    user: 1001
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false ++2.10.7  clean test
-    depends_on: [ clone ]
+    depends_on: [ clone, "Setup permissions" ]
   - name: "Dotty"
-    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
-    user: root
+    image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
+    user: 1001
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false ++0.27.0-RC1  clean test
-    depends_on: [ clone ]
+    depends_on: [ clone, "Setup permissions" ]
   - name: "Code format"
-    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
-    user: root
+    image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
+    user: 1001
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false clean scalafmtSbtCheck scalafmtCheckAll
-    depends_on: [ clone ]
+    depends_on: [ clone, "Setup permissions" ]
   - name: "Documentation"
-    image: hseeberger/scala-sbt:11.0.7_1.3.13_2.13.3
-    user: root
+    image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
+    user: 1001
     commands:
       - sbt -Dsbt.color=true -Dsbt.supershell=false clean makeSite
-    depends_on: [ clone ]
+    depends_on: [ clone, "Setup permissions" ]
