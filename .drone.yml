@@ -36,7 +36,7 @@ steps:
     image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
     user: 1001
     commands:
-      - sbt -Dsbt.color=true -Dsbt.supershell=false ++0.27.0-RC1  clean test
+      - sbt -Dsbt.color=true -Dsbt.supershell=false ++3.0.0-M3  clean test
   - name: "Code format"
     image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
     user: 1001
