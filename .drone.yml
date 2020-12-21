@@ -8,7 +8,7 @@ steps:
     image: busybox:latest
     user: 0
     commands:
-      - chown -R 1001: .
+      - "chown -R 1001: ."
   - name: "Scala 2.13.0 (code coverage)"
     image: hseeberger/scala-sbt:11.0.9.1_1.4.5_2.13.4
     user: 1001
