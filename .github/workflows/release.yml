@@ -16,4 +16,4 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: sbt -Dsbt.color=true -Dsbt.supershell=false release with-defaults
+        run: sbt -Dsbt.color=true -Dsbt.supershell=false "release with-defaults"
