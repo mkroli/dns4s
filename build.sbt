@@ -96,7 +96,7 @@ lazy val projectReleaseSettings = Seq(
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
-    releaseStepCommandAndRemaining("+ publishSigned"),
+    releaseStepCommandAndRemaining("+ publish"),
     releaseStepTask(ghpagesPushSite),
     setNextVersion,
     commitNextVersion
