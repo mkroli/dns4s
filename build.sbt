@@ -49,12 +49,13 @@ def projectSettings(n: String, d: String) =
       case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
       case _                  => Seq("-target:jvm-1.8")
     }),
-    resolvers += "bintray" at "https://api.bintray.com/maven/mkroli/maven/dns4s",
+    githubOwner := "mkroli",
+    githubRepository := "dns4s",
+    resolvers += Resolver.githubPackages(githubOwner.value),
     mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
     crossScalaVersions := scalaVersions,
     publishMavenStyle := true,
     publishArtifact in Test := false,
-    bintrayPackage := "dns4s",
     autoAPIMappings := true,
     licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
     homepage := Some(url("https://github.com/mkroli/dns4s")),

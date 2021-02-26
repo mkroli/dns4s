@@ -39,6 +39,6 @@ addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0")
 
-addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.6")
+addSbtPlugin("com.codecommit" % "sbt-github-packages" % "0.5.2")
 
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.1")
