@@ -18,4 +18,6 @@ jobs:
         with:
           java-version: 1.8
       - name: Test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: sbt -Dsbt.color=true -Dsbt.supershell=false ++2.10.7  clean test
