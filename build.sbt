@@ -63,7 +63,7 @@ def projectSettings(n: String, d: String) =
     scmInfo := Some(
       ScmInfo(
         url("https://github.com/mkroli/dns4s"),
-        "scm:git:git@github.com:mkroli/dns4s.git"
+        "scm:git:https://github.com/mkroli/dns4s.git"
       )
     )
   )
