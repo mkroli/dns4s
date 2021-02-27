@@ -51,6 +51,7 @@ def projectSettings(n: String, d: String) =
     }),
     githubOwner := "mkroli",
     githubRepository := "dns4s",
+    git.remoteRepo := "https://github.com/mkroli/dns4s.git",
     resolvers += Resolver.githubPackages(githubOwner.value),
     mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
     crossScalaVersions := scalaVersions,
@@ -99,7 +100,8 @@ lazy val projectReleaseSettings = Seq(
     releaseStepCommandAndRemaining("+ publish"),
     releaseStepTask(ghpagesPushSite),
     setNextVersion,
-    commitNextVersion
+    commitNextVersion,
+    pushChanges
   )
 )
 
