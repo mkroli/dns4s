@@ -51,7 +51,6 @@ def projectSettings(n: String, d: String) =
     }),
     githubOwner := "mkroli",
     githubRepository := "dns4s",
-    git.remoteRepo := "https://github.com/mkroli/dns4s.git",
     resolvers += Resolver.githubPackages(githubOwner.value),
     mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
     crossScalaVersions := scalaVersions,
@@ -109,7 +108,7 @@ lazy val parentSettings = Seq(publishArtifact := false)
 
 lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox) ++ Seq(
   scalacOptions in (Compile, doc) ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
-  git.remoteRepo := "git@github.com:mkroli/dns4s.git",
+  git.remoteRepo := "https://github.com/mkroli/dns4s.git",
   siteSubdirName in ScalaUnidoc := "api",
   addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
   mdocAutoDependency := (CrossVersion.partialVersion(scalaVersion.value) == Some((2, 13))),
