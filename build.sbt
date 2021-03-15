@@ -63,6 +63,14 @@ def projectSettings(n: String, d: String) = Seq(
       url("https://github.com/mkroli/dns4s"),
       "scm:git:https://github.com/mkroli/dns4s.git"
     )
+  ),
+  developers := List(
+    Developer(
+      id = "mkroli",
+      name = "Michael Krolikowski",
+      email = "mkroli@yahoo.de",
+      url = url("https://github.com/mkroli")
+    )
   )
 )
 
