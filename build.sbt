@@ -39,33 +39,30 @@ lazy val scalaTestDependencies = Seq(
   "org.scalacheck"    %% "scalacheck"        % "1.14.1"  % "test"
 )
 
-def projectSettings(n: String, d: String) =
-  Seq(
-    name := n,
-    description := d,
-    organization := "com.github.mkroli",
-    scalaVersion := scalaVersions.head,
-    scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation") ++ (CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
-      case _                  => Seq("-target:jvm-1.8")
-    }),
-    githubOwner := "mkroli",
-    githubRepository := "dns4s",
-    resolvers += Resolver.githubPackages(githubOwner.value),
-    mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
-    crossScalaVersions := scalaVersions,
-    publishMavenStyle := true,
-    publishArtifact in Test := false,
-    autoAPIMappings := true,
-    licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
-    homepage := Some(url("https://github.com/mkroli/dns4s")),
-    scmInfo := Some(
-      ScmInfo(
-        url("https://github.com/mkroli/dns4s"),
-        "scm:git:https://github.com/mkroli/dns4s.git"
-      )
+def projectSettings(n: String, d: String) = Seq(
+  name := n,
+  description := d,
+  organization := "com.github.mkroli",
+  scalaVersion := scalaVersions.head,
+  scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation") ++ (CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
+    case _                  => Seq("-target:jvm-1.8")
+  }),
+  mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
+  crossScalaVersions := scalaVersions,
+  autoAPIMappings := true,
+  publishMavenStyle := true,
+  publishArtifact in Test := false,
+  publishTo := sonatypePublishToBundle.value,
+  licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
+  homepage := Some(url("https://github.com/mkroli/dns4s")),
+  scmInfo := Some(
+    ScmInfo(
+      url("https://github.com/mkroli/dns4s"),
+      "scm:git:https://github.com/mkroli/dns4s.git"
     )
   )
+)
 
 def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) =
   osgiSettings ++ Seq(
@@ -96,7 +93,8 @@ lazy val projectReleaseSettings = Seq(
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
-    releaseStepCommandAndRemaining("+ publish"),
+    releaseStepCommandAndRemaining("+ publishSigned"),
+    releaseStepCommand("sonatypeBundleRelease"),
     releaseStepTask(ghpagesPushSite),
     setNextVersion,
     commitNextVersion,
