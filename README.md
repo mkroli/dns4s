@@ -3,7 +3,7 @@ dns4s
 
 [![Build Status](https://github.com/mkroli/dns4s/actions/workflows/scala_2.13.yml/badge.svg)](https://github.com/mkroli/dns4s/actions/workflows/scala_2.13.yml)
 [![Coverage Status](http://coveralls.io/repos/mkroli/dns4s/badge.svg?branch=master&service=github)](http://coveralls.io/github/mkroli/dns4s?branch=master)
-[![Download](https://img.shields.io/github/v/tag/mkroli/dns4s?label=Release)](https://github.com/mkroli?tab=packages&repo_name=dns4s)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.mkroli/dns4s-core_2.13)](https://search.maven.org/search?q=g:com.github.mkroli%20AND%20a:dns4s*)
 
 dns4s is an implementation of the [DNS] protocol in [Scala].
 

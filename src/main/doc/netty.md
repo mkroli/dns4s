@@ -10,10 +10,9 @@ If you're using [sbt] just add the following to your build definition:
 
 @@@vars
 ```scala
-resolvers += "bintray" at "http://jcenter.bintray.com"
-
 libraryDependencies ++= Seq(
-  "com.github.mkroli" %% "dns4s-netty" % "$version$")
+  "com.github.mkroli" %% "dns4s-netty" % "$version$"
+)
 ```
 @@@
 
