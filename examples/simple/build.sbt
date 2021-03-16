@@ -17,10 +17,9 @@ name := "dns4s-example-simple"
 
 scalaVersion := "2.12.0"
 
-resolvers += "bintray" at "http://jcenter.bintray.com"
-
 conflictManager := ConflictManager.latestCompatible
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.4.12",
-  "com.github.mkroli" %% "dns4s-akka" % "latest.integration")
+  "com.github.mkroli" %% "dns4s-akka" % "latest.integration"
+)
