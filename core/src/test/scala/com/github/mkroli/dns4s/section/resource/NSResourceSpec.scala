@@ -20,6 +20,8 @@ import com.github.mkroli.dns4s.{MessageBuffer, bytes, dnGen}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
+import scala.language.implicitConversions
+
 class NSResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   describe("NSResource") {
     describe("encoding/decoding") {

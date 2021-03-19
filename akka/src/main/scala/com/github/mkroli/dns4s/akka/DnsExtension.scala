@@ -35,7 +35,7 @@ object Dns extends ExtensionId[DnsExtension] with ExtensionIdProvider {
 
   override def lookup() = Dns
 
-  case class Bind(handler: ActorRef, port: Int, implicit val timeout: Timeout = 5 seconds)
+  case class Bind(handler: ActorRef, port: Int)(implicit val timeout: Timeout = 5 seconds)
 
   case object Bound
 

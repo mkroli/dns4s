@@ -18,17 +18,17 @@ package com.github.mkroli.dns4s.akka
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit
 
-import akka.actor.{Actor, ActorRef}
-import akka.io.{IO, Udp}
+import akka.actor._
 import akka.io.Udp.CommandFailed
+import akka.io.{IO, Udp}
 import akka.pattern.ask
 import akka.util.{ByteString, Timeout}
-import com.github.mkroli.dns4s.{Message, MessageBuffer}
 import com.github.mkroli.dns4s.dsl.{Query, Response}
+import com.github.mkroli.dns4s.{Message, MessageBuffer}
 import com.google.common.cache.CacheBuilder
 
 import scala.collection.JavaConverters._
-import scala.language.postfixOps
+import scala.language.{implicitConversions, postfixOps}
 import scala.util.Try
 
 class DnsActor(port: Int, requester: ActorRef, handler: ActorRef)(implicit timeout: Timeout) extends Actor {

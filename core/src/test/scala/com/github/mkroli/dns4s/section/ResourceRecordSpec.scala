@@ -17,9 +17,11 @@ package com.github.mkroli.dns4s.section
 
 import java.net.{Inet4Address, InetAddress}
 
-import com.github.mkroli.dns4s.{MessageBuffer, bytes, maxInt, maxLong}
 import com.github.mkroli.dns4s.section.resource.{AResource, UnknownResource}
+import com.github.mkroli.dns4s.{MessageBuffer, bytes, maxInt, maxLong}
 import org.scalatest.funspec.AnyFunSpec
+
+import scala.language.implicitConversions
 
 class ResourceRecordSpec extends AnyFunSpec {
   describe("ResourceRecord") {

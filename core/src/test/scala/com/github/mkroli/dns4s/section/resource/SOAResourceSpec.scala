@@ -20,6 +20,8 @@ import com.github.mkroli.dns4s.section.ResourceRecord
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
+import scala.language.implicitConversions
+
 class SOAResourceSpec extends AnyFunSpec with ScalaCheckPropertyChecks {
   lazy val defaultResource = SOAResource("", "", 0, 0, 0, 0, 0)
 

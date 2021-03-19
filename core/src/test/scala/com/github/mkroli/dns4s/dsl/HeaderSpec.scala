@@ -18,6 +18,8 @@ package com.github.mkroli.dns4s.dsl
 import com.github.mkroli.dns4s.section.HeaderSection
 import org.scalatest.funspec.AnyFunSpec
 
+import scala.language.implicitConversions
+
 class HeaderSpec extends AnyFunSpec {
   describe("Header") {
     it("should be possible to create a query") {

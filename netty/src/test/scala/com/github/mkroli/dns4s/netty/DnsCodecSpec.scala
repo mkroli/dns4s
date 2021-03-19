@@ -21,6 +21,8 @@ import com.github.mkroli.dns4s.dsl.Query
 import io.netty.channel.embedded.EmbeddedChannel
 import org.scalatest.funspec.AnyFunSpec
 
+import scala.language.implicitConversions
+
 class DnsCodecSpec extends AnyFunSpec {
   describe("DnsCodec") {
     it("should encode/decode DnsPacket messages") {
