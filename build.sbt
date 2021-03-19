@@ -51,7 +51,7 @@ def projectSettings(n: String, d: String) = Seq(
   scalaVersion := scalaVersions.head,
   scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation") ++ (CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
-    case Some((3, 0))       => Seq("-release", "8")
+    case Some((3, 0))       => Seq("-Xtarget", "8")
     case _                  => Seq("-target:jvm-1.8")
   }),
   scalacOptions ++= { if (isDotty.value) Seq("-source:future-migration") else Nil },
