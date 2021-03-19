@@ -44,33 +44,41 @@ lazy val scalaTestDependencies = Def.setting(
   })
 )
 
-def projectSettings(n: String, d: String) =
-  Seq(
-    name := n,
-    description := d,
-    organization := "com.github.mkroli",
-    scalaVersion := scalaVersions.head,
-    scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation") ++ (CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
-      case _                  => Seq("-target:jvm-1.8")
-    }),
-    scalacOptions ++= { if (isDotty.value) Seq("-source:3.1-migration") else Nil },
-    resolvers += "bintray" at "https://api.bintray.com/maven/mkroli/maven/dns4s",
-    mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
-    crossScalaVersions := scalaVersions,
-    publishMavenStyle := true,
-    publishArtifact in Test := false,
-    bintrayPackage := "dns4s",
-    autoAPIMappings := true,
-    licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
-    homepage := Some(url("https://github.com/mkroli/dns4s")),
-    scmInfo := Some(
-      ScmInfo(
-        url("https://github.com/mkroli/dns4s"),
-        "scm:git:git@github.com:mkroli/dns4s.git"
-      )
+def projectSettings(n: String, d: String) = Seq(
+  name := n,
+  description := d,
+  organization := "com.github.mkroli",
+  scalaVersion := scalaVersions.head,
+  scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation") ++ (CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
+    case _                  => Seq("-target:jvm-1.8")
+  }),
+  scalacOptions ++= { if (isDotty.value) Seq("-source:3.1-migration") else Nil },
+  mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
+  crossScalaVersions := scalaVersions,
+  autoAPIMappings := true,
+  publishMavenStyle := true,
+  publishArtifact in Test := false,
+  publishTo := sonatypePublishToBundle.value,
+  sonatypeCredentialHost := "s01.oss.sonatype.org",
+  sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
+  licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
+  homepage := Some(url("https://github.com/mkroli/dns4s")),
+  scmInfo := Some(
+    ScmInfo(
+      url("https://github.com/mkroli/dns4s"),
+      "scm:git:https://github.com/mkroli/dns4s.git"
+    )
+  ),
+  developers := List(
+    Developer(
+      id = "mkroli",
+      name = "Michael Krolikowski",
+      email = "mkroli@yahoo.de",
+      url = url("https://github.com/mkroli")
     )
   )
+)
 
 def projectOsgiSettings(bundleName: String, packagesPrefix: String, packages: String*) =
   osgiSettings ++ Seq(
@@ -102,9 +110,11 @@ lazy val projectReleaseSettings = Seq(
     commitReleaseVersion,
     tagRelease,
     releaseStepCommandAndRemaining("+ publishSigned"),
+    releaseStepCommand("sonatypeBundleRelease"),
     releaseStepTask(ghpagesPushSite),
     setNextVersion,
-    commitNextVersion
+    commitNextVersion,
+    pushChanges
   )
 )
 
@@ -112,7 +122,7 @@ lazy val parentSettings = Seq(publishArtifact := false)
 
 lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox) ++ Seq(
   scalacOptions in (Compile, doc) ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
-  git.remoteRepo := "git@github.com:mkroli/dns4s.git",
+  git.remoteRepo := "https://github.com/mkroli/dns4s.git",
   siteSubdirName in ScalaUnidoc := "api",
   addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
   mdocAutoDependency := (CrossVersion.partialVersion(scalaVersion.value) == Some((2, 13))),

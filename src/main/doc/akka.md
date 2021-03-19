@@ -8,11 +8,10 @@ If you're using [sbt] just add the following to your build definition:
 
 @@@vars
 ```scala
-resolvers += "bintray" at "http://jcenter.bintray.com"
-
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.4.12",
-  "com.github.mkroli" %% "dns4s-akka" % "$version$")
+  "com.github.mkroli" %% "dns4s-akka" % "$version$"
+)
 ```
 @@@
 
