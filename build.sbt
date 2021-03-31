@@ -16,7 +16,7 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.13.3" :: "2.12.12" :: "2.11.12" :: "2.10.7" :: "3.0.0-RC1" :: Nil
+lazy val scalaVersions = "2.13.5" :: "2.12.13" :: "2.11.12" :: "2.10.7" :: "3.0.0-RC2" :: Nil
 
 lazy val guavaDependencies = Seq(
   "com.google.guava"         % "guava"  % "[15.0,24.0)",
