@@ -208,7 +208,7 @@ mkroli/dns4s
 </nav>
 
 <div class="md-nav__title--site md-version" title="Version">
-<i class="md-icon">label_outline</i> 0.18.0*
+<i class="md-icon">label_outline</i> 0.18.1*
 </div>
 </nav>
 
@@ -299,11 +299,24 @@ import com.github.mkroli.dns4s.section.resource._
 <pre class="prettyprint"><code class="language-scala">// Creation
 val msg: Message = Query ~ Id(123)
 // msg: Message = Message(
-//   HeaderSection(123, false, 0, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 123,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -316,27 +329,66 @@ val id = msg match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val query: Message = Query
 // query: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val response1: Message = Response
 // response1: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val response2: Message = Response(query)
 // response2: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -350,27 +402,66 @@ val qr = query match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val query1: Message = Query ~ StandardQuery
 // query1: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val query2: Message = Query ~ InverseQuery
 // query2: Message = Message(
-//   HeaderSection(0, false, 1, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 1,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val query3: Message = Query ~ ServerStatusRequest
 // query3: Message = Message(
-//   HeaderSection(0, false, 2, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 2,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -385,11 +476,24 @@ val op = query1 match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ AuthoritativeAnswer
 // response: Message = Message(
-//   HeaderSection(0, true, 0, true, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = true,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -403,11 +507,24 @@ val aa = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Truncation
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, true, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = true,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -421,11 +538,24 @@ val tc = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val query: Message = Query ~ RecursionDesired
 // query: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -439,11 +569,24 @@ val rd = query match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ RecursionAvailable
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, true, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = true,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -457,51 +600,129 @@ val ra = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response1: Message = Response ~ NoError
 // response1: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val response2: Message = Response ~ FormatError
 // response2: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 1, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 1,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val response3: Message = Response ~ ServerFailure
 // response3: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 2, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 2,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val response4: Message = Response ~ NameError
 // response4: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 3, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 3,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val response5: Message = Response ~ NotImplemented
 // response5: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 4, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 4,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val response6: Message = Response ~ Refused
 // response6: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 5, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 5,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -520,11 +741,24 @@ val rCode = response1 match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val query: Message = Query ~ Questions()
 // query: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 0, 0, 0, 0),
-//   List(),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -537,22 +771,48 @@ val questions = query match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val query1: Message = Query ~ Questions(QName(&quot;example.com&quot;))
 // query1: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val query2: Message = Query ~ Questions(QName(&quot;example.com&quot;), QName(&quot;www.example.com&quot;))
 // query2: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 2, 0, 0, 0),
-//   List(
-//     QuestionSection(&quot;example.com&quot;, 1, 1),
-//     QuestionSection(&quot;www.example.com&quot;, 1, 1)
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 2,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
 //   ),
-//   List(),
-//   List(),
-//   List()
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1),
+//     QuestionSection(qname = &quot;www.example.com&quot;, qtype = 1, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -565,204 +825,561 @@ val names = query2 match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val query: Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ QType(ResourceRecord.typeTXT))
 // query: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 16, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 16, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 val queryA:        Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeA)
 // queryA: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryNS:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeNS)
 // queryNS: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 2, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 2, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMD:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMD)
 // queryMD: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 3, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 3, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMF:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMF)
 // queryMF: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 4, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 4, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryCNAME:    Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeCNAME)
 // queryCNAME: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 5, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 5, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val querySOA:      Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeSOA)
 // querySOA: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 6, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 6, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMB:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMB)
 // queryMB: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 7, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 7, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMG:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMG)
 // queryMG: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 8, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 8, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMR:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMR)
 // queryMR: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 9, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 9, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryNULL:     Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeNULL)
 // queryNULL: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 10, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 10, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryWKS:      Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeWKS)
 // queryWKS: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 11, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 11, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryPTR:      Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypePTR)
 // queryPTR: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 12, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 12, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryHINFO:    Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeHINFO)
 // queryHINFO: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 13, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 13, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMINFO:    Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMINFO)
 // queryMINFO: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 14, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 14, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMX:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMX)
 // queryMX: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 15, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 15, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryTXT:      Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeTXT)
 // queryTXT: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 16, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 16, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryAAAA:     Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeAAAA)
 // queryAAAA: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 28, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 28, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val querySRV:      Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeSRV)
 // querySRV: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 33, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 33, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryNAPTR:    Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeNAPTR)
 // queryNAPTR: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 35, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 35, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryOPT:      Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeOPT)
 // queryOPT: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 41, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 41, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryAXFR:     Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeAXFR)
 // queryAXFR: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 252, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 252, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMAILB:    Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMAILB)
 // queryMAILB: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 253, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 253, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryMAILA:    Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeMAILA)
 // queryMAILA: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 254, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 254, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryAsterisk: Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeAsterisk)
 // queryAsterisk: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 255, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 255, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -800,52 +1417,132 @@ val `type` = query match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val query: Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ QType(ResourceRecord.typeA) ~ QClass(ResourceRecord.classIN))
 // query: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 val queryIN:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeA ~ ClassIN)
 // queryIN: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryCS:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeA ~ ClassCS)
 // queryCS: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 2)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 2)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryCH:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeA ~ ClassCH)
 // queryCH: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 3)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 3)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryHS:       Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeA ~ ClassHS)
 // queryHS: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 4)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 4)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 val queryAsterisk: Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeA ~ ClassAsterisk)
 // queryAsterisk: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 255)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 255)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -864,11 +1561,24 @@ val qclass = query match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ Answers()
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -881,11 +1591,24 @@ val answers = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ Authority()
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -898,11 +1621,24 @@ val authority = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ Additional()
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 0, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -916,11 +1652,32 @@ val additional = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ Answers(RRName(&quot;example.com&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(ResourceRecord(&quot;example.com&quot;, 10, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 10,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -933,222 +1690,758 @@ val name = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response:         Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ RRType(ResourceRecord.typeTXT))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 16, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 16,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 val responseA:        Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeA)
 // responseA: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 1, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 1,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseNS:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeNS)
 // responseNS: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 2, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 2,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMD:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMD)
 // responseMD: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 3, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 3,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMF:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMF)
 // responseMF: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 4, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 4,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseCNAME:    Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeCNAME)
 // responseCNAME: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 5, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 5,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseSOA:      Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeSOA)
 // responseSOA: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 6, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 6,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMB:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMB)
 // responseMB: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 7, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 7,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMG:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMG)
 // responseMG: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 8, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 8,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMR:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMR)
 // responseMR: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 9, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 9,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseNULL:     Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeNULL)
 // responseNULL: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 10, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 10,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseWKS:      Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeWKS)
 // responseWKS: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 11, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 11,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responsePTR:      Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypePTR)
 // responsePTR: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 12, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 12,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseHINFO:    Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeHINFO)
 // responseHINFO: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 13, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 13,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMINFO:    Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMINFO)
 // responseMINFO: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 14, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 14,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMX:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMX)
 // responseMX: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 15, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 15,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseTXT:      Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeTXT)
 // responseTXT: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 16, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 16,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseAAAA:     Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeAAAA)
 // responseAAAA: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 28, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 28,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseSRV:      Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeSRV)
 // responseSRV: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 33, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 33,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseNAPTR:    Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeNAPTR)
 // responseNAPTR: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 35, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 35,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseOPT:      Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeOPT)
 // responseOPT: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 41, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 41,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseAXFR:     Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeAXFR)
 // responseAXFR: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(
-//     ResourceRecord(&quot;example.com&quot;, 252, 1, 3600L, UnknownResource(List(), 10))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
 //   ),
-//   List(),
-//   List()
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 252,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMAILB:    Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMAILB)
 // responseMAILB: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(
-//     ResourceRecord(&quot;example.com&quot;, 253, 1, 3600L, UnknownResource(List(), 10))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
 //   ),
-//   List(),
-//   List()
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 253,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseMAILA:    Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeMAILA)
 // responseMAILA: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(
-//     ResourceRecord(&quot;example.com&quot;, 254, 1, 3600L, UnknownResource(List(), 10))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
 //   ),
-//   List(),
-//   List()
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 254,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseCAA:      Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeCAA)
 // responseCAA: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(
-//     ResourceRecord(&quot;example.com&quot;, 257, 1, 3600L, UnknownResource(List(), 10))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
 //   ),
-//   List(),
-//   List()
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 257,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseAsterisk: Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ TypeAsterisk)
 // responseAsterisk: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(
-//     ResourceRecord(&quot;example.com&quot;, 255, 1, 3600L, UnknownResource(List(), 10))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
 //   ),
-//   List(),
-//   List()
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 255,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1187,54 +2480,178 @@ val rtype = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response:         Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ RRClass(ResourceRecord.classIN))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 10, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 10,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 val responseIN:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ ClassIN)
 // responseIN: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 10, 1, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 10,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseCS:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ ClassCS)
 // responseCS: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 10, 2, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 10,
+//       class = 2,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseCH:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ ClassCH)
 // responseCH: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 10, 3, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 10,
+//       class = 3,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseHS:       Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ ClassHS)
 // responseHS: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(ResourceRecord(&quot;example.com&quot;, 10, 4, 3600L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 10,
+//       class = 4,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val responseAsterisk: Message = Response ~ Answers(RRName(&quot;example.com&quot;) ~ ClassAsterisk)
 // responseAsterisk: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 1, 0, 0),
-//   List(),
-//   List(
-//     ResourceRecord(&quot;example.com&quot;, 10, 255, 3600L, UnknownResource(List(), 10))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
 //   ),
-//   List(),
-//   List()
+//   question = List(),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 10,
+//       class = 255,
+//       ttl = 3600L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1253,11 +2670,32 @@ val `class` = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ Answers(RRName(&quot;example.com&quot;) ~ RRType(ResourceRecord.typeTXT) ~ RRClass(ResourceRecord.classIN) ~ RRTtl(123))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(ResourceRecord(&quot;example.com&quot;, 16, 1, 123L, UnknownResource(List(), 10))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;example.com&quot;,
+//       type = 16,
+//       class = 1,
+//       ttl = 123L,
+//       rdata = UnknownResource(bytes = List(), type = 10)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1273,27 +2711,90 @@ val addr: java.net.Inet4Address = java.net.InetAddress.getByAddress(Array.fill[B
 // addr: java.net.Inet4Address = /0.0.0.0
 val response1: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ Answers(ARecord(addr))
 // response1: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(ResourceRecord(&quot;&quot;, 1, 1, 3600L, AResource(/0.0.0.0))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 1,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = AResource(address = /0.0.0.0)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val response2: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ Answers(ARecord(Array[Byte](1, 2, 3, 4)))
 // response2: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(ResourceRecord(&quot;&quot;, 1, 1, 3600L, AResource(/1.2.3.4))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 1,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = AResource(address = /1.2.3.4)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val response3: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ Answers(ARecord(&quot;1.2.3.4&quot;))
 // response3: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(ResourceRecord(&quot;&quot;, 1, 1, 3600L, AResource(/1.2.3.4))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 1,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = AResource(address = /1.2.3.4)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1308,43 +2809,96 @@ val addr: java.net.Inet6Address = java.net.InetAddress.getByAddress(Array.fill[B
 // addr: java.net.Inet6Address = /0:0:0:0:0:0:0:0
 val response1: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeAAAA) ~ Answers(AAAARecord(addr))
 // response1: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 28, 1)),
-//   List(ResourceRecord(&quot;&quot;, 28, 1, 3600L, AAAAResource(/0:0:0:0:0:0:0:0))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 28, qclass = 1)
+//   ),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 28,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = AAAAResource(address = /0:0:0:0:0:0:0:0)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 val response2: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeAAAA) ~ Answers(AAAARecord(Array[Byte](1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)))
 // response2: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 28, 1)),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 28, qclass = 1)
+//   ),
+//   answer = List(
 //     ResourceRecord(
-//       &quot;&quot;,
-//       28,
-//       1,
-//       3600L,
-//       AAAAResource(/102:304:506:708:90a:b0c:d0e:f10)
+//       name = &quot;&quot;,
+//       type = 28,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = AAAAResource(address = /102:304:506:708:90a:b0c:d0e:f10)
 //     )
 //   ),
-//   List(),
-//   List()
+//   authority = List(),
+//   additional = List()
 // )
 val response3: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeAAAA) ~ Answers(AAAARecord(&quot;0123:4567:89ab:cdef:0123:4567:89ab:cdef&quot;))
 // response3: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 28, 1)),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 28, qclass = 1)
+//   ),
+//   answer = List(
 //     ResourceRecord(
-//       &quot;&quot;,
-//       28,
-//       1,
-//       3600L,
-//       AAAAResource(/123:4567:89ab:cdef:123:4567:89ab:cdef)
+//       name = &quot;&quot;,
+//       type = 28,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = AAAAResource(address = /123:4567:89ab:cdef:123:4567:89ab:cdef)
 //     )
 //   ),
-//   List(),
-//   List()
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1357,11 +2911,34 @@ val address = response1 match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;www.example.com&quot;) ~ TypeCNAME) ~ Answers(CNameRecord(&quot;example.com&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;www.example.com&quot;, 5, 1)),
-//   List(ResourceRecord(&quot;&quot;, 5, 1, 3600L, CNameResource(&quot;example.com&quot;))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;www.example.com&quot;, qtype = 5, qclass = 1)
+//   ),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 5,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = CNameResource(cname = &quot;example.com&quot;)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1374,11 +2951,34 @@ val cname = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeMX) ~ Answers(MXRecord(1, &quot;example.com&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 15, 1)),
-//   List(ResourceRecord(&quot;&quot;, 15, 1, 3600L, MXResource(1, &quot;example.com&quot;))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 15, qclass = 1)
+//   ),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 15,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = MXResource(preference = 1, exchange = &quot;example.com&quot;)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1392,19 +2992,41 @@ val (preference, exchange) = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeNAPTR) ~ Answers(NAPTRRecord(1, 1, &quot;A&quot;, &quot;&quot;, &quot;!^.*$!example.com!&quot;, &quot;&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 35, 1)),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 35, qclass = 1)
+//   ),
+//   answer = List(
 //     ResourceRecord(
-//       &quot;&quot;,
-//       35,
-//       1,
-//       3600L,
-//       NAPTRResource(1, 1, &quot;A&quot;, &quot;&quot;, &quot;!^.*$!example.com!&quot;, &quot;&quot;)
+//       name = &quot;&quot;,
+//       type = 35,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = NAPTRResource(
+//         order = 1,
+//         preference = 1,
+//         flags = &quot;A&quot;,
+//         services = &quot;&quot;,
+//         regexp = &quot;!^.*$!example.com!&quot;,
+//         replacement = &quot;&quot;
+//       )
 //     )
 //   ),
-//   List(),
-//   List()
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1422,35 +3044,81 @@ val (order, preference, flags, services, regexp, replacement) = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeOPT) ~ Additional(OPTRecord(Nil))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 0, 0, 1),
-//   List(QuestionSection(&quot;example.com&quot;, 41, 1)),
-//   List(),
-//   List(),
-//   List(ResourceRecord(&quot;&quot;, 41, 1, 3600L, OPTResource(List())))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 1
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 41, qclass = 1)
+//   ),
+//   answer = List(),
+//   authority = List(),
+//   additional = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 41,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = OPTResource(options = List())
+//     )
+//   )
 // )
 
 // Matching
 val optRecord = response match {
   case Response(_) ~ Additional(OPTRecord(r) :: Nil) =&gt; r
 }
-// optRecord: OPTResource = OPTResource(List())
+// optRecord: OPTResource = OPTResource(options = List())
 </code></pre>
 <h5><a href="#clientsubnetoption" name="clientsubnetoption" class="anchor"><span class="anchor-link"></span></a>ClientSubnetOption</h5>
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Additional(OPTRecord(ClientSubnetOption(OPTResource.ClientSubnetOPTOptionData.familyIPv4, 24, 0, java.net.InetAddress.getByName(&quot;1.2.3.0&quot;)) :: Nil))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 0, 0, 0, 1),
-//   List(),
-//   List(),
-//   List(),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 0,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 1
+//   ),
+//   question = List(),
+//   answer = List(),
+//   authority = List(),
+//   additional = List(
 //     ResourceRecord(
-//       &quot;&quot;,
-//       41,
-//       1,
-//       3600L,
-//       OPTResource(
-//         List(OPTOption(8, ClientSubnetOPTOptionData(1, 24, 0, /1.2.3.0)))
+//       name = &quot;&quot;,
+//       type = 41,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = OPTResource(
+//         options = List(
+//           OPTOption(
+//             code = 8,
+//             data = ClientSubnetOPTOptionData(
+//               family = 1,
+//               sourcePrefixLength = 24,
+//               scopePrefixLength = 0,
+//               address = /1.2.3.0
+//             )
+//           )
+//         )
 //       )
 //     )
 //   )
@@ -1469,11 +3137,32 @@ val (family, sourcePrefixLength, scopePrefixLength, address) = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeNS) ~ Answers(NSRecord(&quot;example.com&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 2, 1)),
-//   List(ResourceRecord(&quot;&quot;, 2, 1, 3600L, NSResource(&quot;example.com&quot;))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 2, qclass = 1)),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 2,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = NSResource(nsdname = &quot;example.com&quot;)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1486,11 +3175,34 @@ val nsdname = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypePTR) ~ Answers(PTRRecord(&quot;example.com&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 12, 1)),
-//   List(ResourceRecord(&quot;&quot;, 12, 1, 3600L, PTRResource(&quot;example.com&quot;))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 12, qclass = 1)
+//   ),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 12,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = PTRResource(ptrdname = &quot;example.com&quot;)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1503,11 +3215,34 @@ val ptrdname = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeHINFO) ~ Answers(HInfoRecord(&quot;CPU&quot;, &quot;Linux&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 13, 1)),
-//   List(ResourceRecord(&quot;&quot;, 13, 1, 3600L, HInfoResource(&quot;CPU&quot;, &quot;Linux&quot;))),
-//   List(),
-//   List()
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 13, qclass = 1)
+//   ),
+//   answer = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 13,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = HInfoResource(cpu = &quot;CPU&quot;, os = &quot;Linux&quot;)
+//     )
+//   ),
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1521,19 +3256,34 @@ val (cpu, os) = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeTXT) ~ Answers(TXTRecord(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 16, 1)),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 16, qclass = 1)
+//   ),
+//   answer = List(
 //     ResourceRecord(
-//       &quot;&quot;,
-//       16,
-//       1,
-//       3600L,
-//       TXTResource(ArraySeq(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
+//       name = &quot;&quot;,
+//       type = 16,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = TXTResource(txt = ArraySeq(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
 //     )
 //   ),
-//   List(),
-//   List()
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1546,27 +3296,40 @@ val txt = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeSOA) ~ Answers(SOARecord(&quot;example.com&quot;, &quot;admin.example.com&quot;, 2015122401L, 3600L, 1800L, 604800L, 600L))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 6, 1)),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 6, qclass = 1)),
+//   answer = List(
 //     ResourceRecord(
-//       &quot;&quot;,
-//       6,
-//       1,
-//       3600L,
-//       SOAResource(
-//         &quot;example.com&quot;,
-//         &quot;admin.example.com&quot;,
-//         2015122401L,
-//         3600L,
-//         1800L,
-//         604800L,
-//         600L
+//       name = &quot;&quot;,
+//       type = 6,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = SOAResource(
+//         mname = &quot;example.com&quot;,
+//         rname = &quot;admin.example.com&quot;,
+//         serial = 2015122401L,
+//         refresh = 3600L,
+//         retry = 1800L,
+//         expire = 604800L,
+//         minimum = 600L
 //       )
 //     )
 //   ),
-//   List(),
-//   List()
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1585,19 +3348,37 @@ val (mname, rname, serial, refresh, retry, expire, minimum) = response match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val response: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeCAA) ~ Answers(RRName(&quot;example.com&quot;) ~ CAARecord.Issue(&quot;cert-authority.org&quot;))
 // response: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 257, 1)),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 257, qclass = 1)
+//   ),
+//   answer = List(
 //     ResourceRecord(
-//       &quot;example.com&quot;,
-//       257,
-//       1,
-//       3600L,
-//       IssueResource(&quot;cert-authority.org&quot;, false)
+//       name = &quot;example.com&quot;,
+//       type = 257,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = IssueResource(
+//         value = &quot;cert-authority.org&quot;,
+//         issuerCritical = false
+//       )
 //     )
 //   ),
-//   List(),
-//   List()
+//   authority = List(),
+//   additional = List()
 // )
 
 // Matching
@@ -1611,19 +3392,34 @@ val value = response match {
 <pre class="prettyprint"><code class="language-scala">// Matching
 val msg: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeTXT) ~ Answers(TXTRecord(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
 // msg: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 16, 1)),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 16, qclass = 1)
+//   ),
+//   answer = List(
 //     ResourceRecord(
-//       &quot;&quot;,
-//       16,
-//       1,
-//       3600L,
-//       TXTResource(ArraySeq(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
+//       name = &quot;&quot;,
+//       type = 16,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = TXTResource(txt = ArraySeq(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
 //     )
 //   ),
-//   List(),
-//   List()
+//   authority = List(),
+//   additional = List()
 // )
 val (qclass, aclass) = msg match {
   case Response(_) ~ Questions(DnsClassName(qclass) :: Nil) ~ Answers(DnsClassName(aclass) :: Nil) =&gt; (qclass, aclass)
@@ -1636,19 +3432,34 @@ val (qclass, aclass) = msg match {
 <pre class="prettyprint"><code class="language-scala">// Matching
 val msg: Message = Response ~ Questions(QName(&quot;example.com&quot;) ~ TypeTXT) ~ Answers(TXTRecord(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
 // msg: Message = Message(
-//   HeaderSection(0, true, 0, false, false, true, false, 0, 1, 1, 0, 0),
-//   List(QuestionSection(&quot;example.com&quot;, 16, 1)),
-//   List(
+//   header = HeaderSection(
+//     id = 0,
+//     qr = true,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 1,
+//     nscount = 0,
+//     arcount = 0
+//   ),
+//   question = List(
+//     QuestionSection(qname = &quot;example.com&quot;, qtype = 16, qclass = 1)
+//   ),
+//   answer = List(
 //     ResourceRecord(
-//       &quot;&quot;,
-//       16,
-//       1,
-//       3600L,
-//       TXTResource(ArraySeq(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
+//       name = &quot;&quot;,
+//       type = 16,
+//       class = 1,
+//       ttl = 3600L,
+//       rdata = TXTResource(txt = ArraySeq(&quot;Test&quot;, &quot;test&quot;, &quot;tesT&quot;))
 //     )
 //   ),
-//   List(),
-//   List()
+//   authority = List(),
+//   additional = List()
 // )
 val (qtype, atype) = msg match {
   case Response(_) ~ Questions(DnsTypeName(qtype) :: Nil) ~ Answers(DnsTypeName(atype) :: Nil) =&gt; (qtype, atype)
@@ -1660,19 +3471,61 @@ val (qtype, atype) = msg match {
 <pre class="prettyprint"><code class="language-scala">// Creation
 val query1: Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ EDNS()
 // query1: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 1),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List(ResourceRecord(&quot;&quot;, 41, 4096, 0L, OPTResource(List())))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 1
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 41,
+//       class = 4096,
+//       ttl = 0L,
+//       rdata = OPTResource(options = List())
+//     )
+//   )
 // )
 val query2: Message = Query ~ Questions(QName(&quot;example.com&quot;) ~ TypeA) ~ EDNS(4096)
 // query2: Message = Message(
-//   HeaderSection(0, false, 0, false, false, true, false, 0, 1, 0, 0, 1),
-//   List(QuestionSection(&quot;example.com&quot;, 1, 1)),
-//   List(),
-//   List(),
-//   List(ResourceRecord(&quot;&quot;, 41, 4096, 0L, OPTResource(List())))
+//   header = HeaderSection(
+//     id = 0,
+//     qr = false,
+//     opcode = 0,
+//     aa = false,
+//     tc = false,
+//     rd = true,
+//     ra = false,
+//     rcode = 0,
+//     qdcount = 1,
+//     ancount = 0,
+//     nscount = 0,
+//     arcount = 1
+//   ),
+//   question = List(QuestionSection(qname = &quot;example.com&quot;, qtype = 1, qclass = 1)),
+//   answer = List(),
+//   authority = List(),
+//   additional = List(
+//     ResourceRecord(
+//       name = &quot;&quot;,
+//       type = 41,
+//       class = 4096,
+//       ttl = 0L,
+//       rdata = OPTResource(options = List())
+//     )
+//   )
 // )
 
 // Matching
@@ -1684,7 +3537,7 @@ val size = query1 match {
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-0.18.0*
+0.18.1*
 </span>
 </div>
 </article>
