@@ -23,12 +23,10 @@ lazy val guavaDependencies = Seq(
   "com.google.code.findbugs" % "jsr305" % "[0.+,)" % "provided"
 )
 
-lazy val akkaDependencies = Def.setting {
-  Seq(
-    "com.typesafe.akka" %% "akka-actor"   % "[2.3.0,2.7.0)",
-    "com.typesafe.akka" %% "akka-testkit" % "[2.3.0,2.7.0)" % "test"
-  ).map(_.withDottyCompat(scalaVersion.value))
-}
+lazy val akkaDependencies = Seq(
+  "com.typesafe.akka" %% "akka-actor"   % "[2.3.0,2.7.0)" cross (CrossVersion.for3Use2_13),
+  "com.typesafe.akka" %% "akka-testkit" % "[2.3.0,2.7.0)" % "test" cross (CrossVersion.for3Use2_13)
+)
 
 lazy val nettyDependencies = Seq(
   "io.netty" % "netty-handler" % "[4.0.0,4.2.0)"
@@ -51,15 +49,14 @@ def projectSettings(n: String, d: String) = Seq(
   scalaVersion := scalaVersions.head,
   scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation") ++ (CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, 10 | 11)) => Seq("-target:jvm-1.6")
-    case Some((3, 0))       => Seq("-Xtarget", "8")
+    case Some((3, 0))       => Seq("-Xtarget", "8", "-source:future-migration")
     case _                  => Seq("-target:jvm-1.8")
   }),
-  scalacOptions ++= { if (isDotty.value) Seq("-source:future-migration") else Nil },
   mimaPreviousArtifacts := Set(organization.value %% name.value % "0.10"),
   crossScalaVersions := scalaVersions,
   autoAPIMappings := true,
   publishMavenStyle := true,
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   publishTo := sonatypePublishToBundle.value,
   sonatypeCredentialHost := "s01.oss.sonatype.org",
   sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
@@ -93,7 +90,7 @@ lazy val dns4sProjectSettings = Seq(
 )
 
 lazy val dns4sAkkaProjectSettings = Seq(
-  libraryDependencies ++= guavaDependencies ++ akkaDependencies.value ++ scalaTestDependencies.value
+  libraryDependencies ++= guavaDependencies ++ akkaDependencies ++ scalaTestDependencies.value
 )
 
 lazy val dns4sNettyProjectSettings = Seq(
@@ -122,19 +119,19 @@ lazy val projectReleaseSettings = Seq(
 lazy val parentSettings = Seq(publishArtifact := false)
 
 lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox) ++ Seq(
-  scalacOptions in (Compile, doc) ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
+  Compile / doc / scalacOptions ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
   git.remoteRepo := "https://github.com/mkroli/dns4s.git",
-  siteSubdirName in ScalaUnidoc := "api",
-  addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
+  ScalaUnidoc / siteSubdirName := "api",
+  addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, ScalaUnidoc / siteSubdirName),
   mdocAutoDependency := (CrossVersion.partialVersion(scalaVersion.value) == Some((2, 13))),
   mdocIn := sourceDirectory.value / "main" / "doc",
-  sourceDirectory in Paradox := mdocOut.value,
-  sourceDirectory in Paradox in paradoxTheme := sourceDirectory.value / "main" / "paradox" / "template",
+  Paradox / sourceDirectory := mdocOut.value,
+  Paradox / paradoxTheme / sourceDirectory := sourceDirectory.value / "main" / "paradox" / "template",
   makeSite := makeSite.dependsOn(mdoc.toTask("")).value,
-  paradoxNavigationDepth := 5,
-  paradoxProperties in Paradox ~= (_ - "github.base_url"),
-  paradoxProperties in Paradox += ("version" -> version.value),
-  paradoxMaterialTheme in Paradox := {
+  Paradox / paradoxNavigationDepth.withRank(KeyRanks.Invisible) := 5,
+  Paradox / paradoxProperties ~= (_ - "github.base_url"),
+  Paradox / paradoxProperties += ("version" -> version.value),
+  Paradox / paradoxMaterialTheme := {
     ParadoxMaterialTheme()
       .withCopyright("© Michael Krolikowski")
       .withRepository(uri("https://github.com/mkroli/dns4s"))
