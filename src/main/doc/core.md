@@ -26,3 +26,4 @@ libraryDependencies ++= Seq(
 @@@
 
 [DSL]:http://en.wikipedia.org/wiki/Domain-specific_language
+[sbt]:http://scala-sbt.org/

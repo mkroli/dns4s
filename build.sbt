@@ -119,7 +119,7 @@ lazy val projectReleaseSettings = Seq(
 lazy val parentSettings = Seq(publishArtifact := false)
 
 lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox) ++ Seq(
-  Compile / doc / scalacOptions ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", version.value),
+  Compile / doc / scalacOptions ++= Seq("-skip-packages", "akka.pattern", "-doc-title", name.value, "-doc-version", (ThisBuild / version).value),
   git.remoteRepo := "https://github.com/mkroli/dns4s.git",
   ScalaUnidoc / siteSubdirName := "api",
   addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, ScalaUnidoc / siteSubdirName),
@@ -130,7 +130,7 @@ lazy val siteSettings = ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(
   makeSite := makeSite.dependsOn(mdoc.toTask("")).value,
   Paradox / paradoxNavigationDepth.withRank(KeyRanks.Invisible) := 5,
   Paradox / paradoxProperties ~= (_ - "github.base_url"),
-  Paradox / paradoxProperties += ("version" -> version.value),
+  Paradox / paradoxProperties += ("version" -> (ThisBuild / version).value),
   Paradox / paradoxMaterialTheme := {
     ParadoxMaterialTheme()
       .withCopyright("© Michael Krolikowski")
