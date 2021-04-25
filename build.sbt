@@ -34,11 +34,11 @@ lazy val nettyDependencies = Seq(
 
 lazy val scalaTestDependencies = Def.setting(
   Seq(
-    "org.scalatest" %% "scalatest"         % "[3.2.2,3.2.7]" % "test",
-    "org.scalatest" %% "scalatest-funspec" % "[3.2.2,3.2.7]" % "test"
+    "org.scalatest" %% "scalatest"         % "[3.2.2,3.2.8]" % "test",
+    "org.scalatest" %% "scalatest-funspec" % "[3.2.2,3.2.8]" % "test"
   ) :+ (CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, 10)) => "org.scalatestplus" %% "scalacheck-1-14" % "[3.2.2.0,3.2.7.0]" % "test"
-    case _             => "org.scalatestplus" %% "scalacheck-1-15" % "[3.2.2.0,3.2.7.0]" % "test"
+    case Some((2, 10)) => "org.scalatestplus" %% "scalacheck-1-14" % "[3.2.2.0,3.2.8.0]" % "test"
+    case _             => "org.scalatestplus" %% "scalacheck-1-15" % "[3.2.2.0,3.2.8.0]" % "test"
   })
 )
 
