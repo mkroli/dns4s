@@ -16,7 +16,7 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.13.5" :: "2.12.13" :: "2.11.12" :: "2.10.7" :: "3.0.0-RC3" :: Nil
+lazy val scalaVersions = "2.13.5" :: "2.12.13" :: "2.11.12" :: "2.10.7" :: "3.0.0" :: Nil
 
 lazy val guavaDependencies = Seq(
   "com.google.guava"         % "guava"  % "[15.0,24.0)",
@@ -34,11 +34,11 @@ lazy val nettyDependencies = Seq(
 
 lazy val scalaTestDependencies = Def.setting(
   Seq(
-    "org.scalatest" %% "scalatest"         % "[3.2.2,3.2.8]" % "test",
-    "org.scalatest" %% "scalatest-funspec" % "[3.2.2,3.2.8]" % "test"
+    "org.scalatest" %% "scalatest"         % "[3.2.2,3.2.9]" % "test",
+    "org.scalatest" %% "scalatest-funspec" % "[3.2.2,3.2.9]" % "test"
   ) :+ (CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, 10)) => "org.scalatestplus" %% "scalacheck-1-14" % "[3.2.2.0,3.2.8.0]" % "test"
-    case _             => "org.scalatestplus" %% "scalacheck-1-15" % "[3.2.2.0,3.2.8.0]" % "test"
+    case Some((2, 10)) => "org.scalatestplus" %% "scalacheck-1-14" % "[3.2.2.0,3.2.9.0]" % "test"
+    case _             => "org.scalatestplus" %% "scalacheck-1-15" % "[3.2.2.0,3.2.9.0]" % "test"
   })
 )
 
