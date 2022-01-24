@@ -1,0 +1,15 @@
+.md-content th {
+    font-weight: bold;
+}
+
+.md-icon.yes::before {
+    color: green;
+    content: "check";
+    font-weight: bold;
+}
+
+.md-icon.no::before {
+    color: red;
+    content: "close";
+    font-weight: bold;
+}

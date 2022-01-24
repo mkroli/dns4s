@@ -16,11 +16,11 @@
 package com.github.mkroli.dns4s.akka
 
 import java.net.{InetAddress, InetSocketAddress}
-
 import akka.actor._
 import akka.io.IO
 import akka.testkit.{ImplicitSender, TestKitBase, TestProbe}
 import akka.util.Timeout
+import com.github.mkroli.dns4s.DnsTestUtils
 import com.github.mkroli.dns4s.dsl._
 import com.github.mkroli.dns4s.section.resource.AResource
 import org.scalatest.BeforeAndAfterAll
@@ -35,7 +35,7 @@ trait DefaultActorSystem {
   override implicit val system: ActorSystem = ActorSystem()
 }
 
-class DnsExtensionSpec extends AnyFunSpec with DefaultActorSystem with TestKitBase with ImplicitSender with BeforeAndAfterAll {
+class DnsExtensionSpec extends AnyFunSpec with DefaultActorSystem with TestKitBase with ImplicitSender with BeforeAndAfterAll with DnsTestUtils {
   implicit val timeout: Timeout = Timeout(5 seconds)
 
   override def afterAll() = shutdown(system)

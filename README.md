@@ -11,6 +11,7 @@ Features
 --------
 - [DSL to build and match DNS messages](https://mkroli.github.io/dns4s/dsl.html)
 - [Akka IO Extension](https://mkroli.github.io/dns4s/akka.html)
+- [Cats-Effect/FS2](https://mkroli.github.io/dns4s/fs2.html)
 - [Netty Codec](https://mkroli.github.io/dns4s/netty.html)
 
 Documentation
