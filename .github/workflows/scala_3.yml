@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: "Scala 3.0"
+    name: "Scala 3"
     runs-on: ubuntu-latest
 
     steps:
@@ -20,4 +20,4 @@ jobs:
       - name: Test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: sbt -Dsbt.color=true -Dsbt.supershell=false ++3.0.0 clean test
+        run: sbt -Dsbt.color=true -Dsbt.supershell=false clean "++3.1.0 test"
