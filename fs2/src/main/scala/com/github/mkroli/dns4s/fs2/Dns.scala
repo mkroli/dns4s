@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Michael Krolikowski
+ * Copyright 2022 Michael Krolikowski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.mkroli.dns4s
 
-import java.net.DatagramSocket
+package com.github.mkroli.dns4s.fs2
 
-import scala.util.Try
+import com.comcast.ip4s._
+import com.github.mkroli.dns4s._
+import _root_.fs2.io.net.Datagram
+import _root_.fs2.Chunk
 
-package object akka {
-  private def portAvailable(port: Int) =
-    Try {
-      val sock = new DatagramSocket(port)
-      sock.setReuseAddress(true)
-      sock.close()
-    }.isSuccess
-
-  def nextAvailablePort(start: Int = 1024) =
-    (start until 65536).filter(portAvailable).head
+case class DnsDatagram(remote: SocketAddress[IpAddress], message: Message) {
+  def datagram = Datagram(remote, Chunk.byteBuffer(message().flipped().buf))
 }
+
+object Dns extends DnsServerOps with DnsClientOps

@@ -20,4 +20,4 @@ jobs:
       - name: Test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: sbt -Dsbt.color=true -Dsbt.supershell=false ++2.11.12 clean test
+        run: sbt -Dsbt.color=true -Dsbt.supershell=false clean "++2.11.12 test"
