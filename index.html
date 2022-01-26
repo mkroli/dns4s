@@ -33,6 +33,7 @@ code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}
 <link rel="stylesheet" href="assets/fonts/font-awesome.css">
 <link rel="stylesheet" href="assets/fonts/material-icons.css">
 <link rel="stylesheet" href="assets/stylesheets/paradox-material-theme.css">
+<link rel="stylesheet" href="assets/custom.css">
 </head>
 <body
 >
@@ -134,6 +135,7 @@ mkroli/dns4s
     <li><a href="dsl.html" class="page">DSL</a></li>
   </ul></li>
   <li><a href="akka.html" class="page">Akka IO Extension</a></li>
+  <li><a href="fs2.html" class="page">Cats Effect/FS2</a></li>
   <li><a href="netty.html" class="page">Netty Codec</a></li>
 </ul>
 <ul>
@@ -143,7 +145,7 @@ mkroli/dns4s
 </nav>
 
 <div class="md-nav__title--site md-version" title="Version">
-<i class="md-icon">label_outline</i> 0.19.0*
+<i class="md-icon">label_outline</i> 0.20.0*
 </div>
 </nav>
 
@@ -155,16 +157,57 @@ mkroli/dns4s
 <div class="md-content__searchable">
 <h1><a href="#dns4s" name="dns4s" class="anchor"><span class="anchor-link"></span></a>dns4s</h1>
 <p><a href="https://github.com/mkroli/dns4s/actions/workflows/scala_2.13.yml"><img src="https://github.com/mkroli/dns4s/actions/workflows/scala_2.13.yml/badge.svg" alt="Build Status" /></a> <a href="http://coveralls.io/github/mkroli/dns4s?branch=master"><img src="http://coveralls.io/repos/mkroli/dns4s/badge.svg?branch=master&service=github" alt="Coverage Status" /></a> <a href="https://search.maven.org/search?q=g:com.github.mkroli%20AND%20a:dns4s*"><img src="https://img.shields.io/maven-central/v/com.github.mkroli/dns4s-core_2.13" alt="Maven Central" /></a></p>
-<p>dns4s is an implementation of the <a href="http://en.wikipedia.org/wiki/Domain_Name_System">DNS</a> protocol in <a href="http://www.scala-lang.org">Scala</a>. It consists of the following parts:</p>
-<ul>
-  <li><a href="core.html">Core</a></li>
-  <li><a href="akka.html">Akka IO Extension</a></li>
-  <li><a href="netty.html">Netty Codec</a></li>
-</ul>
+<p>dns4s is an implementation of the <a href="http://en.wikipedia.org/wiki/Domain_Name_System">DNS</a> protocol in <a href="http://www.scala-lang.org">Scala</a>. It consists of the following components:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Component </th>
+      <th align="center">Scala 2.10 </th>
+      <th align="center">2.11 </th>
+      <th align="center">2.12 </th>
+      <th align="center">2.13 </th>
+      <th align="center">3 </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="core.html">Core</a> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+    </tr>
+    <tr>
+      <td><a href="akka.html">Akka IO Extension</a> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+    </tr>
+    <tr>
+      <td><a href="netty.html">Netty Codec</a> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+    </tr>
+    <tr>
+      <td><a href="fs2.html">Cats-Effect/FS2</a> </td>
+      <td align="center"><span class="md-icon no"> </span> </td>
+      <td align="center"><span class="md-icon no"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+      <td align="center"><span class="md-icon yes"> </span> </td>
+    </tr>
+  </tbody>
+</table>
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-0.19.0*
+0.20.0*
 </span>
 </div>
 </article>
