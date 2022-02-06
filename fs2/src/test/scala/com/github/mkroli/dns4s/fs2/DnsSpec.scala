@@ -16,15 +16,16 @@
 
 package com.github.mkroli.dns4s.fs2
 
-import cats.effect.{IO, ParallelF}
+import cats.effect.IO
 import cats.effect.testing.scalatest._
 import com.comcast.ip4s.{Host, IpAddress, Port, SocketAddress}
-import com.github.mkroli.dns4s.{DnsTestUtils, Message}
+import com.github.mkroli.dns4s.DnsTestUtils
 import com.github.mkroli.dns4s.dsl._
 import com.github.mkroli.dns4s.section.resource.AResource
 import org.scalatest.funspec.AsyncFunSpec
 import org.scalatest.matchers.should.Matchers
 
+import scala.concurrent.TimeoutException
 import scala.concurrent.duration._
 
 class DnsSpec extends AsyncFunSpec with AsyncIOSpec with Matchers with DnsTestUtils {
@@ -65,6 +66,20 @@ class DnsSpec extends AsyncFunSpec with AsyncIOSpec with Matchers with DnsTestUt
         }
         .timeout(3.seconds)
         .assertThrows[MatchError]
+    }
+
+    it("should cleanup resources if the request is canceled") {
+      client.use { client =>
+        val timeout = client
+          .queryFor(Query)(PartialFunction.empty)
+          .timeout(100.milliseconds)
+          .assertThrows[TimeoutException]
+
+        val noOpenRequests = client.openRequests
+          .asserting(_.shouldEqual(0))
+
+        timeout *> IO.sleep(100.milliseconds) *> noOpenRequests
+      }
     }
   }
 }

@@ -29,20 +29,29 @@ import fs2.io.net.Network
 
 import scala.util.Try
 
-class DnsClient[F[_]: Concurrent] private[fs2] (queue: Queue[F, (DnsDatagram, Deferred[F, DnsDatagram])]) {
+class DnsClient[F[_]: Concurrent] private[fs2] (
+    queue: Queue[F, (DnsDatagram, Deferred[F, DnsDatagram], Deferred[F, Unit])],
+    requests: Ref[F, Map[(SocketAddress[IpAddress], Int), Deferred[F, DnsDatagram]]]
+) {
   def query(query: DnsDatagram): F[DnsDatagram] = {
     for {
-      d        <- Deferred[F, DnsDatagram]
-      _        <- queue.offer(query, d)
-      response <- d.get
+      deferred <- Deferred[F, DnsDatagram]
+      cleanup  <- Deferred[F, Unit]
+      _        <- queue.offer(query, deferred, cleanup)
+      response <- implicitly[Concurrent[F]].onCancel(deferred.get, cleanup.complete(()).as(()))
     } yield response
   }
 
-  def withDefaultRemote(remote: SocketAddress[IpAddress]) = new DefaultDnsClient[F](queue, remote)
+  def openRequests: F[Int] = requests.get.map(_.size)
+
+  def withDefaultRemote(remote: SocketAddress[IpAddress]) = new DefaultDnsClient[F](queue, requests, remote)
 }
 
-class DefaultDnsClient[F[_]: Concurrent] private[fs2] (queue: Queue[F, (DnsDatagram, Deferred[F, DnsDatagram])], remote: SocketAddress[IpAddress])
-    extends DnsClient(queue) {
+class DefaultDnsClient[F[_]: Concurrent] private[fs2] (
+    queue: Queue[F, (DnsDatagram, Deferred[F, DnsDatagram], Deferred[F, Unit])],
+    requests: Ref[F, Map[(SocketAddress[IpAddress], Int), Deferred[F, DnsDatagram]]],
+    remote: SocketAddress[IpAddress]
+) extends DnsClient(queue, requests) {
   def queryFor[T](message: Message)(m: PartialFunction[Message, F[T]]): F[T] = {
     for {
       response <- query(DnsDatagram(remote, message))
@@ -61,22 +70,23 @@ trait DnsClientOps {
       .openDatagramSocket()
       .evalMap { socket =>
         for {
-          queue       <- Queue.unbounded[F, (DnsDatagram, Deferred[F, DnsDatagram])]
+          queue       <- Queue.unbounded[F, (DnsDatagram, Deferred[F, DnsDatagram], Deferred[F, Unit])]
           idGenerator <- Ref[F].of(1)
           store       <- Ref[F].of(Map.empty[(SocketAddress[IpAddress], Int), Deferred[F, DnsDatagram]])
           egress = Stream
             .fromQueueUnterminated(queue)
             .evalMap {
-              case (req, deferred) =>
+              case (req, deferred, cleanup) =>
                 for {
                   id <- idGenerator.getAndUpdate(id => (id + 1) % 0x10000)
                   msg = updatedId(req.message, id)
-                } yield (req.copy(message = msg), deferred)
+                } yield (req.copy(message = msg), deferred, cleanup)
             }
             .evalTap {
-              case (datagram, deferred) =>
-                val key = (datagram.remote, datagram.message.header.id)
-                store.update(_ + (key -> deferred))
+              case (datagram, deferred, cleanupDeferred) =>
+                val key     = (datagram.remote, datagram.message.header.id)
+                val cleanup = cleanupDeferred.get *> store.update(_ - key)
+                store.update(_ + (key -> deferred)) *> cleanup.start
             }
             .map(_._1.datagram)
             .through(socket.writes)
@@ -93,7 +103,7 @@ trait DnsClientOps {
             }
           handler = egress concurrently ingress
           _ <- handler.compile.drain.start
-        } yield new DnsClient(queue)
+        } yield new DnsClient(queue, store)
       }
   }
 

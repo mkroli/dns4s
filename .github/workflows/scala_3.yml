@@ -1,4 +1,4 @@
-name: Scala 3.0
+name: Scala 3
 
 on:
   push:
