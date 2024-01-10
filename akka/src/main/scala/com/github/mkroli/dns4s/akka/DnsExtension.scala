@@ -15,13 +15,12 @@
  */
 package com.github.mkroli.dns4s.akka
 
-import java.net.InetSocketAddress
+import akka.actor
 
+import java.net.InetSocketAddress
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
-
 import com.github.mkroli.dns4s.Message
-
 import akka.actor.ActorRef
 import akka.actor.ExtendedActorSystem
 import akka.actor.ExtensionId
@@ -33,7 +32,7 @@ import akka.util.Timeout
 object Dns extends ExtensionId[DnsExtension] with ExtensionIdProvider {
   override def createExtension(system: ExtendedActorSystem) = new DnsExtension(system)
 
-  override def lookup() = Dns
+  override def lookup = Dns
 
   case class Bind(handler: ActorRef, port: Int)(implicit val timeout: Timeout = 5 seconds)
 

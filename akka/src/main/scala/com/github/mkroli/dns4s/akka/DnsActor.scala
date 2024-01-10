@@ -27,7 +27,7 @@ import com.github.mkroli.dns4s.dsl.{Query, Response}
 import com.github.mkroli.dns4s.{Message, MessageBuffer}
 import com.google.common.cache.CacheBuilder
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.language.{implicitConversions, postfixOps}
 import scala.util.Try
 

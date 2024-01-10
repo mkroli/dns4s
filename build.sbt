@@ -16,7 +16,7 @@
 
 import ReleaseTransformations._
 
-lazy val scalaVersions = "2.13.5" :: "2.12.13" :: "2.11.12" :: "2.10.7" :: "3.1.0" :: Nil
+lazy val scalaVersions = "3.3.1" :: Nil
 
 lazy val guavaDependencies = Seq(
   "com.google.guava"         % "guava"  % "[15.0,24.0)",
@@ -24,8 +24,8 @@ lazy val guavaDependencies = Seq(
 )
 
 lazy val akkaDependencies = Seq(
-  "com.typesafe.akka" %% "akka-actor"   % "[2.3.0,2.7.0)" cross (CrossVersion.for3Use2_13),
-  "com.typesafe.akka" %% "akka-testkit" % "[2.3.0,2.7.0)" % Test cross (CrossVersion.for3Use2_13)
+  "com.typesafe.akka" %% "akka-actor"   % "2.9.1",
+  "com.typesafe.akka" %% "akka-testkit" % "2.9.1" % Test
 )
 
 lazy val fs2Dependencies = Seq(
@@ -62,6 +62,7 @@ def projectSettings(n: String, d: String) = Seq(
   publishMavenStyle := true,
   Test / publishArtifact := false,
   publishTo := sonatypePublishToBundle.value,
+  resolvers += "Akka library repository".at("https://repo.akka.io/maven"),
   sonatypeCredentialHost := "s01.oss.sonatype.org",
   sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
   licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
